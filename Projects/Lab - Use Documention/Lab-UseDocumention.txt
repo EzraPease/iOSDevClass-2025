@@ -1,0 +1,19 @@
+UIView Class:
+
+3 Main Responsibilities:
+- Drawing and animation
+- Layout and subview management
+- Event Handling
+
+A embedded view is also known as a "Subview"
+
+The parent of an embedded view is called a "Superview"
+
+The frame:
+- Defines origin
+- Defines dimensions
+This is done of the view in the coordinate system of its superview
+
+The bounds:
+- Defines internal dimensions
+- It's use is almost exclusive to custom drawing code
