@@ -84,29 +84,34 @@ class Playlist {
         }
     }
     //
-        // Shuffle
+    // Shuffle
     func shuffle() {
         songs.shuffle()
     }
 }
 
-var songs: [Song] = [
-    Song(title: "Bohemian Rhapsody", author: "Queen", duration: 354),
-    Song(title: "Billie Jean", author: "Michael Jackson", duration: 294),
-    Song(title: "Shape of You", author: "Ed Sheeran", duration: 233),
-    Song(title: "Hotel California", author: "Eagles", duration: 391),
-    Song(title: "Smells Like Teen Spirit", author: "Nirvana", duration: 301),
-    Song(title: "Rolling in the Deep", author: "Adele", duration: 228),
-    Song(title: "Hey Jude", author: "The Beatles", duration: 431),
-    Song(title: "Uptown Funk", author: "Mark Ronson ft. Bruno Mars", duration: 270),
-    Song(title: "Stairway to Heaven", author: "Led Zeppelin", duration: 482),
-    Song(title: "Shake It Off", author: "Taylor Swift", duration: 242)
-]
+var songs: [Song] = []
 
-let testSong = Song(title: "Test Title", author: "Test Artist", duration: 300)
+var testSong = Song(title: "Test Title", author: "Test Artist", duration: 300)
+var newSong1 = Song(title: "Bohemian Rhapsody", author: "Queen", duration: 354)
+var newSong2 = Song(title: "Billie Jean", author: "Michael Jackson", duration: 294)
+var newSong3 = Song(title: "Shape of You", author: "Ed Sheeran", duration: 233)
+var newSong4 = Song(title: "Hotel California", author: "Eagles", duration: 391)
+var newSong5 = Song(title: "Smells Like Teen Spirit", author: "Nirvana", duration: 301)
+var newSong6 = Song(title: "Rolling in the Deep", author: "Adele", duration: 228)
+var newSong7 = Song(title: "Hey Jude", author: "The Beatles", duration: 431)
+var newSong8 = Song(title: "Uptown Funk", author: "Mark Ronson ft. Bruno Mars", duration: 270)
+var newSong9 = Song(title: "Stairway to Heaven", author: "Led Zeppelin", duration: 482)
+var newSong10 = Song(title: "Shake It Off", author: "Taylor Swift", duration: 242)
 
 
-var samplePlaylist = Playlist(name: "Fancy Songs", author: "Ezra", songs:songs)
 
-print("This playlist is \(samplePlaylist.totalDuration()) seconds long.")
-print(samplePlaylist.currentSong())
+var samplePlaylist = Playlist(name: "Fancy Songs", author: "Ezra", songs: songs)
+samplePlaylist.add(testSong)
+samplePlaylist.add(newSong1)
+samplePlaylist.add(newSong2)
+samplePlaylist.add(newSong3)
+samplePlaylist.add(newSong4)
+samplePlaylist.add(newSong5)
+
+print(samplePlaylist.totalDuration())
