@@ -61,6 +61,7 @@ class Playlist {
     func play(at index: Int) -> Song? {
         if index >= 0 && index <= songs.count {
             currentlyPlaying = songs[index]
+            print("Playing: \(currentlyPlaying!.title)")
             return currentlyPlaying
         } else {
             return nil
@@ -87,22 +88,23 @@ class Playlist {
     // Shuffle
     func shuffle() {
         songs.shuffle()
+        play(at:0)
     }
 }
 
 var songs: [Song] = []
 
-var testSong = Song(title: "Test Title", author: "Test Artist", duration: 300)
-var newSong1 = Song(title: "Bohemian Rhapsody", author: "Queen", duration: 354)
-var newSong2 = Song(title: "Billie Jean", author: "Michael Jackson", duration: 294)
-var newSong3 = Song(title: "Shape of You", author: "Ed Sheeran", duration: 233)
-var newSong4 = Song(title: "Hotel California", author: "Eagles", duration: 391)
-var newSong5 = Song(title: "Smells Like Teen Spirit", author: "Nirvana", duration: 301)
-var newSong6 = Song(title: "Rolling in the Deep", author: "Adele", duration: 228)
-var newSong7 = Song(title: "Hey Jude", author: "The Beatles", duration: 431)
-var newSong8 = Song(title: "Uptown Funk", author: "Mark Ronson ft. Bruno Mars", duration: 270)
-var newSong9 = Song(title: "Stairway to Heaven", author: "Led Zeppelin", duration: 482)
-var newSong10 = Song(title: "Shake It Off", author: "Taylor Swift", duration: 242)
+var testSong = Song(title: "Test Title", author: "Test Artist", duration: 3)
+var newSong1 = Song(title: "Bohemian Rhapsody", author: "Queen", duration: 3)
+var newSong2 = Song(title: "Billie Jean", author: "Michael Jackson", duration: 2)
+var newSong3 = Song(title: "Shape of You", author: "Ed Sheeran", duration: 2)
+var newSong4 = Song(title: "Hotel California", author: "Eagles", duration: 3)
+var newSong5 = Song(title: "Smells Like Teen Spirit", author: "Nirvana", duration: 3)
+var newSong6 = Song(title: "Rolling in the Deep", author: "Adele", duration: 2)
+var newSong7 = Song(title: "Hey Jude", author: "The Beatles", duration: 4)
+var newSong8 = Song(title: "Uptown Funk", author: "Mark Ronson ft. Bruno Mars", duration: 2)
+var newSong9 = Song(title: "Stairway to Heaven", author: "Led Zeppelin", duration: 4)
+var newSong10 = Song(title: "Shake It Off", author: "Taylor Swift", duration: 2)
 
 
 
@@ -113,5 +115,9 @@ samplePlaylist.add(newSong2)
 samplePlaylist.add(newSong3)
 samplePlaylist.add(newSong4)
 samplePlaylist.add(newSong5)
+samplePlaylist.shuffle()
+samplePlaylist.playNext()
+samplePlaylist.playPrevious()
+samplePlaylist.playNext()
+samplePlaylist.playNext()
 
-print(samplePlaylist.totalDuration())
