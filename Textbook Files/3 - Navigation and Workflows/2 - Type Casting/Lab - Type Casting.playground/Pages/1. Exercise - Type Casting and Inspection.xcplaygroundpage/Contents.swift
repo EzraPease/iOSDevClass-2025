@@ -32,7 +32,7 @@ for adding in myDictionary {
     } else if let stringValue = adding.value as? String {
         total += 1
     } else if let boolValue = adding.value as? Bool {
-        if boolValue == true {
+        if boolValue {
             total += 2
         } else {
             total -= 3

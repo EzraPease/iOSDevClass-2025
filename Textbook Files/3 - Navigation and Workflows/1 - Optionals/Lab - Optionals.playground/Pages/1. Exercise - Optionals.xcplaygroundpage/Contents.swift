@@ -8,7 +8,7 @@
  Declare a constant `userInputAge` of type `String` and assign it "34e" to simulate a typo while typing age. Then declare a constant `userAge` of type `Int` and set its value using the `Int` initializer that takes an instance of `String` as input. Pass in `userInputAge` as the argument for the initializer. What error do you get?
  */
 let userInputAge: String = "34"
-let userAge: Int? = Int(userInputAge)
+let userAge = Int(userInputAge)
 print(userAge)
 
 

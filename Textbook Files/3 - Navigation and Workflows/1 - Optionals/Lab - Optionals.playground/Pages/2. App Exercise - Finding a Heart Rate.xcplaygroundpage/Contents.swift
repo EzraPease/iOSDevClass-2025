@@ -21,7 +21,7 @@ let oldHR3 = 79
 let oldHR4 = 70
 var hrAverage: Int
 
-if let heartRate = heartRate {
+if let heartRate {
     hrAverage = (oldHR1 + oldHR2 + oldHR3 + oldHR4 + heartRate) / 5
 } else {
     hrAverage = (oldHR1 + oldHR2 + oldHR3 + oldHR4) / 4
