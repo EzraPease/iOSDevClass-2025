@@ -55,7 +55,6 @@ for adding in myDictionary {
     }
 }
 print(total2)
-
 /*:
 page 1 of 2  |  [Next: App Exercise - Workout Types](@next)
  */
