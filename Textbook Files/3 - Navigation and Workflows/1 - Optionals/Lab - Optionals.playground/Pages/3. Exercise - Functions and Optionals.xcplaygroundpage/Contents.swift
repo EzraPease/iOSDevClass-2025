@@ -29,7 +29,14 @@ print(checkAge(age: userInputAge))
 var prices = ["Chips": 3.69, "Donuts": 1.89, "Juice": 4.99, "Apple": 0.70, "Banana": 0.53, "Broccoli": 1.99]
 var stock = ["Chips": 4, "Donuts": 0, "Juice": 12, "Apple": 6, "Banana": 6, "Broccoli": 3]
 
-
+func itemCost(item: String) -> Double? {
+    if stock.keys.contains(item) {
+        return prices[item]
+    } else {
+        return nil
+    }
+}
+print(itemCost(item: "Donuts"))
 /*:
 [Previous](@previous)  |  page 3 of 6  |  [Next: App Exercise - Food Functions](@next)
  */
