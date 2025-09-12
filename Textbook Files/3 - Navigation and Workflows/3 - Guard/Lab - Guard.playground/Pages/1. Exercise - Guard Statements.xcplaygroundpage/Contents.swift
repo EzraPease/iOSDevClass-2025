@@ -9,7 +9,7 @@ func calculateArea(x: Double, y: Double) -> Double? {
     return x * y
 }
 
-print(calculateArea(x: 10, y: 10))
+print(calculateArea(x: 10.0, y: 10.0))
 
 //:  Create a function called `add` that takes two optional integers as parameters and returns an optional integer. You should use one `guard` statement to unwrap both optional parameters, returning `nil` in the `guard` body if one or both of the parameters doesn't have a value. If both parameters can successfully be unwrapped, return their sum. Call the function once with non-`nil` numbers and once with at least one parameter being `nil`.
 func add(number1: Int?, number2: Int?) -> Int? {

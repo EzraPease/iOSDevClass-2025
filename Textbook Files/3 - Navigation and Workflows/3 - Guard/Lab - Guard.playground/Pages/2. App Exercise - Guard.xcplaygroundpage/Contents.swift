@@ -15,12 +15,15 @@ struct Workout {
     var endTime: Double
     
     init?(startTime: Double, endTime: Double) {
-        if (endTime - startTime) < 10 {
-            return nil
-        } else {
-            self.startTime = startTime
-            self.endTime = endTime
-        }
+//        if (endTime - startTime) < 10 {
+//            return nil
+//        } else {
+//            self.startTime = startTime
+//            self.endTime = endTime
+//        }
+        guard (endTime - startTime) < 10 else { return nil }
+        self.startTime = startTime
+        self.endTime = endTime
     }
 }
 
