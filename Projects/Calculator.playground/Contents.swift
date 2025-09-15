@@ -4,15 +4,25 @@ import UIKit
 
 
 struct Calculator {
-    var currentValue: Double?
+    var currentValue: Double? = nil
+    var result: Double? = nil
 
     
     mutating func inputValue(value: Double) {
-        self.currentValue = value
+        currentValue = value
     }
     
     mutating func add() {
+        var value1: Double?
+        var value2: Double?
+
         guard var currentValue else { return }
+        if let value1 {
+            value2 = self.currentValue
+        } else {
+            value1 = self.currentValue
+        }
+    
     }
     
     mutating func subtract() {
