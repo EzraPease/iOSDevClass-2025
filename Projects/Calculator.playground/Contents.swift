@@ -16,7 +16,8 @@ enum Operator {
 var currentValue: Double? = nil
 var isPressed: Bool = false
 var currentOperator: Operator = .add
-//var operatorCount = 0
+var operatorCount = 0
+//Coresponds with the section of "combinedValues" operators should be placed
 
 var value1: [String] = []
 var value2: [String] = []
@@ -41,17 +42,30 @@ var combinedValues: [String] = []
 @MainActor func add() {
     currentOperator = .add
     isPressed = true
-    if var doubleValue2 = Double(value2.joined()) {
-        combinedValues.append("+ \(doubleValue2)")
-        print(combinedValues)
-        value2.removeAll()
+    operatorCount += 2
+    
+    if let result = Double(value1.joined()) {
+        combinedValues.append("\(result)")
+        value1.removeAll()
+    } else {
+        combinedValues.append("0")
     }
-//    operatorCount += 1
+    combinedValues[operatorCount] = " + "
+ 
 }
 
 @MainActor func subtract() {
     currentOperator = .subtract
     isPressed = true
+    if let result = Double(value1.joined()) {
+        combinedValues.append("\(result)")
+    }
+
+    if var doubleValue2 = Double(value2.joined()) {
+        combinedValues.append("- \(doubleValue2)")
+        print(combinedValues)
+        value2.removeAll()
+    }
 //    operatorCount += 1
 
 }
@@ -59,6 +73,15 @@ var combinedValues: [String] = []
 @MainActor func multiply() {
     currentOperator = .multiply
     isPressed = true
+    if let result = Double(value1.joined()) {
+        combinedValues.append("\(result)")
+    }
+
+    if var doubleValue2 = Double(value2.joined()) {
+        combinedValues.append("* \(doubleValue2)")
+        print(combinedValues)
+        value2.removeAll()
+    }
 //    operatorCount += 1
 
 }
@@ -66,6 +89,15 @@ var combinedValues: [String] = []
 @MainActor func divide() {
     currentOperator = .divide
     isPressed = true
+    if let result = Double(value1.joined()) {
+        combinedValues.append("\(result)")
+    }
+
+    if var doubleValue2 = Double(value2.joined()) {
+        combinedValues.append("/ \(doubleValue2)")
+        print(combinedValues)
+        value2.removeAll()
+    }
 //    operatorCount += 1
 
 }
@@ -94,11 +126,10 @@ var combinedValues: [String] = []
 
 
 @MainActor func equals() {
-    if var doubleValue1 = Double(value1.joined()),
-       var doubleValue2 = Double(value2.joined()) {
-        
-        isPressed = false
+    if let results = Double(combinedValues.joined()) {
+        print(results)
     }
+        isPressed = false
 }
 
 var result: Double
@@ -121,13 +152,13 @@ print("\n")
 
 
 multiply()
-numberInputButton(value: 2)
+numberInputButton(value: 3)
 print(value1)
 print(value2)
 print(combinedValues)
 print("\n")
 
 
-equals() // Should print 6
+equals() // Should print 9
 
 
