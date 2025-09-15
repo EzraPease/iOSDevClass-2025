@@ -1,60 +1,120 @@
 import UIKit
 
+enum Operator {
+    case add
+    case subtract
+    case multiply
+    case divide
+    case invertSign
+    case none
+}
+
+var currentValue: Double? = nil
+var result: Double?
+var isPressed: Bool = false
+var currentOperator: Operator = .none
+
+var value1: [String] = []
+var value2: [String] = []
 
 
 
-struct Calculator {
-    var currentValue: Double? = nil
-    var result: Double? = nil
-
-    
-    mutating func inputValue(value: Double) {
-        currentValue = value
-    }
-    
-    mutating func add() {
-        var value1: Double?
-        var value2: Double?
-
-        guard var currentValue else { return }
-        if let value1 {
-            value2 = self.currentValue
+//    Must be 1 - 9
+@MainActor func numberInputButton(value: Int) {
+    switch value {
+    case 0...9:
+        if isPressed != true {
+            value1.append("\(value)")
         } else {
-            value1 = self.currentValue
+            value2.append("\(value)")
         }
-    
+    default:
+        print("INVALID INPUT")
     }
+}
+
+@MainActor func add() {
+    currentOperator = .add
+    isPressed = true
+}
+
+@MainActor func subtract() {
+    currentOperator = .subtract
+    isPressed = true
     
-    mutating func subtract() {
-        guard var currentValue else { return }
-    }
+}
+
+@MainActor func multiply() {
+    currentOperator = .multiply
+    isPressed = true
     
-    mutating func multiply() {
-        guard var currentValue else { return }
-    }
+}
+
+@MainActor func divide() {
+    currentOperator = .divide
+    isPressed = true
     
-    mutating func divide() {
-        guard var currentValue else { return }
-    }
+}
+
+@MainActor func invertSign() {
+    currentOperator = .invertSign
+    isPressed = true
     
-    mutating func invertSign() {
-        
-    }
-    
-    mutating func percentage() {
-        
-    }
-    
-    mutating func clearValue() {
-        currentValue = nil
-    }
+}
+
+//@MainActor func percentage() {
+//    currentOperator = .percentage
+//    isPressed = true
+//    
+//}
+
+@MainActor func clearValues() {
+    currentValue = nil
+    isPressed = false
+    currentOperator = .none
+    value1.removeAll()
+    value2.removeAll()
 }
 
 
 
-var myCalculator = Calculator()
-myCalculator.inputValue(value: 10)
-print(myCalculator.currentValue)
-myCalculator.add()
-myCalculator.inputValue(value: 10)
+@MainActor func equals() {
+    if let doubleValue1 = Double(value1.joined()),
+       let doubleValue2 = Double(value2.joined()) {
+        switch currentOperator {
+        case .add:
+            result = doubleValue1 + doubleValue2
+            print(result)
+        case .subtract:
+            result = doubleValue1 - doubleValue2
+            print(result)
+        case .multiply:
+            result = doubleValue1 * doubleValue2
+            print(result)
+        case .divide:
+            result = doubleValue1 / doubleValue2
+            print(result)
+        case .invertSign:
+            
+        case .none:
+            result = Double(value1.joined())
+            print(result)
+        }
+    }
+    isPressed = false
+    currentOperator = .none
+}
 
+
+
+numberInputButton(value: 1)
+print(value1)
+print(value2)
+
+multiply()
+numberInputButton(value: 2)
+print(value1)
+print(value2)
+print(value1)
+print(value2)
+equals()
