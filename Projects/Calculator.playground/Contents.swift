@@ -16,7 +16,7 @@ enum Operator {
 var currentValue: Double? = nil
 var isPressed: Bool = false
 var currentOperator: Operator = .add
-var operatorCount = 0
+//var operatorCount = 0
 
 var value1: [String] = []
 var value2: [String] = []
@@ -41,27 +41,32 @@ var combinedValues: [String] = []
 @MainActor func add() {
     currentOperator = .add
     isPressed = true
-    operatorCount += 1
+    if var doubleValue2 = Double(value2.joined()) {
+        combinedValues.append("+ \(doubleValue2)")
+        print(combinedValues)
+        value2.removeAll()
+    }
+//    operatorCount += 1
 }
 
 @MainActor func subtract() {
     currentOperator = .subtract
     isPressed = true
-    operatorCount += 1
+//    operatorCount += 1
 
 }
 
 @MainActor func multiply() {
     currentOperator = .multiply
     isPressed = true
-    operatorCount += 1
+//    operatorCount += 1
 
 }
 
 @MainActor func divide() {
     currentOperator = .divide
     isPressed = true
-    operatorCount += 1
+//    operatorCount += 1
 
 }
 
@@ -83,7 +88,7 @@ var combinedValues: [String] = []
     value1.removeAll()
     value2.removeAll()
     combinedValues.removeAll()
-    operatorCount = 0
+//    operatorCount = 0
 }
 
 
@@ -91,28 +96,9 @@ var combinedValues: [String] = []
 @MainActor func equals() {
     if var doubleValue1 = Double(value1.joined()),
        var doubleValue2 = Double(value2.joined()) {
-        switch currentOperator {
-        case .add:
-            result = doubleValue1 + doubleValue2
-            print(result)
-        case .subtract:
-            result = doubleValue1 - doubleValue2
-            print(result)
-        case .multiply:
-            result = doubleValue1 * doubleValue2
-            print(result)
-        case .divide:
-            result = doubleValue1 / doubleValue2
-            print(result)
-        case .invertSign:
-            if isPressed {
-                doubleValue2 *= -1
-            } else {
-                doubleValue1 *= -1
-            }
-        }
+        
+        isPressed = false
     }
-    isPressed = false
 }
 
 var result: Double
@@ -123,13 +109,25 @@ var result: Double
 numberInputButton(value: 1)
 print(value1)
 print(value2)
+print(combinedValues)
+print("\n")
+
+add()
+numberInputButton(value: 2)
+print(value1)
+print(value2)
+print(combinedValues)
+print("\n")
+
 
 multiply()
 numberInputButton(value: 2)
 print(value1)
 print(value2)
-print(value1)
-print(value2)
-equals()
+print(combinedValues)
+print("\n")
+
+
+equals() // Should print 6
 
 
