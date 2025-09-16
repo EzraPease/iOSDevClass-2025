@@ -5,13 +5,7 @@ import UIKit
 
 
 
-enum Operator {
-    case add
-    case subtract
-    case multiply
-    case divide
-    case invertSign
-}
+
 
 var currentValue: Double? = nil
 var isPressed: Bool = false
@@ -39,19 +33,37 @@ var combinedValues: [String] = []
     }
 }
 
+enum Operator {
+    case add
+    case subtract
+    case multiply
+    case divide
+    case invertSign
+}
+
 @MainActor func add() {
     currentOperator = .add
     isPressed = true
-    operatorCount += 2
     
-    if let result = Double(value1.joined()) {
-        combinedValues.append("\(result)")
-        value1.removeAll()
+    if combinedValues.isEmpty {
+        if let result = Double(value1.joined()) {
+            combinedValues.append("\(result)")
+            value1.removeAll()
+        } else {
+            combinedValues.append("0")
+        }
     } else {
-        combinedValues.append("0")
+        if let result = Double(value2.joined()) {
+            combinedValues.append("\(result)")
+            value2.removeAll()
+        }
     }
-    combinedValues[operatorCount] = " + "
- 
+    if operatorCount == 0 {
+        operatorCount += 1
+        combinedValues.insert(" + ", at: operatorCount)
+    } else {
+        combinedValues.append(" + ")
+    }
 }
 
 @MainActor func subtract() {
@@ -60,14 +72,14 @@ var combinedValues: [String] = []
     if let result = Double(value1.joined()) {
         combinedValues.append("\(result)")
     }
-
+    
     if var doubleValue2 = Double(value2.joined()) {
         combinedValues.append("- \(doubleValue2)")
         print(combinedValues)
         value2.removeAll()
     }
-//    operatorCount += 1
-
+    //    operatorCount += 1
+    
 }
 
 @MainActor func multiply() {
@@ -76,14 +88,14 @@ var combinedValues: [String] = []
     if let result = Double(value1.joined()) {
         combinedValues.append("\(result)")
     }
-
+    
     if var doubleValue2 = Double(value2.joined()) {
         combinedValues.append("* \(doubleValue2)")
         print(combinedValues)
         value2.removeAll()
     }
-//    operatorCount += 1
-
+    //    operatorCount += 1
+    
 }
 
 @MainActor func divide() {
@@ -92,19 +104,27 @@ var combinedValues: [String] = []
     if let result = Double(value1.joined()) {
         combinedValues.append("\(result)")
     }
-
+    
     if var doubleValue2 = Double(value2.joined()) {
         combinedValues.append("/ \(doubleValue2)")
         print(combinedValues)
         value2.removeAll()
     }
-//    operatorCount += 1
-
+    //    operatorCount += 1
+    
 }
 
 @MainActor func invertSign() {
     currentOperator = .invertSign
-    
+    if isPressed != true {
+        if var doubleValue1 = Double(value1.joined()) {
+            doubleValue1 *= -1
+        }
+    } else {
+        if var doubleValue2 = Double(value2.joined()) {
+            doubleValue2 *= -1
+        }
+    }
 }
 
 //@MainActor func percentage() {
@@ -120,16 +140,20 @@ var combinedValues: [String] = []
     value1.removeAll()
     value2.removeAll()
     combinedValues.removeAll()
-//    operatorCount = 0
+    //    operatorCount = 0
 }
 
 
 
 @MainActor func equals() {
     if let results = Double(combinedValues.joined()) {
-        print(results)
+        combinedValues.append("5")
+        result = results
     }
-        isPressed = false
+    print(result)
+    isPressed = false
+    value1.removeAll()
+    value2.removeAll()
 }
 
 var result: Double
@@ -151,7 +175,7 @@ print(combinedValues)
 print("\n")
 
 
-multiply()
+add()
 numberInputButton(value: 3)
 print(value1)
 print(value2)
