@@ -7,182 +7,153 @@ import UIKit
 
 
 
-var currentValue: Double? = nil
-var isPressed: Bool = false
-var currentOperator: Operator = .add
+//var currentValue: Double? = nil
+//var isPressed: Bool = false
+//var currentOperator: Operator = .add
 var operatorCount = 0
 //Coresponds with the section of "combinedValues" operators should be placed
 
-var value1: [String] = []
-var value2: [String] = []
-var combinedValues: [String] = []
-
-
-
-//    Must be 1 - 9
-@MainActor func numberInputButton(value: Int) {
-    switch value {
-    case 0...9:
-        if isPressed != true {
-            value1.append("\(value)")
-        } else {
-            value2.append("\(value)")
-        }
-    default:
-        print("INVALID INPUT")
-    }
-}
+var currentValue: [String] = []
+//var value2: [String] = []
+//var combinedValues: [String] = []
+var valuesDouble: [Double] = []
+var inputedOperators: [Operator] = []
 
 enum Operator {
     case add
     case subtract
     case multiply
     case divide
-    case invertSign
 }
 
+
+//    Must be 1 - 9
+@MainActor func numberInputButton(value: Int) {
+    switch value {
+    case 0...9:
+        if currentValue.count < inputedOperators.count + 1 {
+            currentValue.append("0")
+        }
+        currentValue[inputedOperators.count] += String(value)
+        //        if isPressed != true {
+        //            value1.append("\(value)")
+        //        } else {
+        //            value2.append("\(value)")
+        //        }
+    default:
+        print("INVALID INPUT")
+        return
+    }
+}
+
+
 @MainActor func add() {
-    currentOperator = .add
-    isPressed = true
-    
-    if combinedValues.isEmpty {
-        if let result = Double(value1.joined()) {
-            combinedValues.append("\(result)")
-            value1.removeAll()
-        } else {
-            combinedValues.append("0")
-        }
-    } else {
-        if let result = Double(value2.joined()) {
-            combinedValues.append("\(result)")
-            value2.removeAll()
-        }
-    }
-    if operatorCount == 0 {
-        operatorCount += 1
-        combinedValues.insert(" + ", at: operatorCount)
-    } else {
-        combinedValues.append(" + ")
-    }
+    inputedOperators.append(.add)
 }
 
 @MainActor func subtract() {
-    currentOperator = .subtract
-    isPressed = true
-    if let result = Double(value1.joined()) {
-        combinedValues.append("\(result)")
-    }
-    
-    if var doubleValue2 = Double(value2.joined()) {
-        combinedValues.append("- \(doubleValue2)")
-        print(combinedValues)
-        value2.removeAll()
-    }
-    //    operatorCount += 1
-    
+    inputedOperators.append(.subtract)
 }
 
 @MainActor func multiply() {
-    currentOperator = .multiply
-    isPressed = true
-    if let result = Double(value1.joined()) {
-        combinedValues.append("\(result)")
-    }
-    
-    if var doubleValue2 = Double(value2.joined()) {
-        combinedValues.append("* \(doubleValue2)")
-        print(combinedValues)
-        value2.removeAll()
-    }
-    //    operatorCount += 1
-    
+    inputedOperators.append(.multiply)
 }
 
 @MainActor func divide() {
-    currentOperator = .divide
-    isPressed = true
-    if let result = Double(value1.joined()) {
-        combinedValues.append("\(result)")
-    }
-    
-    if var doubleValue2 = Double(value2.joined()) {
-        combinedValues.append("/ \(doubleValue2)")
-        print(combinedValues)
-        value2.removeAll()
-    }
-    //    operatorCount += 1
-    
+    inputedOperators.append(.divide)
 }
-
-@MainActor func invertSign() {
-    currentOperator = .invertSign
-    if isPressed != true {
-        if var doubleValue1 = Double(value1.joined()) {
-            doubleValue1 *= -1
-        }
-    } else {
-        if var doubleValue2 = Double(value2.joined()) {
-            doubleValue2 *= -1
-        }
-    }
-}
-
-//@MainActor func percentage() {
-//    currentOperator = .percentage
-//    isPressed = true
 //
-//}
+//    @MainActor func invertSign() {
+//        currentOperator = .invertSign
+//        if isPressed != true {
+//            if var doubleValue1 = Double(value1.joined()) {
+//                doubleValue1 *= -1
+//            }
+//        } else {
+//            if var doubleValue2 = Double(value2.joined()) {
+//                doubleValue2 *= -1
+//            }
+//        }
+//    }
+//
+//    //@MainActor func percentage() {
+//    //    currentOperator = .percentage
+//    //    isPressed = true
+//    //
+//    //}
+//
+//    // C/AC
+//    @MainActor func clearValues() {
+//        currentValue = nil
+//        isPressed = false
+//        value1.removeAll()
+//        value2.removeAll()
+//        combinedValues.removeAll()
+//        //    operatorCount = 0
+//    }
 
-// C/AC
-@MainActor func clearValues() {
-    currentValue = nil
-    isPressed = false
-    value1.removeAll()
-    value2.removeAll()
-    combinedValues.removeAll()
-    //    operatorCount = 0
-}
 
 
-
-@MainActor func equals() {
-    if let results = Double(combinedValues.joined()) {
-        combinedValues.append("5")
-        result = results
+@MainActor func equals() -> Double {
+    valuesDouble = currentValue.compactMap { Double($0) }
+    var index = 0
+    
+    while index < inputedOperators.count {
+        switch inputedOperators[index] {
+        case .multiply:
+            valuesDouble[index] = valuesDouble[index] * valuesDouble[index + 1]
+            valuesDouble.remove(at: index + 1)
+            inputedOperators.remove(at: index)
+        case .divide:
+            valuesDouble[index] = valuesDouble[index] / valuesDouble[index + 1]
+            valuesDouble.remove(at: index + 1)
+            inputedOperators.remove(at: index)
+        default:
+            index += 1
+        }
     }
-    print(result)
-    isPressed = false
-    value1.removeAll()
-    value2.removeAll()
+    var result = valuesDouble[0]
+
+        for (index, inputedOperator) in inputedOperators.enumerated() {
+            switch inputedOperator {
+            case .add:
+               result += valuesDouble[index + 1]
+            case .subtract:
+                result -= valuesDouble[index + 1]
+            default:
+                break
+            }
+    }
+    return result
 }
 
-var result: Double
 
 
 
 
 numberInputButton(value: 1)
-print(value1)
-print(value2)
-print(combinedValues)
+numberInputButton(value: 5)
+print(currentValue)
+print(valuesDouble)
+print(inputedOperators)
 print("\n")
 
 add()
 numberInputButton(value: 2)
-print(value1)
-print(value2)
-print(combinedValues)
+print(currentValue)
+print(valuesDouble)
+print(inputedOperators)
 print("\n")
 
 
 add()
 numberInputButton(value: 3)
-print(value1)
-print(value2)
-print(combinedValues)
+print(currentValue)
+print(valuesDouble)
+print(inputedOperators)
 print("\n")
 
 
-equals() // Should print 9
+print(equals())
 
 
