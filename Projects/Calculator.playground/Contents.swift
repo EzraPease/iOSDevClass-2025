@@ -7,15 +7,8 @@ import UIKit
 
 
 
-//var currentValue: Double? = nil
-//var isPressed: Bool = false
-//var currentOperator: Operator = .add
-var operatorCount = 0
-//Coresponds with the section of "combinedValues" operators should be placed
 
 var currentValue: [String] = []
-//var value2: [String] = []
-//var combinedValues: [String] = []
 var valuesDouble: [Double] = []
 var inputedOperators: [Operator] = []
 
@@ -35,11 +28,6 @@ enum Operator {
             currentValue.append("0")
         }
         currentValue[inputedOperators.count] += String(value)
-        //        if isPressed != true {
-        //            value1.append("\(value)")
-        //        } else {
-        //            value2.append("\(value)")
-        //        }
     default:
         print("INVALID INPUT")
         return
@@ -48,49 +36,61 @@ enum Operator {
 
 
 @MainActor func add() {
-    inputedOperators.append(.add)
+    if currentValue.count > inputedOperators.count {
+        inputedOperators.append(.add)
+    } else {
+        inputedOperators.removeLast()
+        inputedOperators.append(.add)
+    }
 }
 
 @MainActor func subtract() {
-    inputedOperators.append(.subtract)
+    if currentValue.count > inputedOperators.count {
+        inputedOperators.append(.subtract)
+    } else {
+        inputedOperators.removeLast()
+        inputedOperators.append(.subtract)
+    }
 }
 
 @MainActor func multiply() {
-    inputedOperators.append(.multiply)
+    if currentValue.count > inputedOperators.count {
+        inputedOperators.append(.multiply)
+    } else {
+        inputedOperators.removeLast()
+        inputedOperators.append(.multiply)
+    }
 }
 
 @MainActor func divide() {
-    inputedOperators.append(.divide)
+    if currentValue.count > inputedOperators.count {
+        inputedOperators.append(.divide)
+    } else {
+        inputedOperators.removeLast()
+        inputedOperators.append(.divide)
+    }
 }
-//
-//    @MainActor func invertSign() {
-//        currentOperator = .invertSign
-//        if isPressed != true {
-//            if var doubleValue1 = Double(value1.joined()) {
-//                doubleValue1 *= -1
-//            }
-//        } else {
-//            if var doubleValue2 = Double(value2.joined()) {
-//                doubleValue2 *= -1
-//            }
-//        }
-//    }
-//
-//    //@MainActor func percentage() {
-//    //    currentOperator = .percentage
-//    //    isPressed = true
-//    //
-//    //}
-//
-//    // C/AC
-//    @MainActor func clearValues() {
-//        currentValue = nil
-//        isPressed = false
-//        value1.removeAll()
-//        value2.removeAll()
-//        combinedValues.removeAll()
-//        //    operatorCount = 0
-//    }
+
+@MainActor func decimal() {
+    if !currentValue[inputedOperators.count].contains(".") {
+        currentValue[inputedOperators.count] += "."
+    }
+}
+
+@MainActor func invertSign() {
+    if let currentValueDouble = Double(currentValue[inputedOperators.count]) {
+        currentValue[inputedOperators.count] = String(currentValueDouble * -1)
+    }
+}
+
+//@MainActor func percentage() {
+//    
+//}
+
+// C/AC
+@MainActor func clearValues() {
+    
+}
 
 
 
@@ -113,16 +113,16 @@ enum Operator {
         }
     }
     var result = valuesDouble[0]
-
-        for (index, inputedOperator) in inputedOperators.enumerated() {
-            switch inputedOperator {
-            case .add:
-               result += valuesDouble[index + 1]
-            case .subtract:
-                result -= valuesDouble[index + 1]
-            default:
-                break
-            }
+    
+    for (index, inputedOperator) in inputedOperators.enumerated() {
+        switch inputedOperator {
+        case .add:
+            result += valuesDouble[index + 1]
+        case .subtract:
+            result -= valuesDouble[index + 1]
+        default:
+            break
+        }
     }
     return result
 }
@@ -133,23 +133,30 @@ enum Operator {
 
 numberInputButton(value: 1)
 numberInputButton(value: 5)
+decimal()
+decimal()
 print(currentValue)
-print(valuesDouble)
 print(inputedOperators)
 print("\n")
 
 add()
 numberInputButton(value: 2)
+invertSign()
 print(currentValue)
-print(valuesDouble)
 print(inputedOperators)
 print("\n")
 
 
 add()
+multiply()
 numberInputButton(value: 3)
 print(currentValue)
-print(valuesDouble)
+print(inputedOperators)
+print("\n")
+
+divide()
+numberInputButton(value: 8)
+print(currentValue)
 print(inputedOperators)
 print("\n")
 
