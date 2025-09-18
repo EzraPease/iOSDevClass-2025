@@ -83,9 +83,48 @@ enum Operator {
     }
 }
 
-//@MainActor func percentage() {
-//    
-//}
+@MainActor func percentage() {          // BLACK DIAMOND CHALLENGE
+    var percentResult = 0.0
+    
+    if currentValue.count > inputedOperators.count {
+        if var percentValue = Double(currentValue[currentValue.count - 1]) {
+            percentValue /= 100
+            percentResult = percentValue
+        } else if currentValue.count <= inputedOperators.count {
+            inputedOperators.removeLast()
+            if var percentValue = Double(currentValue[currentValue.count - 1]) {
+                percentValue /= 100
+                percentResult = percentValue
+            } else {
+                return
+            }
+        }
+        
+        let currentOperator = inputedOperators[currentValue.count - 1]
+        var tempCurrentValue: Double
+        
+        if let tempValue = Double(currentValue[currentValue.count - 2]) {
+            tempCurrentValue = tempValue
+        } else {
+            guard let tempValue = Double(currentValue[currentValue.count - 1]) else { return }
+            tempCurrentValue = tempValue
+        }
+        
+        var result: Double
+        
+        switch currentOperator {
+        case .add:
+            result = tempCurrentValue + (tempCurrentValue * percentResult)
+        case .subtract:
+            result = tempCurrentValue - (tempCurrentValue * percentResult)
+        case .multiply:
+            result = tempCurrentValue * (tempCurrentValue * percentResult)
+        case .divide:
+            result = tempCurrentValue / (tempCurrentValue * percentResult)
+        }
+        currentValue[currentValue.count - 1] = String(result)
+    }
+}
 
 // C/AC
 var valueClearCount = 0
@@ -102,6 +141,7 @@ var valueClearCount = 0
         valueClearCount = 1
     }
 }
+    
 
 
 
@@ -142,33 +182,41 @@ var valueClearCount = 0
 
 
 
+//numberInputButton(value: 1)
+//numberInputButton(value: 5)
+//decimal()
+//print(currentValue)
+//print(inputedOperators)
+//print("\n")
+//
+//add()
+//numberInputButton(value: 2)
+//invertSign()
+//print(currentValue)
+//print(inputedOperators)
+//print("\n")
+//
+//
+//divide()
+//numberInputButton(value: 3)
+//print(currentValue)
+//print(inputedOperators)
+//print("\n")
+//
+//
+//multiply()
+//numberInputButton(value: 8)
+//print(currentValue)
+//print(inputedOperators)
+//print("\n")
+
 numberInputButton(value: 1)
-numberInputButton(value: 5)
-decimal()
-print(currentValue)
-print(inputedOperators)
-print("\n")
-
+numberInputButton(value: 0)
 add()
-numberInputButton(value: 2)
-invertSign()
-print(currentValue)
-print(inputedOperators)
-print("\n")
+numberInputButton(value: 1)
+numberInputButton(value: 0)
+percentage()
 
-
-divide()
-numberInputButton(value: 3)
-print(currentValue)
-print(inputedOperators)
-print("\n")
-
-
-multiply()
-numberInputButton(value: 8)
-print(currentValue)
-print(inputedOperators)
-print("\n")
 
 
 print(equals())
