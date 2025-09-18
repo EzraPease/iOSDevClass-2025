@@ -83,6 +83,7 @@ enum Operator {
     }
 }
 
+// CURRENTLY WORKING ON - Trying to fix fatal error
 @MainActor func percentage() {          // BLACK DIAMOND CHALLENGE
     var percentResult = 0.0
     
