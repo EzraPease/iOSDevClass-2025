@@ -88,8 +88,19 @@ enum Operator {
 //}
 
 // C/AC
+var valueClearCount = 0
+
 @MainActor func clearValues() {
-    
+    if currentValue.count > inputedOperators.count {
+        currentValue.removeLast()
+        valueClearCount = 1
+    } else if valueClearCount == 1 && currentValue.count <= inputedOperators.count {
+        currentValue.removeAll()
+        inputedOperators.removeAll()
+        valueClearCount = 0
+    } else if valueClearCount == 0 && currentValue.count <= inputedOperators.count {
+        valueClearCount = 1
+    }
 }
 
 
@@ -134,7 +145,6 @@ enum Operator {
 numberInputButton(value: 1)
 numberInputButton(value: 5)
 decimal()
-decimal()
 print(currentValue)
 print(inputedOperators)
 print("\n")
@@ -147,14 +157,14 @@ print(inputedOperators)
 print("\n")
 
 
-add()
-multiply()
+divide()
 numberInputButton(value: 3)
 print(currentValue)
 print(inputedOperators)
 print("\n")
 
-divide()
+
+multiply()
 numberInputButton(value: 8)
 print(currentValue)
 print(inputedOperators)
