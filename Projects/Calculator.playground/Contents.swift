@@ -30,7 +30,7 @@ enum Operator {
         currentValue[inputedOperators.count] += String(value)
     default:        //Runs if the inputed value is not 0-9
         print("INVALID INPUT")
-        return
+        break
     }
 }
 
@@ -178,35 +178,6 @@ var valueClearCount = 0
 
 
 
-
-
-//numberInputButton(value: 1)
-//numberInputButton(value: 5)
-//decimal()
-//print(currentValue)
-//print(inputedOperators)
-//print("\n")
-//
-//add()
-//numberInputButton(value: 2)
-//invertSign()
-//print(currentValue)
-//print(inputedOperators)
-//print("\n")
-//
-//
-//divide()
-//numberInputButton(value: 3)
-//print(currentValue)
-//print(inputedOperators)
-//print("\n")
-//
-//
-//multiply()
-//numberInputButton(value: 8)
-//print(currentValue)
-//print(inputedOperators)
-//print("\n")
 
 numberInputButton(value: 1)
 numberInputButton(value: 0) //10
