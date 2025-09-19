@@ -34,7 +34,6 @@ enum Operator {
     }
 }
 
-
 @MainActor func add() {     //Checks conditionals and adds ".add" into inputedOperators (Same for subtract, multiply, and divide)
     if currentValue.count > inputedOperators.count {
         inputedOperators.append(.add)
@@ -47,6 +46,8 @@ enum Operator {
 @MainActor func subtract() {
     if currentValue.count > inputedOperators.count {
         inputedOperators.append(.subtract)
+    } else if inputedOperators.last == .multiply || inputedOperators.last == .divide {
+        currentValue.append("-0")
     } else {
         inputedOperators.removeLast()
         inputedOperators.append(.subtract)
@@ -208,23 +209,22 @@ var valueClearCount = 0
 //print("\n")
 
 numberInputButton(value: 1)
-numberInputButton(value: 0)
+numberInputButton(value: 0) //10
+
 add()
 numberInputButton(value: 1)
-numberInputButton(value: 0)
-multiply()
-numberInputButton(value: 1)
-numberInputButton(value: 0)
+numberInputButton(value: 0) //10
 percentage()
+
 add()
 numberInputButton(value: 5)
-add()
+
+multiply()
+subtract()
 numberInputButton(value: 1)
-numberInputButton(value: 0)
-percentage()
 
 
 
-print(equals()) // Should equal 11
+print(equals()) // Should equal 6
 
 
