@@ -83,10 +83,9 @@ enum Operator {
     }
 }
 
-// CURRENTLY WORKING ON - Trying to fix fatal error (Does not work atm)
 @MainActor func percentage() {          // *BLACK DIAMOND CHALLENGE*
     var percentResult = 0.0
-    
+    guard currentValue.count > 1 else { return }        // Ensures there is at least 2 values in "currentValue"
     if currentValue.count > inputedOperators.count {        //CALCULATING PERCENT VALUE
         if var percentValue = Double(currentValue[currentValue.count - 1]) {
             percentValue /= 100
@@ -101,15 +100,10 @@ enum Operator {
             }
         }
         
-        let currentOperator = inputedOperators[currentValue.count - 1]      //Initializing of values
-        var tempCurrentValue: Double
+        guard let currentOperator = inputedOperators.last else { return }     //Initializing of values
+        var tempCurrentValue = Double(currentValue[currentValue.count - 2])
+        guard let tempCurrentValue else { return }
         
-        if let tempValue = Double(currentValue[currentValue.count - 2]) {       //Checks if the current values are valid to run the percent func on
-            tempCurrentValue = tempValue
-        } else {
-            guard let tempValue = Double(currentValue[currentValue.count - 1]) else { return }
-            tempCurrentValue = tempValue
-        }
         
         var result: Double
         
@@ -123,7 +117,9 @@ enum Operator {
         case .divide:
             result = tempCurrentValue / (tempCurrentValue * percentResult)
         }
-        currentValue[currentValue.count - 1] = String(result)       //Stores the calculated value in the coresponding value in "currentValue"
+        currentValue[currentValue.count - 2] = String(result)     //Stores the calculated value in the coresponding value in "currentValue"
+        currentValue.removeLast()
+        inputedOperators.removeLast()
     }
 }
 
@@ -216,10 +212,19 @@ numberInputButton(value: 0)
 add()
 numberInputButton(value: 1)
 numberInputButton(value: 0)
+multiply()
+numberInputButton(value: 1)
+numberInputButton(value: 0)
+percentage()
+add()
+numberInputButton(value: 5)
+add()
+numberInputButton(value: 1)
+numberInputButton(value: 0)
 percentage()
 
 
 
-print(equals())
+print(equals()) // Should equal 11
 
 
