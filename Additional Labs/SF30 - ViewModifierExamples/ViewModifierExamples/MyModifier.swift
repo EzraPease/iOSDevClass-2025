@@ -10,20 +10,20 @@ import SwiftUI
 struct MyModifier: ViewModifier {
     func body(content: Content) -> some View {
         content
-        .font(.largeTitle)
-        .bold(true)
-        .italic(true)
-        .strikethrough(true, pattern: .dashDotDot, color: .green)
-        .underline(false)
-        .tint(.blue)
-        .border(.red, width: 1)
-//        .overlay(Color.red.frame(width: 10, height: 10))
-        .padding(50)
-        .background(.purple)
-//        .hidden()
-//        .frame(width: 15, height: 30)
-        .offset(x: 13, y: 68)
-        .position(x: 100, y: 5)
+            .font(.largeTitle)
+            .bold(true)
+            .italic(true)
+            .strikethrough(true, pattern: .dashDotDot, color: .green)
+            .underline(false)
+            .tint(.blue)
+            .border(.red, width: 1)
+        //        .overlay(Color.red.frame(width: 10, height: 10))
+            .padding(50)
+            .background(.purple)
+        //        .hidden()
+        //        .frame(width: 15, height: 30)
+            .offset(x: 13, y: 68)
+            .position(x: 100, y: 5)
     }
 }
 
