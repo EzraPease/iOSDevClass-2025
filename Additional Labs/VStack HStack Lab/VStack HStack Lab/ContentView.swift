@@ -21,7 +21,7 @@ struct ContentView: View {
                 }
                 Spacer()
             }
-            HStack(alignment: .top) {
+            HStack(alignment: .top) {   // Awards / Followers / Likes
                 Spacer(minLength: 10)
                 VStack {
                     Image(systemName: "trophy")
@@ -62,8 +62,8 @@ struct ContentView: View {
                 Spacer(minLength: 10)
             }
             .frame(height: 90)
-            .background(.blue.opacity(0.5))
-            HStack(alignment: .top) {
+            .background(.blue.opacity(0.5), in: Capsule())
+            HStack(alignment: .top) {   // Connections / Places Visted
                 
                 let connections: [String] = ["Henry", "Jimouthy", "Ted", "Geoff Bozos"]
                 Spacer()
@@ -91,9 +91,9 @@ struct ContentView: View {
                 Spacer()
             }
             .frame(minHeight: 150)
-            .background(.teal.opacity(0.75))
+            .background(.teal.opacity(0.75), in: Capsule())
             Spacer()
-            HStack {
+            HStack {    // "My Dog"
                 let dogs: [String] = ["Moose", "Lola", "Charles"]
                 ForEach (dogs, id: \.self) { doggo in
                     ZStack(alignment: .bottomLeading) {
