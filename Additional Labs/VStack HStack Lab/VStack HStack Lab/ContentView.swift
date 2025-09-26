@@ -63,7 +63,7 @@ struct ContentView: View {
             }
             .frame(height: 90)
             .background(.blue.opacity(0.5), in: Capsule())
-            HStack(alignment: .top) {   // Connections / Places Visted
+            HStack(alignment: .top, spacing: 20) {   // Connections / Places Visted
                 
                 let connections: [String] = ["Henry", "Jimouthy", "Ted", "Geoff Bozos"]
                 Spacer()
