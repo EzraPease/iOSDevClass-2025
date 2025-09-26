@@ -62,7 +62,8 @@ struct ContentView: View {
                 Spacer(minLength: 10)
             }
             .frame(height: 90)
-            .background(.blue.opacity(0.5), in: Capsule())
+            .glassEffect(.regular.tint(.blue.opacity(0.8)), in: .capsule)
+//            .background(.blue, in: Capsule())
             HStack(alignment: .top, spacing: 20) {   // Connections / Places Visted
                 
                 let connections: [String] = ["Henry", "Jimouthy", "Ted", "Geoff Bozos"]
@@ -91,6 +92,7 @@ struct ContentView: View {
                 Spacer()
             }
             .frame(minHeight: 150)
+            .glassEffect(.regular, in: .capsule)
             .background(.teal.opacity(0.75), in: Capsule())
             Spacer()
             HStack {    // "My Dog"
