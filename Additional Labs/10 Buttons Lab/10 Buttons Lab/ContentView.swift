@@ -43,6 +43,7 @@ struct ContentView: View {
     @State private var dogIsHidden = true
     @State private var title = "I get changed by a button"
     @State private var titleColor: Color = .gray
+    @State private var resetIsDisabled = true
     
     func changeToDog() {
         dogIsHidden.toggle()
@@ -58,6 +59,8 @@ struct ContentView: View {
         
         return Color(hue: hue, saturation: saturation, brightness: brightness)
     }
+    
+    
     
     
     var body: some View {
@@ -82,6 +85,7 @@ struct ContentView: View {
             VStack(spacing: 15) {
                 Button("Make Red") {
                     titleColor = .red
+                    resetIsDisabled = false
                 }
                 .buttonStyle(SolidCapsuleButtonStyel(color: .red))
                 .padding(.horizontal)
@@ -89,6 +93,7 @@ struct ContentView: View {
                 
                 Button("Make Green") {
                     titleColor = .green
+                    resetIsDisabled = false
                 }
                 .buttonStyle(SolidCapsuleButtonStyel(color: .red))
                 .padding(.horizontal)
@@ -96,6 +101,7 @@ struct ContentView: View {
                 
                 Button("Make Purple") {
                     titleColor = .purple
+                    resetIsDisabled = false
                 }
                 .buttonStyle(SolidCapsuleButtonStyel(color: .red))
                 .padding(.horizontal)
@@ -103,6 +109,7 @@ struct ContentView: View {
                 
                 Button("Make Pink") {
                     titleColor = .pink
+                    resetIsDisabled = false
                 }
                 .buttonStyle(SolidCapsuleButtonStyel(color: .red))
                 .padding(.horizontal)
@@ -110,6 +117,7 @@ struct ContentView: View {
                 
                 Button("Make Cyan") {
                     titleColor = .cyan
+                    resetIsDisabled = false
                 }
                 .buttonStyle(SolidCapsuleButtonStyel(color: .red))
                 .padding(.horizontal)
@@ -117,6 +125,7 @@ struct ContentView: View {
                 
                 Button("Make Mint") {
                     titleColor = .mint
+                    resetIsDisabled = false
                 }
                 .buttonStyle(SolidCapsuleButtonStyel(color: .red))
                 .padding(.horizontal)
@@ -124,6 +133,7 @@ struct ContentView: View {
                 
                 Button("Make White") {
                     titleColor = .white
+                    resetIsDisabled = false
                 }
                 .buttonStyle(SolidCapsuleButtonStyel(color: .red))
                 .padding(.horizontal)
@@ -131,6 +141,7 @@ struct ContentView: View {
                 
                 Button("Randomize Color") {
                     titleColor = randomColor()
+                    resetIsDisabled = false
                 }
                 .buttonStyle(SolidCapsuleButtonStyel(color: .red))
                 .padding(.horizontal)
@@ -173,9 +184,13 @@ struct ContentView: View {
                 .padding(.horizontal)
                 
                 Button("Reset") {
+                    resetIsDisabled = true
                     titleColor = .gray
                 }
                 .padding(.horizontal)
+                .disabled(resetIsDisabled)
+                .opacity(resetIsDisabled ? 0.8 : 1)
+                
                 
                 
             }
