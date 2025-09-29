@@ -50,52 +50,88 @@ struct ContentView: View {
     
     
     var body: some View {
-        VStack(spacing: 15) {
-            if dogIsHidden {
-                Text("I get changed by a button")
-                    .font(.title)
-                    .bold()
-                    .underline()
-                    .foregroundStyle(titleColor)
-            } else {
-                Image(systemName: "dog.fill")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .background(titleColor)
-            }
-            
-            Button("Make Red") {
-                titleColor = .red
-            }
-            .buttonStyle(SolidCapsuleButtonStyel(color: .red))
-            .padding(.horizontal)
-            
-            
-            
-            
-            Button(action: changeToDog) {
+        VStack(alignment: .center, spacing: 0) {
+            Group {
                 if dogIsHidden {
-                    HStack(spacing: 15) {
-                        Image(systemName: "dog.fill")
-                        Text("Change to Dog")
-                        Image(systemName: "dog.fill")
-                        
-                    }
-                    .foregroundStyle(.black)
-                    .frame(maxWidth: .infinity)
-                    .padding(.vertical, 8)
-                    .background(
-                        LinearGradient(
-                            colors: [.red, .green, .blue],
-                            startPoint: .topLeading,
-                            endPoint: .trailing
-                        ),
-                        in: Capsule()
-                    )
-                    
+                    Text("I get changed by a button")
+                        .font(.title)
+                        .bold()
+                        .underline()
+                        .foregroundStyle(titleColor)
                 } else {
-                    Text("Change To Text")
+                    Image(systemName: "dog.fill")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .background(titleColor)
+                }
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+            
+            VStack(spacing: 15) {
+                Button("Make Red") {
+                    titleColor = .red
+                }
+                .buttonStyle(SolidCapsuleButtonStyel(color: .red))
+                .padding(.horizontal)
+                
+                
+                Button("Make Green") {
+                    titleColor = .green
+                }
+                .buttonStyle(SolidCapsuleButtonStyel(color: .red))
+                .padding(.horizontal)
+                
+                
+                Button("Make Purple") {
+                    titleColor = .purple
+                }
+                .buttonStyle(SolidCapsuleButtonStyel(color: .red))
+                .padding(.horizontal)
+                
+                
+                Button("Make Pink") {
+                    titleColor = .pink
+                }
+                .buttonStyle(SolidCapsuleButtonStyel(color: .red))
+                .padding(.horizontal)
+                
+                
+                Button(action: {}) {
+                    Text("Button 6")
+                }
+                .buttonStyle(SolidCapsuleButtonStyel(color: .red))
+                .padding(.horizontal)
+                
+                
+                Button(action: {}) {
+                    Text("Button 7")
+                }
+                .buttonStyle(SolidCapsuleButtonStyel(color: .red))
+                .padding(.horizontal)
+                
+                
+                Button(action: {}) {
+                    Text("Button 8")
+                }
+                .buttonStyle(SolidCapsuleButtonStyel(color: .red))
+                .padding(.horizontal)
+                
+                
+                Button(action: {}) {
+                    Text("Button 9")
+                }
+                .buttonStyle(SolidCapsuleButtonStyel(color: .red))
+                .padding(.horizontal)
+                
+                Button(action: changeToDog) {
+                    if dogIsHidden {
+                        HStack(spacing: 15) {
+                            Image(systemName: "dog.fill")
+                            Text("Change to Dog")
+                            Image(systemName: "dog.fill")
+                            
+                        }
                         .foregroundStyle(.black)
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 8)
@@ -107,66 +143,40 @@ struct ContentView: View {
                             ),
                             in: Capsule()
                         )
+                        
+                    } else {
+                        Text("Change To Text")
+                            .foregroundStyle(.black)
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 8)
+                            .background(
+                                LinearGradient(
+                                    colors: [.red, .green, .blue],
+                                    startPoint: .topLeading,
+                                    endPoint: .trailing
+                                ),
+                                in: Capsule()
+                            )
+                    }
                 }
+                .padding(.horizontal)
+                
+                Button("Reset") {
+                    titleColor = .gray
+                }
+                .padding(.horizontal)
+                
+                
             }
-            
-            .padding(.horizontal)
-            
-            Button("Make ") {
-            }
-            .buttonStyle(SolidCapsuleButtonStyel(color: .red))
-            .padding(.horizontal)
-            
-            
-            Button(action: {}) {
-                Text("Button 4")
-            }
-            .buttonStyle(SolidCapsuleButtonStyel(color: .red))
-            .padding(.horizontal)
-            
-            
-            Button(action: {}) {
-                Text("Button 5")
-            }
-            .buttonStyle(SolidCapsuleButtonStyel(color: .red))
-            .padding(.horizontal)
-            
-            
-            Button(action: {}) {
-                Text("Button 6")
-            }
-            .buttonStyle(SolidCapsuleButtonStyel(color: .red))
-            .padding(.horizontal)
-            
-            
-            Button(action: {}) {
-                Text("Button 7")
-            }
-            .buttonStyle(SolidCapsuleButtonStyel(color: .red))
-            .padding(.horizontal)
-            
-            
-            Button(action: {}) {
-                Text("Button 8")
-            }
-            .buttonStyle(SolidCapsuleButtonStyel(color: .red))
-            .padding(.horizontal)
-            
-            
-            Button(action: {}) {
-                Text("Button 9")
-            }
-            .buttonStyle(SolidCapsuleButtonStyel(color: .red))
-            .padding(.horizontal)
-            
-            Button("Reset") {
-                titleColor = .gray
-                dogIsHidden = true
-            }
-            .padding(.horizontal)
-            
+            .padding()
         }
-        .padding()
+        .background(
+            LinearGradient(
+                colors: [.white, .yellow, .orange],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+                )
+        )
     }
 }
 
