@@ -9,8 +9,7 @@ import SwiftUI
 
 /*
  CURRENTLY WORKING ON:
- - Just finished custome button style
- - Next working on a disabled button (sometimes)
+ - Completed
  */
 
 struct SolidCapsuleButtonStyel: ButtonStyle {
