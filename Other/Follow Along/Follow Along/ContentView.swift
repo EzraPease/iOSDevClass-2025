@@ -6,20 +6,47 @@
 //
 
 import SwiftUI
+import Playgrounds
+
+
 
 struct ContentView: View {
     
-    let people = ["andy", "tom", "leslie", "jr", "ron", "ezra"]
-    
     var body: some View {
-        VStack(alignment:
-                .leading) {
-                    ForEach(people, id: \.self) { person in
-                        Text("Hi, \(person)")
-                    }
-                }
+        Spacer()
+        
+        VStack {
+            Button(action: {}) {
+                Text("Next")
+                    .frame(maxWidth: .infinity)
+            }
+            .foregroundStyle(Color.white)
+            .padding(.vertical, 8)
+            .background(
+                Capsule()
+                    .foregroundStyle(Color.gray)
+            )
+            .padding()
+            Button(action: {}) {
+                Text("Animated Button")
+                    .frame(maxWidth: .infinity)
+            }
+            .foregroundStyle(.white)
+            .padding(.vertical, 14)
+            .background(
+                Capsule()
+                    .foregroundStyle(LinearGradient(
+                        colors: [.blue, .indigo, .purple],
+                        startPoint: .leading,
+                        endPoint: .trailing)
+                    )
+            )
+            .padding()
+        }
     }
 }
+
+
 
 #Preview {
     ContentView()
