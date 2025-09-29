@@ -48,6 +48,17 @@ struct ContentView: View {
         dogIsHidden.toggle()
     }
     
+    func randomColor(
+        saturation: ClosedRange<Double> = 0.6...0.95,
+        brightness: ClosedRange<Double> = 0.7...1
+    ) -> Color {
+        let hue = Double.random(in: 0...1)
+        let saturation = Double.random(in: saturation)
+        let brightness = Double.random(in: brightness)
+        
+        return Color(hue: hue, saturation: saturation, brightness: brightness)
+    }
+    
     
     var body: some View {
         VStack(alignment: .center, spacing: 0) {
@@ -97,29 +108,29 @@ struct ContentView: View {
                 .padding(.horizontal)
                 
                 
-                Button(action: {}) {
-                    Text("Button 6")
+                Button("Make Cyan") {
+                    titleColor = .cyan
                 }
                 .buttonStyle(SolidCapsuleButtonStyel(color: .red))
                 .padding(.horizontal)
                 
                 
-                Button(action: {}) {
-                    Text("Button 7")
+                Button("Make Mint") {
+                    titleColor = .mint
                 }
                 .buttonStyle(SolidCapsuleButtonStyel(color: .red))
                 .padding(.horizontal)
                 
                 
-                Button(action: {}) {
-                    Text("Button 8")
+                Button("Make White") {
+                    titleColor = .white
                 }
                 .buttonStyle(SolidCapsuleButtonStyel(color: .red))
                 .padding(.horizontal)
                 
                 
-                Button(action: {}) {
-                    Text("Button 9")
+                Button("Randomize Color") {
+                    titleColor = randomColor()
                 }
                 .buttonStyle(SolidCapsuleButtonStyel(color: .red))
                 .padding(.horizontal)
