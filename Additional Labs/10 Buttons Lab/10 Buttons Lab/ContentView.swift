@@ -44,11 +44,11 @@ struct ContentView: View {
     @State private var titleColor: Color = .gray
     @State private var resetIsDisabled = true
     
-    func changeToDog() {
+    func changeToDog() { // Function to change the text to a dog image
         dogIsHidden.toggle()
     }
     
-    func randomColor(
+    func randomColor( // Random color code used for the "Randomize Color" button
         saturation: ClosedRange<Double> = 0.6...0.95,
         brightness: ClosedRange<Double> = 0.7...1
     ) -> Color {
@@ -62,9 +62,9 @@ struct ContentView: View {
     
     
     
-    var body: some View {
+    var body: some View { // VStack for all the buttons
         VStack(alignment: .center, spacing: 0) {
-            Group {
+            Group { // Conditions to show either the text or dog image
                 if dogIsHidden {
                     Text("I get changed by a button")
                         .font(.title)
@@ -138,14 +138,14 @@ struct ContentView: View {
                 .padding(.horizontal)
                 
                 
-                Button("Randomize Color") {
+                Button("Randomize Color") { // Utilizes the randomColor func
                     titleColor = randomColor()
                     resetIsDisabled = false
                 }
                 .buttonStyle(SolidCapsuleButtonStyel(color: .red))
                 .padding(.horizontal)
                 
-                Button(action: changeToDog) {
+                Button(action: changeToDog) { // Button that acutally changes between the text and image
                     if dogIsHidden {
                         HStack(spacing: 15) {
                             Image(systemName: "dog.fill")
@@ -196,7 +196,7 @@ struct ContentView: View {
             .padding()
         }
         .background(
-            LinearGradient(
+            LinearGradient( // Main background
                 colors: [.white, .yellow, .orange],
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing
