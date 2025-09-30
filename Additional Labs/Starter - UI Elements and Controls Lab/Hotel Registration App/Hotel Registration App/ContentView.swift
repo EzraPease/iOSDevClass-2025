@@ -25,11 +25,14 @@ struct HotelRegistrationScreen: View {
     @State private var numberOfGuests = 1
     @State private var lengthOfStay = 1
     @State private var nonSmoking = false
-    @State private var regristrationFeedback = ""
+    @State private var regristrationFeedback = "5"
+    @State private var isSubmitted = false
+    @State private var ratingSubmitted = false
     
     
     var body: some View {
-        VStack {
+        VStack(spacing: 5) {
+            
             HStack {
                 Image("mountainlandLogo")
                     .resizable()
@@ -47,20 +50,31 @@ struct HotelRegistrationScreen: View {
                     }
             }
             
+            Spacer()
+            
+            Text("Welcome!")
+                .font(.custom("Rockwell", size: 20))
+                .foregroundStyle(.text)
+            
+            Spacer()
+            
             HStack {
                 TextField("", text: $firstName, prompt: Text("First Name").font(.custom("Rockwell", size: 20)), axis: .horizontal)
                     .padding()
                     .textFieldStyle(.roundedBorder)
+                    .disabled(ratingSubmitted)
                 
                 TextField("", text: $lastName, prompt: Text("Last Name").font(.custom("Rockwell", size: 20)), axis: .horizontal)
                     .padding()
                     .textFieldStyle(.roundedBorder)
+                    .disabled(ratingSubmitted)
             }
             
-            SecureField("", text: $doorCode, prompt: Text("Input Desired Code").font(.custom("Rockwell", size: 20)))
+            SecureField("", text: $doorCode, prompt: Text("Input Desired Door Code").font(.custom("Rockwell", size: 20)))
                 .keyboardType(.numberPad)
                 .textFieldStyle(.roundedBorder)
                 .padding()
+                .disabled(ratingSubmitted)
             
             
             Stepper("Number of Guests: \(numberOfGuests)",
@@ -72,6 +86,7 @@ struct HotelRegistrationScreen: View {
             .padding()
             .glassEffect()
             .padding()
+            .disabled(ratingSubmitted)
             
             Stepper("Staying for \(lengthOfStay) days",
                     value: $lengthOfStay,
@@ -82,15 +97,76 @@ struct HotelRegistrationScreen: View {
             .padding()
             .glassEffect()
             .padding()
+            .disabled(ratingSubmitted)
+            
+            Toggle("No Smoking", systemImage: "nosign", isOn: $nonSmoking)
+                .foregroundStyle(.red)
+                .font(.custom("Rockwell", size: 18))
+                .frame(maxWidth: .infinity)
+                .padding()
+                .glassEffect()
+                .padding()
+                .disabled(ratingSubmitted)
+            
+            Spacer()
+            
+            if isSubmitted {
+                Text("Thank you for booking with us! How would you rate you experience?")
+                    .foregroundStyle(.gray)
+                    .lineLimit(3)
+                    .fixedSize(horizontal: false, vertical: true)
+                Picker("Rate Your Experience :)", selection: $regristrationFeedback) {
+                    ForEach(["1", "2", "3", "4", "5"], id: \.self) {
+                        rating in
+                        Text(rating)
+                            .tag(rating)
+                    }
+                }
+                .disabled(ratingSubmitted)
+                
+                if ratingSubmitted {
+                    if regristrationFeedback == "1" || regristrationFeedback == "2" || regristrationFeedback == "3" {
+                        Text("Sorry it wasn't as good as we hopped, we will work to do better!")
+                            .lineLimit(3)
+                            .fixedSize(horizontal: false, vertical: true)
+                            .foregroundStyle(.blue)
+                    } else {
+                        Text("Thank you for rating us \(regristrationFeedback) ⭐️")
+                            .foregroundStyle(.blue)
+                    }
+                }
+            }
             
             
             Spacer()
             
-            Text("Welcome!")
-                .font(.custom("Rockwell", size: 20))
-                .foregroundStyle(.text)
+            if !isSubmitted {
+                Button("Submit") {
+                    isSubmitted = true
+                }
+                .padding()
+                .glassEffect()
+                .padding()
+            } else if isSubmitted && !ratingSubmitted {
+                Button("Submit Rating") {
+                    ratingSubmitted = true
+                }
+                .padding()
+                .glassEffect()
+                .padding()
+            } else {
+                Button("Submit Another") {
+                    isSubmitted = false
+                    ratingSubmitted = false
+                }
+                .padding()
+                .glassEffect()
+                .padding()
+            }
             
-            Spacer()
+         
+            
+            
         }
     }
 }
