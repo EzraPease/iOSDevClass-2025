@@ -88,7 +88,7 @@ struct HotelRegistrationScreen: View {
             .padding()
             .disabled(ratingSubmitted)
             
-            Stepper("Staying for \(lengthOfStay) days",
+            Stepper("Staying for \(lengthOfStay) day(s)",
                     value: $lengthOfStay,
                     in: 1...30,
                     step: 1)
