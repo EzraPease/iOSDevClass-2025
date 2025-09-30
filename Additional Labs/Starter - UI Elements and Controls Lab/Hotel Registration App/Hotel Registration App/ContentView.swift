@@ -19,6 +19,12 @@ struct ContentView: View {
 }
 
 struct HotelRegistrationScreen: View {
+    @State private var firstName = ""
+    @State private var lastName = ""
+    @State private var doorCode = 0
+    @State private var numberOfGuests = 0
+    
+    
     var body: some View {
         VStack {
             HStack {
@@ -30,13 +36,14 @@ struct HotelRegistrationScreen: View {
                 Text("Mountainland Inn")
                     .font(.custom("Verdana", size: 30))
                     .bold()
-                    .foregroundStyle(.background)
+                    .foregroundStyle(Color.background)
                     .padding()
                     .background {
                         RoundedRectangle(cornerRadius: 10)
                             .foregroundStyle(.highlight)
                     }
             }
+            TextField("First Name", text: $firstName)
             
             Spacer()
             
