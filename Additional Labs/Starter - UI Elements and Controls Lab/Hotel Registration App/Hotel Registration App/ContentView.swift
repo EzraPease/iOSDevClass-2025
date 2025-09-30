@@ -21,8 +21,11 @@ struct ContentView: View {
 struct HotelRegistrationScreen: View {
     @State private var firstName = ""
     @State private var lastName = ""
-    @State private var doorCode = 0
-    @State private var numberOfGuests = 0
+    @State private var doorCode = ""
+    @State private var numberOfGuests = 1
+    @State private var lengthOfStay = 1
+    @State private var nonSmoking = false
+    @State private var regristrationFeedback = ""
     
     
     var body: some View {
@@ -43,7 +46,43 @@ struct HotelRegistrationScreen: View {
                             .foregroundStyle(.highlight)
                     }
             }
-            TextField("First Name", text: $firstName)
+            
+            HStack {
+                TextField("", text: $firstName, prompt: Text("First Name").font(.custom("Rockwell", size: 20)), axis: .horizontal)
+                    .padding()
+                    .textFieldStyle(.roundedBorder)
+                
+                TextField("", text: $lastName, prompt: Text("Last Name").font(.custom("Rockwell", size: 20)), axis: .horizontal)
+                    .padding()
+                    .textFieldStyle(.roundedBorder)
+            }
+            
+            SecureField("", text: $doorCode, prompt: Text("Input Desired Code").font(.custom("Rockwell", size: 20)))
+                .keyboardType(.numberPad)
+                .textFieldStyle(.roundedBorder)
+                .padding()
+            
+            
+            Stepper("Number of Guests: \(numberOfGuests)",
+                    value: $numberOfGuests,
+                    in: 1...20,
+                    step: 1)
+            .font(.custom("Rockwell", size: 18))
+            .frame(maxWidth: .infinity)
+            .padding()
+            .glassEffect()
+            .padding()
+            
+            Stepper("Staying for \(lengthOfStay) days",
+                    value: $lengthOfStay,
+                    in: 1...30,
+                    step: 1)
+            .font(.custom("Rockwell", size: 18))
+            .frame(maxWidth: .infinity)
+            .padding()
+            .glassEffect()
+            .padding()
+            
             
             Spacer()
             
