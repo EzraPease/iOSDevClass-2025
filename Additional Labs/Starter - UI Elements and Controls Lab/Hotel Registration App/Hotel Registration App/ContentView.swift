@@ -28,10 +28,15 @@ struct HotelRegistrationScreen: View {
     @State private var regristrationFeedback = "5"
     @State private var isSubmitted = false
     @State private var ratingSubmitted = false
+    @State private var date = Date()
+    @State private var codeIsHidden = true
+    @State private var codeIsDisabled = false
     
     
     var body: some View {
         VStack(spacing: 5) {
+            
+            
             
             HStack {
                 Image("mountainlandLogo")
@@ -41,6 +46,8 @@ struct HotelRegistrationScreen: View {
                 
                 Text("Mountainland Inn")
                     .font(.custom("Verdana", size: 30))
+                    .lineLimit(3)
+                    .fixedSize(horizontal: false, vertical: true)
                     .bold()
                     .foregroundStyle(Color.background)
                     .padding()
@@ -70,12 +77,59 @@ struct HotelRegistrationScreen: View {
                     .disabled(ratingSubmitted)
             }
             
-            SecureField("", text: $doorCode, prompt: Text("Input Desired Door Code").font(.custom("Rockwell", size: 20)))
-                .keyboardType(.numberPad)
-                .textFieldStyle(.roundedBorder)
-                .padding()
-                .disabled(ratingSubmitted)
+            HStack {
+                if codeIsHidden {
+                    SecureField("", text: $doorCode, prompt: Text("Input Code").font(.custom("Rockwell", size: 20)))
+                        .keyboardType(.numberPad)
+                        .textFieldStyle(.roundedBorder)
+                        .padding()
+                        .disabled(ratingSubmitted)
+                    
+                    
+                    Button("Show Code") {
+                        codeIsHidden = false
+                        codeIsDisabled = true
+                    }
+                    .padding()
+                } else if !codeIsHidden {
+                    TextField("", text: $doorCode, prompt: Text("Input Code").font(.custom("Rockwell", size: 20)))
+                        .keyboardType(.numberPad)
+                        .textFieldStyle(.roundedBorder)
+                        .padding()
+                        .disabled(ratingSubmitted)
+                        .disabled(codeIsDisabled)
+                    
+                    
+                    Button("Hide Code") {
+                        codeIsHidden = true
+                        
+                    }
+                    .padding()
+                }
+            }
             
+            
+            let today = Date()
+            let nextYear = Calendar.current.date(byAdding: .year, value: 1, to: today)!
+            DatePicker("Date Only",
+                       selection: $date,
+                       in: today...nextYear,
+                       displayedComponents: .date)
+            .font(.custom("Rockwell", size: 18))
+            .padding()
+            .glassEffect()
+            .padding()
+            
+            Stepper("Staying for \(lengthOfStay) day(s)",
+                    value: $lengthOfStay,
+                    in: 1...30,
+                    step: 1)
+            .font(.custom("Rockwell", size: 18))
+            .frame(maxWidth: .infinity)
+            .padding()
+            .glassEffect()
+            .padding()
+            .disabled(ratingSubmitted)
             
             Stepper("Number of Guests: \(numberOfGuests)",
                     value: $numberOfGuests,
@@ -88,16 +142,6 @@ struct HotelRegistrationScreen: View {
             .padding()
             .disabled(ratingSubmitted)
             
-            Stepper("Staying for \(lengthOfStay) day(s)",
-                    value: $lengthOfStay,
-                    in: 1...30,
-                    step: 1)
-            .font(.custom("Rockwell", size: 18))
-            .frame(maxWidth: .infinity)
-            .padding()
-            .glassEffect()
-            .padding()
-            .disabled(ratingSubmitted)
             
             Toggle("No Smoking", systemImage: "nosign", isOn: $nonSmoking)
                 .foregroundStyle(.red)
@@ -167,7 +211,7 @@ struct HotelRegistrationScreen: View {
                 .padding()
             }
             
-         
+            
             
             
         }
