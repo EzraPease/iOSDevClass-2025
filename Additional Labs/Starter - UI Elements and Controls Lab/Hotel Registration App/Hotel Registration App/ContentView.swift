@@ -113,6 +113,7 @@ struct HotelRegistrationScreen: View {
             if isSubmitted {
                 Text("Thank you for booking with us! How would you rate you experience?")
                     .foregroundStyle(.gray)
+                    .bold()
                     .lineLimit(3)
                     .fixedSize(horizontal: false, vertical: true)
                 Picker("Rate Your Experience :)", selection: $regristrationFeedback) {
@@ -130,9 +131,11 @@ struct HotelRegistrationScreen: View {
                             .lineLimit(3)
                             .fixedSize(horizontal: false, vertical: true)
                             .foregroundStyle(.blue)
+                            .bold()
                     } else {
                         Text("Thank you for rating us \(regristrationFeedback) ⭐️")
                             .foregroundStyle(.blue)
+                            .bold()
                     }
                 }
             }
@@ -168,6 +171,10 @@ struct HotelRegistrationScreen: View {
             
             
         }
+        .background(LinearGradient(
+            colors: [.background, .highlight],
+            startPoint: .topLeading,
+            endPoint: .bottomTrailing))
     }
 }
 
