@@ -9,48 +9,103 @@ import SwiftUI
 
 @Observable class ShipComputer {
     var availablePower = 10
-    var heading = "SYSTEM OFFLINE"
+    var heading = ""
     
 }
+
+
 
 struct SpaceshipScreen: View {
     @State private var myShip = ShipComputer()
     
     var body: some View {
+        
         Form {
             Section("Helm Station") {
                 HelmStation()
+                    .foregroundStyle(.black)
             }
+            .foregroundStyle(RadialGradient(
+                colors: [.gray, .white],
+                center: .topLeading,
+                startRadius: 5,
+                endRadius: 75))
             
             Section("Weapons Station") {
                 WeaponsStation()
-            }
+                    .foregroundStyle(.black)
+
+                }
+            .foregroundStyle(RadialGradient(
+                colors: [.gray, .white],
+                center: .topLeading,
+                startRadius: 5,
+                endRadius: 75))
+
             
             Section("Shield Station") {
                 ShieldStation()
+                    .foregroundStyle(.black)
             }
+            .foregroundStyle(RadialGradient(
+                colors: [.gray, .white],
+                center: .topLeading,
+                startRadius: 5,
+                endRadius: 75))
             
             Section("Engine Station") {
                 EngineStation()
+                    .foregroundStyle(.black)
             }
+            .foregroundStyle(RadialGradient(
+                colors: [.gray, .white],
+                center: .topLeading,
+                startRadius: 5,
+                endRadius: 75))
             
             Text("Available Power: \(myShip.availablePower)")
-            
+                .bold()
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .listRowBackground(RadialGradient(
+                    colors: [.gray, .white],
+                    center: .bottomLeading,
+                    startRadius: 5,
+                    endRadius: 200))
         }
+        .scrollContentBackground(.hidden)
+        .background(RadialGradient(
+            colors: [.blue, .black],
+            center: .topTrailing,
+            startRadius: 5,
+            endRadius: 1150))
         .environment(myShip)
-        .padding()
+        //        .padding()
     }
 }
 
+//struct PowerView: View {
+//    @Environment(ShipComputer.self) private var ship
+//
+//    var body: some View {
+//        @Bindable var ship = ship
+//
+//        Text("Available Power: \(ship.availablePower)")
+//            .font(.largeTitle)
+//    }
+//}
+
 struct HelmStation: View {
     @Environment(ShipComputer.self) private var ship
+    @State var inChair: Bool = false
+    
     var body: some View {
         @Bindable var ship = ship
         
         HStack {
-            CrewChair(crewMember: .dog)
+            CrewChair(crewMember: .dog, inChair: $inChair)
             
             TextField("Heading", text: $ship.heading)
+                .disabled(!inChair)
         }
     }
 }
@@ -66,7 +121,7 @@ struct WeaponsStation: View {
         @Bindable var ship = ship
         
         HStack {
-            CrewChair(crewMember: .cat)
+            CrewChair(crewMember: .cat, inChair: $inChair)
             
             VStack {
                 Toggle("Weapons Power: \(weaponsOn ? weaponsCost : 0)", isOn: $weaponsOn)
@@ -84,6 +139,7 @@ struct WeaponsStation: View {
                             weaponsUsed = false
                         }
                     }
+                    .disabled(!inChair)
                 
                 Button("Fire!") {
                     // Add logic to only allow firing if power is available
@@ -102,7 +158,7 @@ struct ShieldStation: View {
     
     var body: some View {
         HStack {
-            CrewChair(crewMember: .lizard)
+            CrewChair(crewMember: .lizard, inChair: $inChair)
             
             Stepper("Shield Power: \(shieldsCost)", value: $shieldsCost, in: 0...10)
             
@@ -115,6 +171,7 @@ struct ShieldStation: View {
                         shieldsCost = oldValue
                     }
                 }
+                .disabled(!inChair)
         }
     }
 }
@@ -126,7 +183,7 @@ struct EngineStation: View {
     
     var body: some View {
         HStack {
-            CrewChair(crewMember: .hare)
+            CrewChair(crewMember: .hare, inChair: $inChair)
             Stepper("Engine Power: \(engineCost)", value: $engineCost, in: 0...10)
             
                 .onChange(of: engineCost) { oldValue, newValue in
@@ -138,6 +195,7 @@ struct EngineStation: View {
                         engineCost = oldValue
                     }
                 }
+                .disabled(!inChair)
         }
     }
 }
@@ -145,6 +203,7 @@ struct EngineStation: View {
 struct CrewChair: View {
     @Environment(ShipComputer.self) private var ship
     var crewMember: Crew
+    @Binding var inChair: Bool
     
     var body: some View {
         Button {
@@ -156,6 +215,7 @@ struct CrewChair: View {
                 Image(systemName: "person.slash")
             }
         }
+        .buttonStyle(.plain)
         .padding(5)
         .background {
             Circle()
