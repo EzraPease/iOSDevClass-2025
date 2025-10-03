@@ -9,7 +9,8 @@ import SwiftUI
 
 @Observable class ShipComputer {
     var availablePower = 10
-    var heading = ""
+    var heading = "SYSTEM OFFLINE"
+    
 }
 
 struct SpaceshipScreen: View {
@@ -57,6 +58,8 @@ struct HelmStation: View {
 struct WeaponsStation: View {
     @Environment(ShipComputer.self) private var ship
     @State private var weaponsOn = false
+    @State private var weaponsUsed = false
+    @State var inChair: Bool = false
     private let weaponsCost = 3
     
     var body: some View {
@@ -72,11 +75,13 @@ struct WeaponsStation: View {
                         if isOn {
                             if ship.availablePower >= weaponsCost {
                                 ship.availablePower -= weaponsCost
+                                weaponsUsed = true
                             } else {
                                 weaponsOn = false
                             }
-                        } else if ship.availablePower >= 3 {
+                        } else if !isOn && weaponsUsed {
                             ship.availablePower += weaponsCost
+                            weaponsUsed = false
                         }
                     }
                 
@@ -93,21 +98,21 @@ struct WeaponsStation: View {
 struct ShieldStation: View {
     @Environment(ShipComputer.self) private var ship
     @State private var shieldsCost = 0
-    @State private var maxShieldCost = 10
+    @State var inChair: Bool = false
     
     var body: some View {
         HStack {
             CrewChair(crewMember: .lizard)
             
-            Stepper("Shield Power: \(shieldsCost)", value: $shieldsCost, in: 0...maxShieldCost)
+            Stepper("Shield Power: \(shieldsCost)", value: $shieldsCost, in: 0...10)
+            
                 .onChange(of: shieldsCost) { oldValue, newValue in
-                    if ship.availablePower < 1 {
-                        maxShieldCost = shieldsCost - 1
-                    }
-                    if newValue > oldValue {
-                        ship.availablePower -= 1
-                    } else {
-                        ship.availablePower += 1
+                    let difference = newValue - oldValue
+                    
+                    ship.availablePower -= difference
+                    
+                    if ship.availablePower < 0 {
+                        shieldsCost = oldValue
                     }
                 }
         }
@@ -116,11 +121,23 @@ struct ShieldStation: View {
 
 struct EngineStation: View {
     @Environment(ShipComputer.self) private var ship
+    @State private var engineCost = 0
+    @State var inChair: Bool = false
+    
     var body: some View {
         HStack {
             CrewChair(crewMember: .hare)
-            Stepper("Engine Power: \(0)", value: .constant(0), in: 0...10)
+            Stepper("Engine Power: \(engineCost)", value: $engineCost, in: 0...10)
             
+                .onChange(of: engineCost) { oldValue, newValue in
+                    let difference = newValue - oldValue
+                    
+                    ship.availablePower -= difference
+                    
+                    if ship.availablePower < 0 {
+                        engineCost = oldValue
+                    }
+                }
         }
     }
 }
@@ -128,7 +145,6 @@ struct EngineStation: View {
 struct CrewChair: View {
     @Environment(ShipComputer.self) private var ship
     var crewMember: Crew
-    @State var inChair: Bool = false
     
     var body: some View {
         Button {
