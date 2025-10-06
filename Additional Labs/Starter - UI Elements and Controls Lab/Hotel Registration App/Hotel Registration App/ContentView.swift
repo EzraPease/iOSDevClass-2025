@@ -36,7 +36,9 @@ struct HotelRegistrationScreen: View {
     @State private var checkOutDate = Date()
     @State private var codeIsHidden = true
     @State private var codeIsDisabled = false
+    @Environment(\.colorScheme) private var colorScheme
     
+    var isDarkMode: Bool { colorScheme == .dark }
 
     
     var body: some View {
@@ -77,12 +79,13 @@ struct HotelRegistrationScreen: View {
                     TextField("", text: $firstName, prompt: Text("First Name").font(.custom("Rockwell", size: 20)), axis: .horizontal)
                         .padding()
                         .textFieldStyle(.roundedBorder)
-                        .tint(.white)
+                        .foregroundStyle(isDarkMode ? .white : .black)
                         .disabled(isSubmitted)
                     
                     TextField("", text: $lastName, prompt: Text("Last Name").font(.custom("Rockwell", size: 20)), axis: .horizontal)
                         .padding()
                         .textFieldStyle(.roundedBorder)
+                        .foregroundStyle(isDarkMode ? .white : .black)
                         .disabled(isSubmitted)
                 }
                 
@@ -91,6 +94,7 @@ struct HotelRegistrationScreen: View {
                         SecureField("", text: $doorCode, prompt: Text("Input Code").font(.custom("Rockwell", size: 20)))
                             .keyboardType(.numberPad)
                             .textFieldStyle(.roundedBorder)
+                            .foregroundStyle(isDarkMode ? .white : .black)
                             .padding()
                             .disabled(isSubmitted)
                         
