@@ -182,6 +182,7 @@ struct HotelRegistrationScreen: View {
                     Text("Thank you for booking with us! How would you rate you experience?")
                         .foregroundStyle(.gray)
                         .bold()
+                        .padding()
                         .lineLimit(3)
                         .fixedSize(horizontal: false, vertical: true)
                     Picker("Rate Your Experience :)", selection: $regristrationFeedback) {
@@ -195,7 +196,7 @@ struct HotelRegistrationScreen: View {
                     
                     if ratingSubmitted {
                         if regristrationFeedback == "1" || regristrationFeedback == "2" || regristrationFeedback == "3" {
-                            Text("Sorry it wasn't as good as we hopped, we will work to do better!")
+                            Text("Sorry it wasn't as good as we hoped, we will work to do better!")
                                 .lineLimit(3)
                                 .fixedSize(horizontal: false, vertical: true)
                                 .foregroundStyle(.blue)
@@ -234,6 +235,7 @@ struct HotelRegistrationScreen: View {
                         checkOutDate = Date()
                         lengthOfStay = 1
                         numberOfGuests = 1
+                        regristrationFeedback = "5"
                         nonSmoking = false
                         
                         isSubmitted = false
