@@ -155,6 +155,7 @@ struct ShieldStation: View {
     @Environment(ShipComputer.self) private var ship
     @State private var shieldsCost = 0
     @State var inChair: Bool = false
+    @State private var maxShieldPower = 10
     
     var body: some View {
         HStack {

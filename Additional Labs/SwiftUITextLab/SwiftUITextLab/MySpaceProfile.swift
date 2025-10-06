@@ -135,6 +135,7 @@ When I think about the name Ezra, I see it as a bridge between the past and the 
 
                 )
             }
+            .padding()
         }
     }
 }

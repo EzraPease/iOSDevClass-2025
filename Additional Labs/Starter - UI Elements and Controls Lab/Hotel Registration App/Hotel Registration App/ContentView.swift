@@ -37,6 +37,7 @@ struct HotelRegistrationScreen: View {
     @State private var codeIsHidden = true
     @State private var codeIsDisabled = false
     
+
     
     var body: some View {
         
@@ -76,6 +77,7 @@ struct HotelRegistrationScreen: View {
                     TextField("", text: $firstName, prompt: Text("First Name").font(.custom("Rockwell", size: 20)), axis: .horizontal)
                         .padding()
                         .textFieldStyle(.roundedBorder)
+                        .tint(.white)
                         .disabled(isSubmitted)
                     
                     TextField("", text: $lastName, prompt: Text("Last Name").font(.custom("Rockwell", size: 20)), axis: .horizontal)
