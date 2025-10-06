@@ -39,6 +39,7 @@ struct HotelRegistrationScreen: View {
     @State private var showValidation = false
     @Environment(\.colorScheme) private var colorScheme
     
+    private let doorCodeMaxLength = 6
     private var firstNameTrimmed: String { firstName.trimmingCharacters(in: .whitespacesAndNewlines)}
     private var lastNameTrimmed: String { lastName.trimmingCharacters(in: .whitespacesAndNewlines)}
     private var doorCodeTrimmed: String { doorCode.trimmingCharacters(in: .whitespacesAndNewlines)}
@@ -50,7 +51,7 @@ struct HotelRegistrationScreen: View {
         !doorCodeTrimmed.isEmpty &&
         !Calendar.current.isDateInToday(checkOutDate)
     }
-
+    
     
     var body: some View {
         
@@ -108,6 +109,10 @@ struct HotelRegistrationScreen: View {
                             .foregroundStyle(isDarkMode ? .white : .black)
                             .padding()
                             .disabled(isSubmitted)
+                            .onChange(of: doorCode) { oldValue, newValue in
+                                let filtered = newValue.filter { $0.isNumber }
+                                doorCode = String(filtered.prefix(doorCodeMaxLength))
+                            }
                         
                         
                         Button("Show Code") {
@@ -121,7 +126,11 @@ struct HotelRegistrationScreen: View {
                             .textFieldStyle(.roundedBorder)
                             .padding()
                             .disabled(isSubmitted)
-
+                            .onChange(of: doorCode) { oldValue, newValue in
+                                let filtered = newValue.filter { $0.isNumber }
+                                doorCode = String(filtered.prefix(doorCodeMaxLength))
+                            }
+                        
                         
                         
                         Button("Hide Code") {
@@ -155,16 +164,16 @@ struct HotelRegistrationScreen: View {
                 .glassEffect()
                 .padding()
                 .disabled(isSubmitted)
-//                Stepper("Staying for \(lengthOfStay) day(s)", //Length of stay code
-//                        value: $lengthOfStay,
-//                        in: 1...30,
-//                        step: 1)
-//                .font(.custom("Rockwell", size: 18))
-//                .frame(maxWidth: .infinity)
-//                .padding()
-//                .glassEffect()
-//                .padding()
-//                .disabled(isSubmitted)
+                //                Stepper("Staying for \(lengthOfStay) day(s)", //Length of stay code
+                //                        value: $lengthOfStay,
+                //                        in: 1...30,
+                //                        step: 1)
+                //                .font(.custom("Rockwell", size: 18))
+                //                .frame(maxWidth: .infinity)
+                //                .padding()
+                //                .glassEffect()
+                //                .padding()
+                //                .disabled(isSubmitted)
                 
                 Stepper("Number of Guests: \(numberOfGuests)",
                         value: $numberOfGuests,
@@ -268,10 +277,6 @@ struct HotelRegistrationScreen: View {
                     .glassEffect()
                     .padding()
                 }
-                
-                
-                
-                
             }
             Spacer()
         }
