@@ -36,9 +36,20 @@ struct HotelRegistrationScreen: View {
     @State private var checkOutDate = Date()
     @State private var codeIsHidden = true
     @State private var codeIsDisabled = false
+    @State private var showValidation = false
     @Environment(\.colorScheme) private var colorScheme
     
+    private var firstNameTrimmed: String { firstName.trimmingCharacters(in: .whitespacesAndNewlines)}
+    private var lastNameTrimmed: String { lastName.trimmingCharacters(in: .whitespacesAndNewlines)}
+    private var doorCodeTrimmed: String { doorCode.trimmingCharacters(in: .whitespacesAndNewlines)}
+    
     var isDarkMode: Bool { colorScheme == .dark }
+    var canSubmit: Bool {
+        !firstNameTrimmed.isEmpty &&
+        !lastNameTrimmed.isEmpty &&
+        !doorCodeTrimmed.isEmpty &&
+        !Calendar.current.isDateInToday(checkOutDate)
+    }
 
     
     var body: some View {
@@ -110,7 +121,7 @@ struct HotelRegistrationScreen: View {
                             .textFieldStyle(.roundedBorder)
                             .padding()
                             .disabled(isSubmitted)
-                            .disabled(codeIsDisabled)
+
                         
                         
                         Button("Hide Code") {
@@ -212,9 +223,21 @@ struct HotelRegistrationScreen: View {
                 
                 Spacer()
                 
+                if showValidation {
+                    Text("Please input: First Name, Last Name, Code, and Checkout Date")
+                        .foregroundStyle(.red)
+                        .bold()
+                }
+                
                 if !isSubmitted {
                     Button("Submit") {
+                        guard canSubmit else {
+                            showValidation = true
+                            return
+                        }
+                        
                         isSubmitted = true
+                        showValidation = false
                     }
                     .padding()
                     .glassEffect()
