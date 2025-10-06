@@ -16,61 +16,54 @@ import SwiftUI
 
 
 struct SpaceshipScreen: View {
+    @Environment(\.colorScheme) private var colorScheme
     @State private var myShip = ShipComputer()
     
+    var isDarkMode: Bool { colorScheme == .dark }
+    
     var body: some View {
+        
+        let sectionGradient = RadialGradient(
+            colors: colorScheme == .dark ? [.white, .gray] : [.gray, .white],
+            center: .topLeading,
+            startRadius: 5,
+            endRadius: 75)
         
         Form {
             Section("Helm Station") {
                 HelmStation()
-                    .foregroundStyle(.black)
+                    .foregroundStyle(isDarkMode ? .white : .black)
             }
-            .foregroundStyle(RadialGradient(
-                colors: [.gray, .white],
-                center: .topLeading,
-                startRadius: 5,
-                endRadius: 75))
+            .foregroundStyle(sectionGradient)
             
             Section("Weapons Station") {
                 WeaponsStation()
-                    .foregroundStyle(.black)
-
-                }
-            .foregroundStyle(RadialGradient(
-                colors: [.gray, .white],
-                center: .topLeading,
-                startRadius: 5,
-                endRadius: 75))
-
+                    .foregroundStyle(isDarkMode ? .white : .black)
+                
+            }
+            .foregroundStyle(sectionGradient)
+            
             
             Section("Shield Station") {
                 ShieldStation()
-                    .foregroundStyle(.black)
+                    .foregroundStyle(isDarkMode ? .white : .black)
             }
-            .foregroundStyle(RadialGradient(
-                colors: [.gray, .white],
-                center: .topLeading,
-                startRadius: 5,
-                endRadius: 75))
+            .foregroundStyle(sectionGradient)
             
             Section("Engine Station") {
                 EngineStation()
-                    .foregroundStyle(.black)
+                    .foregroundStyle(isDarkMode ? .white : .black)
             }
-            .foregroundStyle(RadialGradient(
-                colors: [.gray, .white],
-                center: .topLeading,
-                startRadius: 5,
-                endRadius: 75))
+            .foregroundStyle(sectionGradient)
             
             Text("Available Power: \(myShip.availablePower)")
                 .bold()
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .listRowBackground(RadialGradient(
-                    colors: [.gray, .white],
+                    colors: isDarkMode ? [.gray, .black] : [.gray, .white],
                     center: .bottomLeading,
-                    startRadius: 5,
-                    endRadius: 200))
+                    startRadius: isDarkMode ? 30 : 5,
+                    endRadius: 250))
         }
         .scrollContentBackground(.hidden)
         .background(RadialGradient(
