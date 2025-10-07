@@ -82,6 +82,7 @@ struct HotelRegistrationScreen: View {
                 Spacer()
                 
                 Text("Welcome!")
+                    .padding(5)
                     .font(.custom("Rockwell", size: 20))
                     .foregroundStyle(.text)
                 
