@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct DetailedMoviesView: View {
+    
+    @Binding var movie: Movie
+    
     var body: some View {
         VStack {
             Image(systemName: "globe")
@@ -19,6 +22,3 @@ struct DetailedMoviesView: View {
     }
 }
 
-#Preview {
-    DetailedMoviesView()
-}

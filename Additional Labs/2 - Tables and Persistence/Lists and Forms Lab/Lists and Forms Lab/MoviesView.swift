@@ -32,7 +32,7 @@ struct MoviesView: View {
     var body: some View {
         List {
             Section {
-                ForEach(movies) { movie in
+                ForEach($movies) { $movie in
                     
                     HStack {
                         VStack(alignment: .leading) {
@@ -45,9 +45,10 @@ struct MoviesView: View {
                                 .font(.footnote)
                                 .foregroundStyle(.gray)
                             
-                        }
-                        NavigationLink(destination: DetailedMoviesView()) {
                             
+                        }
+                        NavigationLink(destination: DetailedMoviesView(movie: $movie)) {
+                            Label("", systemImage: "")
                         }
                         .padding(.horizontal)
                     }
