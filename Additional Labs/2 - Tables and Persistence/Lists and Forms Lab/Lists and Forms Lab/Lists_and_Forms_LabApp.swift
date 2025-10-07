@@ -11,7 +11,8 @@ import SwiftUI
 struct Lists_and_Forms_LabApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            DetailedMoviesView()
+            MoviesView()
         }
     }
 }
