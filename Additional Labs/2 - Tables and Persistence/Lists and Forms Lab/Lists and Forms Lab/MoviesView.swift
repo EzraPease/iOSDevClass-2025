@@ -33,14 +33,15 @@ struct MoviesView: View {
     var body: some View {
         NavigationStack {
             VStack{
-                List(movies) { movie in
+                List($movies) { $movie in
                     NavigationLink {
-                        DetailedMoviesView(movie: $movies)
+                        DetailedMoviesView(movie: $movie)
                     } label: {
                         Text(movie.name)
                     }
                 }
             }
+            .navigationTitle("Movies")
         }
     }
 }

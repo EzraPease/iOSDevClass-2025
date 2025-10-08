@@ -13,12 +13,24 @@ struct DetailedMoviesView: View {
     
     var body: some View {
         VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+            Form {
+                Section("Title") {
+                    TextField("Movie Name", text: $movie.name)
+                }
+                
+                Section("Duration") {
+                    TextField("Hours", text: $movie.movieHours)
+                        .keyboardType(.numberPad)
+                    
+                    TextField("Minutes", text: $movie.movieMinutes)
+                        .keyboardType(.numberPad)
+                }
+                
+                Section("Release Date - (YYYY-MM-DD)") {
+                    TextField("Release Date", text: $movie.releaseDate)
+                }
+            }
         }
-        .padding()
     }
 }
 
