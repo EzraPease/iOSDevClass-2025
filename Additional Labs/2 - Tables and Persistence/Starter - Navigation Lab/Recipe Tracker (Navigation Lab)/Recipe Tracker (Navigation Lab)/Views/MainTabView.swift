@@ -11,7 +11,14 @@ struct MainTabView: View {
     var body: some View {
         TabView {
             MyRecipesScreen()
+                .tabItem {
+                    Label("My Recipies", systemImage: "folder")
+                }
+            
             DiscoverScreen()
+                .tabItem {
+                    Label("Discover Recipies", systemImage: "globe")
+                }
         }
     }
 }
