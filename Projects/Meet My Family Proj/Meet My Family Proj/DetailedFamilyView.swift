@@ -15,7 +15,15 @@ struct DetailedFamilyView: View {
         VStack {
             List {
                 Section("Name"){
-                    Text(family.firstName)
+                    Text("\(family.firstName) \(family.lastName)")
+                }
+                
+                Section("Age") {
+                    Text(family.age)
+                }
+                
+                Section("Fun Fact") {
+                    Text(family.funFact)
                 }
             }
         }

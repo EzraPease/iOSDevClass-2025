@@ -48,6 +48,13 @@ struct FamilyListView: View {
                             if family.wasViewed {
                                 Text("✅")
                             }
+                            
+                            Spacer()
+                            
+                            Image(family.firstName)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 32, height: 32)
                         }
                     }
                         .navigationTitle("My Family")
