@@ -9,11 +9,16 @@ import SwiftUI
 
 struct WelcomeView: View {
     var body: some View {
-        Text("Welcome!")
         NavigationStack {
-            NavigationLink(FamilyListView())
-        } label: {
-            Text("Meet my Family")
+            NavigationLink { FamilyListView()
+            } label: {
+                VStack {
+                    Text("Welcome,")
+                    Text("Meet my Family")
+                }
+                .font(.largeTitle)
+                .bold()
+            }
         }
     }
 }
