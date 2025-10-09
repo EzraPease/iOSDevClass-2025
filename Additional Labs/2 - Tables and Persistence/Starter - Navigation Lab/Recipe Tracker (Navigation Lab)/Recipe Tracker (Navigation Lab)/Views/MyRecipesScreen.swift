@@ -30,6 +30,7 @@ struct MyRecipesScreen: View {
             .sheet(isPresented: $showingAddRecipe) {
                     AddRecipeSheet(recipes: $recipes)
             }
+            .navigationTitle("Recipes")
         }
     }
 }
