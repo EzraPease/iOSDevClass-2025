@@ -19,7 +19,7 @@ struct MyFamily: Identifiable {
 
 struct FamilyListView: View {
     
-    @State private var showingFamilyDetails = false
+    @State private var selectedFamily: MyFamily?
     
     @State private var myFamilyList: [MyFamily] = [
         MyFamily(firstName: "Michael", age: "46", funFact: "Loves woodworking and makes custom furniture."),
@@ -40,9 +40,10 @@ struct FamilyListView: View {
         NavigationStack {
             VStack {
                 List($myFamilyList) { $family in
-                    Button(action: {
-                        showingFamilyDetails = true
-                        family.wasViewed = true }) {
+                    Button {
+                        selectedFamily = family
+                        family.wasViewed = true
+                    } label: {
                         HStack {
                             Text(family.firstName)
                             if family.wasViewed {
@@ -57,12 +58,12 @@ struct FamilyListView: View {
                                 .frame(width: 32, height: 32)
                         }
                     }
-                        .navigationTitle("My Family")
-                        .sheet(isPresented: $showingFamilyDetails) {
-                            DetailedFamilyView(family: family)
-                        }
+                    }
                 }
+            .sheet(item: $selectedFamily) { family in
+                DetailedFamilyView(family: family)
             }
+            .navigationTitle("My Family")
         }
     }
 }
