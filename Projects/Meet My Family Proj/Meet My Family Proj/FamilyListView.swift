@@ -34,38 +34,38 @@ struct FamilyListView: View {
         MyFamily(firstName: "Temple", age: "7", funFact: "Can identify constellations in the night sky."),
         MyFamily(firstName: "Joy", age: "5", funFact: "Collects stickers from every place she visits."),
         MyFamily(firstName: "Enoch", age: "3", funFact: "Knows all the dinosaur names.")
-        ]
+    ]
     
     var body: some View {
         NavigationStack {
-            VStack {
-                List($myFamilyList) { $family in
-                    Button {
-                        selectedFamily = family
-                        family.wasViewed = true
-                    } label: {
-                        HStack {
-                            Text(family.firstName)
-                            if family.wasViewed {
-                                Text("✅")
+                VStack {
+                    List($myFamilyList) { $family in
+                        Button {
+                            selectedFamily = family
+                            family.wasViewed = true
+                        } label: {
+                            HStack {
+                                Text(family.firstName)
+                                if family.wasViewed {
+                                    Text("✅")
+                                }
+                                
+                                Spacer()
+                                
+                                Image(family.firstName)
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 32, height: 32)
                             }
-                            
-                            Spacer()
-                            
-                            Image(family.firstName)
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 32, height: 32)
                         }
                     }
-                    }
                 }
-            .sheet(item: $selectedFamily) { family in
-                DetailedFamilyView(family: family)
+                .sheet(item: $selectedFamily) { family in
+                    DetailedFamilyView(family: family)
+                }
+                .navigationTitle("My Family")
             }
-            .navigationTitle("My Family")
         }
-    }
 }
 
 #Preview {
