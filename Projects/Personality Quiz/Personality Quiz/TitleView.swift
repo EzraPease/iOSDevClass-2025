@@ -25,7 +25,7 @@ struct TitleView: View {
                         .padding()
                     
                     NavigationLink {
-                        SingleQuestionSubview()
+                        QuestionFlowView.SingleQuestionSubview()
                     } label: {
                         Text("Begin Quiz")
                             .padding()
