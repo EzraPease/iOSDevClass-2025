@@ -39,9 +39,21 @@ class QuizManager {
             answers: [
                 Answer(text: "Go out with friends", type: .SE),
                 Answer(text: "Watch or play something alone", type: .thirteenPro),
-                Answer(text: "Work on a hobby or project", type: .XR)
+                Answer(text: "Work on a hobby or project", type: .XR),
+                Answer(text: "Play some video games", type: .XR)
             ]
         ),
+        
+        Question(text: "On a scale fro 1-5, how often do you use an iphone?",
+                 type: .ranged,
+                 answers: [
+                    Answer(text: "1 - Whats an iPhone?", type: .samsungGalaxyNote7),
+                    Answer(text: "2 - I mean... I've held one before", type: .SE),
+                    Answer(text: "3 - I use one on occasion, but not all that much", type: .SE),
+                    Answer(text: "4 - I use one on a pretty regular basis, but not all the time", type: .thirteenPro),
+                    Answer(text: "5 - I use them all day every day", type: .XR)
+                 ]
+                ),
         
         Question(
             text: "When making a big decision, you rely on… (Select all that apply)",
@@ -54,18 +66,8 @@ class QuizManager {
                 Answer(text: "Whatever feels right in the moment", type: .SE)
             ]
             
-        ),
+        )
         
-        Question(text: "On a scale fro 1-5, how often do you use an iphone?",
-                 type: .ranged,
-                 answers: [
-                    Answer(text: "1 - Whats an iPhone?", type: .samsungGalaxyNote7),
-                    Answer(text: "2 - I mean... I've held one before", type: .SE),
-                    Answer(text: "3 - I use one on occasion, but not all that much", type: .SE),
-                    Answer(text: "4 - I use one on a pretty regular basis, but not all the time", type: .thirteenPro),
-                    Answer(text: "5 - I use them all day every day", type: .XR)
-                 ]
-                )
     ]
     
     var currentQuestion: Int = 0
@@ -122,82 +124,95 @@ struct SingleQuestionSubview: View {
             return true
         }
     }
-    @State private var wasOn1 = false
-    @State private var wasOn2 = false
-    @State private var wasOn3 = false
-    @State private var wasOn4 = false
+    
+    @State private var selectedAnswer: Int = 0
     
     var body: some View {
-        List {
-            Toggle(isOn: $questionOneIsOn) {
-                Text("Question 1")
-                    .font(.title3)
-                    .bold()
-                    .onChange(of: questionOneIsOn) { oldValue, newValue in
-                        if newValue {
-                            questionTwoIsOn = false
-                            questionThreeIsOn = false
-                            questionFourIsOn = false
-                            
-                            wasOn1 = true
+        VStack {
+            Text(quiz.questionList[quiz.currentQuestion].text)
+                .font(.largeTitle)
+                .bold()
+                .padding()
+            List {
+                Toggle(isOn: $questionOneIsOn) {
+                    Text(quiz.questionList[quiz.currentQuestion].answers[0].text)
+                        .font(.title3)
+                        .bold()
+                        .onChange(of: questionOneIsOn) { oldValue, newValue in
+                            if newValue {
+                                questionTwoIsOn = false
+                                questionThreeIsOn = false
+                                questionFourIsOn = false
+                                
+//                                wasOn1 = true
+                                
+                                selectedAnswer = 0
+                            }
                         }
-                    }
-            }
-            .padding()
-            Toggle(isOn: $questionTwoIsOn) {
-                Text("Question 2")
-                    .font(.title3)
-                    .bold()
-                    .onChange(of: questionTwoIsOn) { oldValue, newValue in
-                        if newValue {
-                            questionOneIsOn = false
-                            questionThreeIsOn = false
-                            questionFourIsOn = false
-                            
-                            wasOn2 = true
+                }
+                .padding()
+                Toggle(isOn: $questionTwoIsOn) {
+                    Text(quiz.questionList[quiz.currentQuestion].answers[1].text)
+                        .font(.title3)
+                        .bold()
+                        .onChange(of: questionTwoIsOn) { oldValue, newValue in
+                            if newValue {
+                                questionOneIsOn = false
+                                questionThreeIsOn = false
+                                questionFourIsOn = false
+                                
+//                                wasOn2 = true
+                                
+                                selectedAnswer = 1
+                            }
+                            if oldValue {
+                                
+                            }
                         }
-                        if oldValue {
-                            
+                }
+                .padding()
+                Toggle(isOn: $questionThreeIsOn) {
+                    Text(quiz.questionList[quiz.currentQuestion].answers[2].text)
+                        .font(.title3)
+                        .bold()
+                        .onChange(of: questionThreeIsOn) { oldValue, newValue in
+                            if newValue {
+                                questionOneIsOn = false
+                                questionTwoIsOn = false
+                                questionFourIsOn = false
+                                
+//                                wasOn3 = true
+                                
+                                selectedAnswer = 2
+                            }
                         }
-                    }
-            }
-            .padding()
-            Toggle(isOn: $questionThreeIsOn) {
-                Text("Question 3")
-                    .font(.title3)
-                    .bold()
-                    .onChange(of: questionThreeIsOn) { oldValue, newValue in
-                        if newValue {
-                            questionOneIsOn = false
-                            questionTwoIsOn = false
-                            questionFourIsOn = false
-                            
-                            wasOn3 = true
+                }
+                .padding()
+                Toggle(isOn: $questionFourIsOn) {
+                    Text(quiz.questionList[quiz.currentQuestion].answers[3].text)
+                        .font(.title3)
+                        .bold()
+                        .onChange(of: questionFourIsOn) { oldValue, newValue in
+                            if newValue {
+                                questionOneIsOn = false
+                                questionTwoIsOn = false
+                                questionThreeIsOn = false
+                                
+//                                wasOn4 = true
+                                
+                                selectedAnswer = 3
+                            }
                         }
-                    }
-            }
-            .padding()
-            Toggle(isOn: $questionFourIsOn) {
-                Text("Question 4")
-                    .font(.title3)
-                    .bold()
-                    .onChange(of: questionFourIsOn) { oldValue, newValue in
-                        if newValue {
-                            questionOneIsOn = false
-                            questionTwoIsOn = false
-                            questionThreeIsOn = false
-                            
-                            wasOn4 = true
+                }
+                .padding()
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        Button("Next") {
+                            quiz.currentQuestion += 1
+                            quiz.selectedAnswers.append(quiz.questionList[quiz.currentQuestion].answers[selectedAnswer].type)
                         }
+                        .disabled(cannotContinue)
                     }
-            }
-            .padding()
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Next") {
-                        quiz.currentQuestion += 1
-                    }
-                    .disabled(cannotContinue)
                 }
             }
         }
@@ -212,22 +227,32 @@ struct RangedQuestionSubview: View {
     
     var body: some View {
         VStack {
-            Text("On a scale from 1-10... How often do you use an iPhone?")
+            Text(quiz.questionList[quiz.currentQuestion].text)
                 .font(.largeTitle)
                 .bold()
             Text("\(Int(rangedSlider))")
-            Slider(value: $rangedSlider, in: 0...10)
+            Slider(value: $rangedSlider, in: 0...5)
                 .padding()
                 .toolbar {
                     ToolbarItem(placement: .navigationBarTrailing) {
                         Button("Next") {
                             quiz.currentQuestion += 1
+//                            quiz.selectedAnswers.append()
                         }
                     }
                 }
                 .padding()
                 .background(.fill)
                 .clipShape(RoundedRectangle(cornerRadius: 40))
+                .navigationBarBackButtonHidden(true)
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarLeading) {
+                        Button("", systemImage: "chevron.backward") {
+                            quiz.selectedAnswers.removeLast()
+                            quiz.currentQuestion -= 1
+                        }
+                    }
+                }
         }
         .padding()
     }
@@ -277,6 +302,12 @@ struct MultipleQuestionSubview: View {
     }
 }
 
+struct ResultsView: View {
+    var body: some View {
+        Text("Results View")
+    }
+}
+
 #Preview {
-    TitleView()
+    QuestionFlowView()
 }
