@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct TitleView: View {
+    @State var quizManager = QuizManager()
     var body: some View {
         NavigationStack {
                 VStack {
@@ -25,7 +26,7 @@ struct TitleView: View {
                         .padding()
                     
                     NavigationLink {
-                        QuestionFlowView()
+                        QuestionFlowView(question: quizManager.questionList.first!)
                     } label: {
                         Text("Begin Quiz")
                             .padding()
@@ -36,6 +37,7 @@ struct TitleView: View {
                     }
                 }
         }
+        .environment(quizManager)
     }
 }
 

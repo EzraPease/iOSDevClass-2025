@@ -9,7 +9,11 @@ import SwiftUI
 
 
 
-struct Question {
+struct Question: Equatable {
+    static func == (lhs: Question, rhs: Question) -> Bool {
+        lhs.text == rhs.text
+    }
+    
     var text: String
     var type: ResponseType
     var answers: [Answer]
@@ -70,7 +74,7 @@ class QuizManager {
         
     ]
     
-    var currentQuestion: Int = 0
+    var currentQuestionIndex: Int = 0 // Decides which subview to show
     var selectedAnswers: [phoneType] = []
     
     
@@ -79,36 +83,48 @@ class QuizManager {
     }
     
     func removeSelectedAnswer() {
-        guard selectedAnswers.count >= currentQuestion else { return }
+        guard selectedAnswers.count >= currentQuestionIndex else { return }
         
-        selectedAnswers.remove(at: currentQuestion)
+        selectedAnswers.remove(at: currentQuestionIndex)
     }
 }
 
 
 
 struct QuestionFlowView: View {
-    @State var quizManager = QuizManager()
+    @Environment(QuizManager.self) var quizManager
+    let question: Question
     
     var body: some View {
-        NavigationStack {
-            Group {
-                switch quizManager.currentQuestion {
-                case 0:
-                    SingleQuestionSubview()
-                case 1:
-                    RangedQuestionSubview()
-                case 2:
-                    MultipleQuestionSubview()
-                case 3:
-                    ResultsView()
-                default:
-                    TitleView()
+        VStack {
+            switch question.type {
+            case .single:
+                SingleQuestionSubview(question: question)
+            case .multiple:
+                MultipleQuestionSubview(question: question)
+            case .ranged:
+                RangedQuestionSubview(question: question)
+            }
+        }
+        .onAppear {
+            quizManager.currentQuestionIndex = quizManager.questionList.firstIndex(of: question) ?? 0
+        }
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                NavigationLink("Next") {
+                    QuestionFlowView(question: quizManager.questionList[quizManager.currentQuestionIndex + 1]) // NEED TO FIX - NEED TO ADD A CHECK TO SHOW RESULT VIEW INSTEAD IF IT GOES OUT OF RANGE
                 }
             }
-            .environment(quizManager)
         }
-    }
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button("", systemImage: "chevron.backward") {
+                    quizManager.removeSelectedAnswer()
+                    quizManager.currentQuestionIndex -= 1
+                }
+            }
+        }
+}
 }
 
 struct SingleQuestionSubview: View {
@@ -125,17 +141,19 @@ struct SingleQuestionSubview: View {
         }
     }
     
+    let question: Question
+    
     @State private var selectedAnswer: Int = 0
     
     var body: some View {
         VStack {
-            Text(quiz.questionList[quiz.currentQuestion].text)
+            Text(question.text)
                 .font(.largeTitle)
                 .bold()
                 .padding()
             List {
                 Toggle(isOn: $questionOneIsOn) {
-                    Text(quiz.questionList[quiz.currentQuestion].answers[0].text)
+                    Text(question.answers[0].text)
                         .font(.title3)
                         .bold()
                         .onChange(of: questionOneIsOn) { oldValue, newValue in
@@ -144,15 +162,13 @@ struct SingleQuestionSubview: View {
                                 questionThreeIsOn = false
                                 questionFourIsOn = false
                                 
-//                                wasOn1 = true
-                                
                                 selectedAnswer = 0
                             }
                         }
                 }
                 .padding()
                 Toggle(isOn: $questionTwoIsOn) {
-                    Text(quiz.questionList[quiz.currentQuestion].answers[1].text)
+                    Text(question.answers[1].text)
                         .font(.title3)
                         .bold()
                         .onChange(of: questionTwoIsOn) { oldValue, newValue in
@@ -160,8 +176,6 @@ struct SingleQuestionSubview: View {
                                 questionOneIsOn = false
                                 questionThreeIsOn = false
                                 questionFourIsOn = false
-                                
-//                                wasOn2 = true
                                 
                                 selectedAnswer = 1
                             }
@@ -172,7 +186,7 @@ struct SingleQuestionSubview: View {
                 }
                 .padding()
                 Toggle(isOn: $questionThreeIsOn) {
-                    Text(quiz.questionList[quiz.currentQuestion].answers[2].text)
+                    Text(question.answers[2].text)
                         .font(.title3)
                         .bold()
                         .onChange(of: questionThreeIsOn) { oldValue, newValue in
@@ -181,15 +195,13 @@ struct SingleQuestionSubview: View {
                                 questionTwoIsOn = false
                                 questionFourIsOn = false
                                 
-//                                wasOn3 = true
-                                
                                 selectedAnswer = 2
                             }
                         }
                 }
                 .padding()
                 Toggle(isOn: $questionFourIsOn) {
-                    Text(quiz.questionList[quiz.currentQuestion].answers[3].text)
+                    Text(question.answers[3].text)
                         .font(.title3)
                         .bold()
                         .onChange(of: questionFourIsOn) { oldValue, newValue in
@@ -198,22 +210,14 @@ struct SingleQuestionSubview: View {
                                 questionTwoIsOn = false
                                 questionThreeIsOn = false
                                 
-//                                wasOn4 = true
-                                
                                 selectedAnswer = 3
                             }
                         }
                 }
+                //                .onDisappear {
+                //                    quiz.selectAnswer(questionList[currentQuestionIndex].answers[selectedAnswer].type)
+                //                }
                 .padding()
-                .toolbar {
-                    ToolbarItem(placement: .navigationBarTrailing) {
-                        Button("Next") {
-                            quiz.currentQuestion += 1
-                            quiz.selectedAnswers.append(quiz.questionList[quiz.currentQuestion].answers[selectedAnswer].type)
-                        }
-                        .disabled(cannotContinue)
-                    }
-                }
             }
         }
     }
@@ -225,34 +229,20 @@ struct RangedQuestionSubview: View {
     @Environment(QuizManager.self) var quiz
     @State private var rangedSlider: Double = 0
     
+    let question: Question
+    
     var body: some View {
         VStack {
-            Text(quiz.questionList[quiz.currentQuestion].text)
+            Text(question.text)
                 .font(.largeTitle)
                 .bold()
-            Text("\(Int(rangedSlider))")
-            Slider(value: $rangedSlider, in: 0...5)
+            Text(question.answers[Int(rangedSlider)].text)
                 .padding()
-                .toolbar {
-                    ToolbarItem(placement: .navigationBarTrailing) {
-                        Button("Next") {
-                            quiz.currentQuestion += 1
-//                            quiz.selectedAnswers.append()
-                        }
-                    }
-                }
+            Slider(value: $rangedSlider, in: 0...4.9)
+                .padding()
                 .padding()
                 .background(.fill)
                 .clipShape(RoundedRectangle(cornerRadius: 40))
-                .navigationBarBackButtonHidden(true)
-                .toolbar {
-                    ToolbarItem(placement: .navigationBarLeading) {
-                        Button("", systemImage: "chevron.backward") {
-                            quiz.selectedAnswers.removeLast()
-                            quiz.currentQuestion -= 1
-                        }
-                    }
-                }
         }
         .padding()
     }
@@ -268,34 +258,33 @@ struct MultipleQuestionSubview: View {
     @State private var isOn4 = false
     @State private var isOn5 = false
     
+    let question: Question
+    
     var body: some View {
-        Text("Which prompt best describes you?")
+        Text(question.text)
             .font(.largeTitle)
             .bold()
         
         List {
-            Toggle(isOn: $isOn1) {
-                Text("I prefer working in a team rather than alone")
-            }
-            Toggle(isOn: $isOn2) {
-                Text("I make decisions based on data more than intuition")
-            }
-            Toggle(isOn: $isOn3) {
-                Text("I enjoy trying new activities outside my comfort zone")
-            }
-            Toggle(isOn: $isOn4) {
-                Text("I like to plan everything in advance")
-            }
-            Toggle(isOn: $isOn5) {
-                Text("I stay calm and collected under pressure")
-            }
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Next") {
-                        quiz.currentQuestion += 1
-                    }
+            Group {
+                Toggle(isOn: $isOn1) {
+                    Text(question.answers[0].text)
+                }
+                Toggle(isOn: $isOn2) {
+                    Text(question.answers[1].text)
+                }
+                Toggle(isOn: $isOn3) {
+                    Text(question.answers[2].text)
+                }
+                Toggle(isOn: $isOn4) {
+                    Text(question.answers[3].text)
+                }
+                Toggle(isOn: $isOn5) {
+                    Text(question.answers[4].text)
                 }
             }
+            .padding()
+            .bold()
         }
         .background(.fill)
         .clipShape(RoundedRectangle(cornerRadius: 40))
@@ -309,5 +298,7 @@ struct ResultsView: View {
 }
 
 #Preview {
-    QuestionFlowView()
+    @Previewable @State var quizManager = QuizManager()
+    QuestionFlowView(question: QuizManager().questionList[1])
+        .environment(quizManager)
 }
