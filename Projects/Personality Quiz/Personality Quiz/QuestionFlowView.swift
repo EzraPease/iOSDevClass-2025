@@ -48,7 +48,7 @@ class QuizManager {
             ]
         ),
         
-        Question(text: "On a scale fro 1-5, how often do you use an iphone?",
+        Question(text: "On a scale from 1-5, how often do you use an iphone?",
                  type: .ranged,
                  answers: [
                     Answer(text: "1 - Whats an iPhone?", type: .samsungGalaxyNote7),
@@ -95,6 +95,11 @@ struct QuestionFlowView: View {
     @Environment(QuizManager.self) var quizManager
     let question: Question
     
+    init(question: Question) {
+        self.question = question
+        print("init \(question.text)")
+    }
+    
     var body: some View {
         VStack {
             switch question.type {
@@ -107,7 +112,9 @@ struct QuestionFlowView: View {
             }
         }
         .onAppear {
-            quizManager.currentQuestionIndex = quizManager.questionList.firstIndex(of: question) ?? 0 // NEED TO FIX - IS SKIPPING RANGEDSUBVIEW
+            print("On appear hit \(quizManager.currentQuestionIndex)")
+            quizManager.currentQuestionIndex = quizManager.questionList.firstIndex(of: question) ?? 0
+            print("On appear after-hit \(quizManager.currentQuestionIndex)")// NEED TO FIX - IS SKIPPING RANGEDSUBVIEW
         }
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
@@ -121,14 +128,15 @@ struct QuestionFlowView: View {
                     
             }
         }
-        .toolbar {
-            ToolbarItem(placement: .navigationBarLeading) {
-                Button("", systemImage: "chevron.backward") {
-                    quizManager.removeSelectedAnswer()
-                    quizManager.currentQuestionIndex -= 1
-                }
-            }
-        }
+        
+//        .toolbar {
+//            ToolbarItem(placement: .navigationBarLeading) {
+//                Button("", systemImage: "chevron.backward") {
+//                    quizManager.removeSelectedAnswer()
+//                    quizManager.currentQuestionIndex -= 1
+//                }
+//            }
+//        }
 }
 }
 
