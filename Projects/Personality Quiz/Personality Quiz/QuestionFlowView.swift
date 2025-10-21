@@ -107,13 +107,18 @@ struct QuestionFlowView: View {
             }
         }
         .onAppear {
-            quizManager.currentQuestionIndex = quizManager.questionList.firstIndex(of: question) ?? 0
+            quizManager.currentQuestionIndex = quizManager.questionList.firstIndex(of: question) ?? 0 // NEED TO FIX - IS SKIPPING RANGEDSUBVIEW
         }
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 NavigationLink("Next") {
-                    QuestionFlowView(question: quizManager.questionList[quizManager.currentQuestionIndex + 1]) // NEED TO FIX - NEED TO ADD A CHECK TO SHOW RESULT VIEW INSTEAD IF IT GOES OUT OF RANGE
+                    if quizManager.currentQuestionIndex + 1 < 3 {
+                        QuestionFlowView(question: quizManager.questionList[quizManager.currentQuestionIndex + 1])
+                    } else {
+                        ResultsView()
+                    }
                 }
+                    
             }
         }
         .toolbar {
@@ -214,9 +219,6 @@ struct SingleQuestionSubview: View {
                             }
                         }
                 }
-                //                .onDisappear {
-                //                    quiz.selectAnswer(questionList[currentQuestionIndex].answers[selectedAnswer].type)
-                //                }
                 .padding()
             }
         }
