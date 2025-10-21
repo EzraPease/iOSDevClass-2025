@@ -261,12 +261,8 @@ struct RangedQuestionSubview: View {
 
 struct MultipleQuestionSubview: View {
     @Environment(QuizManager.self) var quiz
-    
-    @State private var isOn1 = false
-    @State private var isOn2 = false
-    @State private var isOn3 = false
-    @State private var isOn4 = false
-    @State private var isOn5 = false
+    @State private  var multipleMVVM = MultipleQuestionViewModel()
+
     
     let question: Question
     
@@ -277,19 +273,19 @@ struct MultipleQuestionSubview: View {
         
         List {
             Group {
-                Toggle(isOn: $isOn1) {
+                Toggle(isOn: $multipleMVVM.isOn1) {
                     Text(question.answers[0].text)
                 }
-                Toggle(isOn: $isOn2) {
+                Toggle(isOn: $multipleMVVM.isOn2) {
                     Text(question.answers[1].text)
                 }
-                Toggle(isOn: $isOn3) {
+                Toggle(isOn: $multipleMVVM.isOn3) {
                     Text(question.answers[2].text)
                 }
-                Toggle(isOn: $isOn4) {
+                Toggle(isOn: $multipleMVVM.isOn4) {
                     Text(question.answers[3].text)
                 }
-                Toggle(isOn: $isOn5) {
+                Toggle(isOn: $multipleMVVM.isOn5) {
                     Text(question.answers[4].text)
                 }
             }
