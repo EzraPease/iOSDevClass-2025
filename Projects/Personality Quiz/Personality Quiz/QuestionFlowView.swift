@@ -11,7 +11,7 @@ import SwiftUI
 
 
 struct QuestionFlowView: View {
-    @Environment(QuizManager.self) var quizManager
+    @Environment(QuizManager.self) var quiz
     let question: Question
     
     init(question: Question) {
@@ -31,32 +31,22 @@ struct QuestionFlowView: View {
             }
         }
         .onAppear {
-            print("On appear hit \(quizManager.currentQuestionIndex)")
-            quizManager.currentQuestionIndex = quizManager.questionList.firstIndex(of: question) ?? 0
-            print("On appear after-hit \(quizManager.currentQuestionIndex)")// NEED TO FIX - IS SKIPPING RANGEDSUBVIEW
+//            print("On appear hit \(quizManager.currentQuestionIndex)")
+            quiz.currentQuestionIndex = quiz.questionList.firstIndex(of: question) ?? 0
+//            print("On appear after-hit \(quizManager.currentQuestionIndex)")
             
-            if quizManager.selectedAnswers.count == quizManager.currentQuestionIndex {
-                
-            }
         }
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button("Next") {
-                    quizManager.navigationStack.append(quizManager.currentQuestionIndex + 1)
+                    quiz.navigationStack.append(quiz.currentQuestionIndex + 1)
+                    quiz.selectAnswer(quiz.questionList[quiz.currentQuestionIndex].answers[0].type)
                 }
-                    
+                
             }
         }
-        
-//        .toolbar {
-//            ToolbarItem(placement: .navigationBarLeading) {
-//                Button("", systemImage: "chevron.backward") {
-//                    quizManager.removeSelectedAnswer()
-//                    quizManager.currentQuestionIndex -= 1
-//                }
-//            }
-//        }
-}
+        .navigationBarBackButtonHidden(true)
+    }
 }
 
 struct SingleQuestionSubview: View {
@@ -65,17 +55,16 @@ struct SingleQuestionSubview: View {
     @State private var questionTwoIsOn = false
     @State private var questionThreeIsOn = false
     @State private var questionFourIsOn = false
-    private var cannotContinue: Bool {
-        if questionOneIsOn || questionTwoIsOn || questionThreeIsOn || questionFourIsOn {
-            return false
-        } else {
-            return true
-        }
-    }
-    
+//    private var cannotContinue: Bool {
+//        if questionOneIsOn || questionTwoIsOn || questionThreeIsOn || questionFourIsOn {
+//            return false
+//        } else {
+//            return true
+//        }
+//    }
+//    
     let question: Question
     
-    @State var selectedAnswer: Int = 0
     
     var body: some View {
         VStack {
@@ -94,7 +83,7 @@ struct SingleQuestionSubview: View {
                                 questionThreeIsOn = false
                                 questionFourIsOn = false
                                 
-                                selectedAnswer = 0
+                                
                             }
                         }
                 }
@@ -109,7 +98,7 @@ struct SingleQuestionSubview: View {
                                 questionThreeIsOn = false
                                 questionFourIsOn = false
                                 
-                                selectedAnswer = 1
+                                
                             }
                             if oldValue {
                                 
@@ -127,7 +116,7 @@ struct SingleQuestionSubview: View {
                                 questionTwoIsOn = false
                                 questionFourIsOn = false
                                 
-                                selectedAnswer = 2
+                                
                             }
                         }
                 }
@@ -142,7 +131,7 @@ struct SingleQuestionSubview: View {
                                 questionTwoIsOn = false
                                 questionThreeIsOn = false
                                 
-                                selectedAnswer = 3
+                                
                             }
                         }
                 }
@@ -181,7 +170,7 @@ struct RangedQuestionSubview: View {
 struct MultipleQuestionSubview: View {
     @Environment(QuizManager.self) var quiz
     @State private var multipleMVVM = MultipleQuestionViewModel()
-
+    
     
     let question: Question
     
@@ -221,7 +210,10 @@ struct MultipleQuestionSubview: View {
 
 struct ResultsView: View {
     var body: some View {
+        VStack {
         Text("Results View")
+    }
+            .navigationBarBackButtonHidden(true)
     }
 }
 

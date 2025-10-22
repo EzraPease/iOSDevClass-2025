@@ -43,7 +43,28 @@ struct ContentView: View {
                     }
             }
             .onAppear {
-                print("First view appeared")
+                @Environment(\.scenePhase) var scenePhase
+                .onChange(of: scenePhase) { _, newEvent in
+                    if newEvent == .inactive {
+                        eventScene.scene.append("\nApp no longer active")
+                    } else if newEvent == .active {
+                        eventScene.scene.append("\nApp now active")
+                    } else if newEvent == .background {
+                        eventScene.scene.append("\nApp backgrounded")
+                    }
+                }
+            }
+            .onDisappear() {
+                @Environment(\.scenePhase) var scenePhase
+                .onChange(of: scenePhase) { _, newEvent in
+                    if newEvent == .inactive {
+                        eventScene.scene.append("\nApp no longer active")
+                    } else if newEvent == .active {
+                        eventScene.scene.append("\nApp now active")
+                    } else if newEvent == .background {
+                        eventScene.scene.append("\nApp backgrounded")
+                    }
+                }
             }
         }
     }
@@ -62,9 +83,7 @@ struct SecondContentView: View {
                     print("SecondContentView Appeared")
                 }
         }
-        .onDisappear() {
-            print("The second view is no more")
-        }
+
     }
 }
 

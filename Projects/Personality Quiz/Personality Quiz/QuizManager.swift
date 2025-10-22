@@ -56,9 +56,14 @@ class QuizManager {
     }
     
     var selectedAnswers: [phoneType] = []
+    var subSelectedAnswerSingle: [phoneType] = []
+    var subSelectedAnswerRanged: [phoneType] = []
+    var subSelectedAnswerMulti: [phoneType] = []
+    
     
     
     func selectAnswer(_ answer: phoneType) {
+        
         selectedAnswers.append(answer)
     }
     
@@ -69,7 +74,7 @@ class QuizManager {
     }
     
     func calculateResults() {
-        
+       
     }
 }
 
