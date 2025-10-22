@@ -36,6 +36,8 @@ enum phoneType {
 
 @Observable
 class QuizManager {
+    var navigationStack: [Int] = []
+    
     let questionList: [Question] = [
         Question(
             text: "When you have free time, what do you usually do first?",
@@ -74,7 +76,12 @@ class QuizManager {
         
     ]
     
-    var currentQuestionIndex: Int = 0 // Decides which subview to show
+    var currentQuestionIndex: Int = 0 {
+        didSet {
+            print("currentQuestionIndex didSet: \(currentQuestionIndex)")
+        }
+    }
+    
     var selectedAnswers: [phoneType] = []
     
     
@@ -118,12 +125,8 @@ struct QuestionFlowView: View {
         }
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
-                NavigationLink("Next") {
-                    if quizManager.currentQuestionIndex + 1 < 3 {
-                        QuestionFlowView(question: quizManager.questionList[quizManager.currentQuestionIndex + 1])
-                    } else {
-                        ResultsView()
-                    }
+                Button("Next") {
+                    quizManager.navigationStack.append(quizManager.currentQuestionIndex + 1)
                 }
                     
             }
@@ -261,7 +264,7 @@ struct RangedQuestionSubview: View {
 
 struct MultipleQuestionSubview: View {
     @Environment(QuizManager.self) var quiz
-    @State private  var multipleMVVM = MultipleQuestionViewModel()
+    @State private var multipleMVVM = MultipleQuestionViewModel()
 
     
     let question: Question
@@ -294,6 +297,9 @@ struct MultipleQuestionSubview: View {
         }
         .background(.fill)
         .clipShape(RoundedRectangle(cornerRadius: 40))
+        .onAppear {
+            multipleMVVM.quiz = quiz
+        }
     }
 }
 
@@ -305,6 +311,6 @@ struct ResultsView: View {
 
 #Preview {
     @Previewable @State var quizManager = QuizManager()
-    QuestionFlowView(question: QuizManager().questionList[1])
+    QuestionFlowView(question: QuizManager().questionList[2])
         .environment(quizManager)
 }

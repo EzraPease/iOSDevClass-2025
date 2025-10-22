@@ -9,9 +9,11 @@ import SwiftUI
 
 
 @Observable class MultipleQuestionViewModel {
-    @State var isOn1 = false
-    @State var isOn2 = false
-    @State var isOn3 = false
-    @State var isOn4 = false
-    @State var isOn5 = false
+    var quiz: QuizManager?
+    
+    var isOn1 = false
+    var isOn2 = false
+    var isOn3 = false
+    var isOn4 = false
+    var isOn5 = false
 }
