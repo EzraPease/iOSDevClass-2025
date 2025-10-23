@@ -16,4 +16,14 @@ import SwiftUI
     var isOn3 = false
     var isOn4 = false
     var isOn5 = false
+    
+    func insertValue(answerNumber index: Int) {
+        quiz?.subSelectedAnswerMulti.append(quiz!.questionList[2].answers[index].type)
+    }
+    
+    func removeValue(value index: Int) {
+        if let valueCheck = quiz?.subSelectedAnswerMulti.firstIndex(of: quiz!.questionList[2].answers[index].type) {
+            quiz?.subSelectedAnswerMulti.remove(at: valueCheck)
+        }
+    }
 }

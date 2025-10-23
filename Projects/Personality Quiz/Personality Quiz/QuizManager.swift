@@ -55,26 +55,61 @@ class QuizManager {
         }
     }
     
-    var selectedAnswers: [phoneType] = []
+//    var selectedAnswers: [phoneType] = []
     var subSelectedAnswerSingle: [phoneType] = []
     var subSelectedAnswerRanged: [phoneType] = []
     var subSelectedAnswerMulti: [phoneType] = []
     
     
+    var resultTitle = ""
+    var resultDescription = ""
     
-    func selectAnswer(_ answer: phoneType) {
-        
-        selectedAnswers.append(answer)
-    }
+
     
-    func removeSelectedAnswer() {
-        guard selectedAnswers.count >= currentQuestionIndex else { return }
-        
-        selectedAnswers.remove(at: currentQuestionIndex)
-    }
+    
+//    func selectAnswer(_ answer: phoneType) {
+//        
+//        selectedAnswers.append(answer)
+//    }
+//    
+//    func removeSelectedAnswer() {
+//        guard selectedAnswers.count >= currentQuestionIndex else { return }
+//        
+//        selectedAnswers.remove(at: currentQuestionIndex)
+//    }
     
     func calculateResults() {
-       
+        var result: phoneType = .thirteenPro
+        let all = subSelectedAnswerSingle + subSelectedAnswerRanged + subSelectedAnswerMulti
+        
+        if all.contains(.samsungGalaxyNote7) {
+            let winner: phoneType = .samsungGalaxyNote7
+            result = winner
+        } else {
+            let counts = Dictionary(all.map { ($0, 1) }, uniquingKeysWith: +)
+            print("Result Counts: \(counts)")
+            let maxCount = counts.values.max() ?? 0
+            let mostCommonTypes = counts.filter { $0.value == maxCount }.map { $0.key }
+            
+            if let winner = all.first(where: { mostCommonTypes.contains($0) }) {
+                result = winner
+                print("Winner by earliest occurrence: \(winner) with \(maxCount)")
+            }
+        }
+        switch result {
+        case .thirteenPro:
+            resultTitle = "iPhone 13 Pro"
+            resultDescription = "You’re sleek, ambitious, and always chasing the next upgrade in life. People come to you for advice because you know your stuff — and you always look good doing it. You love quality, performance, and a bit of flash, but you’re not just about appearances — you back it up with reliability and confidence. If you were a mood, you’d be “I’ve got this.”"
+        case .SE:
+            resultTitle = "iPhone SE"
+            resultDescription = "Simple, efficient, and low-key brilliant. You don’t need fancy extras to shine — you get the job done and look effortlessly cool while doing it. You’re practical, dependable, and maybe a bit nostalgic for the classics. You value comfort and familiarity but still have that spark of modern energy. You’re proof that less really can be more."
+        case .XR:
+            resultTitle = "iPhone XR"
+            resultDescription = "You’re vibrant, social, and full of personality. You love color, excitement, and anything that makes people smile. You’re not obsessed with perfection — you just want to have a good time. You light up every group chat, and people appreciate your realness. You’re confident, bold, and not afraid to stand out."
+        case .samsungGalaxyNote7:
+            resultTitle = "Samsung Galaxy Note 7??"
+            resultDescription = "You're taking the wrong test if you got this phone"
+        }
     }
 }
 

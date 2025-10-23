@@ -11,7 +11,7 @@ import SwiftUI
 struct Personality_QuizApp: App {
     var body: some Scene {
         WindowGroup {
-            TitleView()
+                TitleView()
         }
     }
 }

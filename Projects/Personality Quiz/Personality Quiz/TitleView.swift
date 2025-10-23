@@ -11,6 +11,8 @@ struct TitleView: View {
     @State var quizManager = QuizManager()
     var body: some View {
         NavigationStack(path: $quizManager.navigationStack) {
+            ZStack {
+                AppBackground()
                 VStack {
                     Image("Iphones")
                         .resizable()
@@ -43,6 +45,7 @@ struct TitleView: View {
                         ResultsView()
                     }
                 }
+            }
         }
         .environment(quizManager)
     }
