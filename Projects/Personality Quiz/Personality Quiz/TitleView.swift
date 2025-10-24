@@ -33,7 +33,7 @@ struct TitleView: View {
                         Text("Begin Quiz")
                             .padding()
                             .glassEffect()
-                            .background(.gray)
+                            .background(.white.opacity(0.8))
                             .foregroundStyle(.black)
                             .clipShape(RoundedRectangle(cornerRadius: 60))
                     }

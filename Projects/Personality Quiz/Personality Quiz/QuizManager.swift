@@ -55,7 +55,7 @@ class QuizManager {
         }
     }
     
-//    var selectedAnswers: [phoneType] = []
+    //    var selectedAnswers: [phoneType] = []
     var subSelectedAnswerSingle: [phoneType] = []
     var subSelectedAnswerRanged: [phoneType] = []
     var subSelectedAnswerMulti: [phoneType] = []
@@ -64,19 +64,31 @@ class QuizManager {
     var resultTitle = ""
     var resultDescription = ""
     
+    
+    
+    
+    //    func selectAnswer(_ answer: phoneType) {
+    //
+    //        selectedAnswers.append(answer)
+    //    }
+    //
+    //    func removeSelectedAnswer() {
+    //        guard selectedAnswers.count >= currentQuestionIndex else { return }
+    //
+    //        selectedAnswers.remove(at: currentQuestionIndex)
+    //    }
+    
+//    func changeAnswers() {
+//        resultTitle = ""
+//        resultDescription = ""
+//        subSelectedAnswerMulti.removeAll()
+//        subSelectedAnswerRanged.removeAll()
+//        subSelectedAnswerSingle.removeAll()
+//        currentQuestionIndex = 0
+//        
+//        TitleView()
+//    }
 
-    
-    
-//    func selectAnswer(_ answer: phoneType) {
-//        
-//        selectedAnswers.append(answer)
-//    }
-//    
-//    func removeSelectedAnswer() {
-//        guard selectedAnswers.count >= currentQuestionIndex else { return }
-//        
-//        selectedAnswers.remove(at: currentQuestionIndex)
-//    }
     
     func calculateResults() {
         var result: phoneType = .thirteenPro
@@ -112,6 +124,7 @@ class QuizManager {
         }
     }
 }
+
 
 struct Question: Equatable {
     static func == (lhs: Question, rhs: Question) -> Bool {

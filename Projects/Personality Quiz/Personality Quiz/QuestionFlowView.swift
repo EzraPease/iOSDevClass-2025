@@ -299,6 +299,12 @@ struct ResultsView: View {
                     .italic()
                     .padding()
                     .background(Color.gray.opacity(0.5), in: RoundedRectangle(cornerRadius: 45))
+                
+//                Button("Change Answers") {
+//                    quiz.changeAnswers()
+//                }
+//                .padding()
+//                .glassEffect()
             }
         }
         .onAppear {
@@ -310,8 +316,8 @@ struct ResultsView: View {
 
 #Preview {
     @Previewable @State var quizManager = QuizManager()
-    QuestionFlowView(question: QuizManager().questionList[1])
-//    ResultsView()
+//    QuestionFlowView(question: QuizManager().questionList[1])
+    ResultsView()
         .environment(quizManager)
 }
 
