@@ -310,7 +310,7 @@ struct ResultsView: View {
 
 #Preview {
     @Previewable @State var quizManager = QuizManager()
-    QuestionFlowView(question: QuizManager().questionList[0])
+    QuestionFlowView(question: QuizManager().questionList[1])
 //    ResultsView()
         .environment(quizManager)
 }
