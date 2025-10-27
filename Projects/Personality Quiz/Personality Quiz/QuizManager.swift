@@ -88,6 +88,19 @@ class QuizManager {
 //        
 //        TitleView()
 //    }
+    
+    func resetAnswers() {
+        resultTitle = ""
+        resultDescription = ""
+        
+        currentQuestionIndex = 0
+        
+        subSelectedAnswerMulti.removeAll()
+        subSelectedAnswerRanged.removeAll()
+        subSelectedAnswerSingle.removeAll()
+        
+        navigationStack.removeAll()
+    }
 
     
     func calculateResults() {

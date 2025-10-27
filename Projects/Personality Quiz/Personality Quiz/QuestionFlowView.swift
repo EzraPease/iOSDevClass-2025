@@ -285,33 +285,27 @@ struct ResultsView: View {
     
     
     var body: some View {
-        ZStack {
-            AppBackground()
-            VStack {
-                Text("You're a...")
-                    .font(.headline)
-                    .bold()
-                Text(quiz.resultTitle)
-                    .font(.largeTitle)
-                    .bold()
-                Text("\(quiz.resultDescription)")
-                    .foregroundStyle(.black)
-                    .italic()
-                    .padding()
-                    .background(Color.gray.opacity(0.5), in: RoundedRectangle(cornerRadius: 45))
-                    .padding()
-                
-//                Button("Change Answers") {
-//                    quiz.changeAnswers()
-//                }
-//                .padding()
-//                .glassEffect()
+            ZStack {
+                AppBackground()
+                VStack {
+                    Text("You're a...")
+                        .font(.headline)
+                        .bold()
+                    Text(quiz.resultTitle)
+                        .font(.largeTitle)
+                        .bold()
+                    Text("\(quiz.resultDescription)")
+                        .foregroundStyle(.black)
+                        .italic()
+                        .padding()
+                        .background(Color.gray.opacity(0.5), in: RoundedRectangle(cornerRadius: 45))
+                        .padding()
             }
+            .onAppear {
+                quiz.calculateResults()
+            }
+            .navigationBarBackButtonHidden(true)
         }
-        .onAppear {
-            quiz.calculateResults()
-        }
-        .navigationBarBackButtonHidden(true)
     }
 }
 

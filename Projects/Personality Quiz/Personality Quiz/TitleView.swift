@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct TitleView: View {
-    @State var quizManager = QuizManager()
+    @State var quiz = QuizManager()
     var body: some View {
-        NavigationStack(path: $quizManager.navigationStack) {
+        NavigationStack(path: $quiz.navigationStack) {
             ZStack {
                 AppBackground()
                 VStack {
@@ -28,7 +28,7 @@ struct TitleView: View {
                         .padding()
                     
                     Button {
-                        quizManager.navigationStack.append(quizManager.currentQuestionIndex)
+                        quiz.navigationStack.append(quiz.currentQuestionIndex)
                     } label: {
                         Text("Begin Quiz")
                             .padding()
@@ -39,15 +39,15 @@ struct TitleView: View {
                     }
                 }
                 .navigationDestination(for: Int.self) { index in
-                    if index < quizManager.questionList.count {
-                        QuestionFlowView(question: quizManager.questionList[index])
+                    if index < quiz.questionList.count {
+                        QuestionFlowView(question: quiz.questionList[index])
                     } else {
                         ResultsView()
                     }
                 }
             }
         }
-        .environment(quizManager)
+        .environment(quiz)
     }
 }
 
