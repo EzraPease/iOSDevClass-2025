@@ -299,6 +299,7 @@ struct ResultsView: View {
                     .italic()
                     .padding()
                     .background(Color.gray.opacity(0.5), in: RoundedRectangle(cornerRadius: 45))
+                    .padding()
                 
 //                Button("Change Answers") {
 //                    quiz.changeAnswers()
