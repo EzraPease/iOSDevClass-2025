@@ -8,10 +8,7 @@
 import SwiftUI
 
 struct EmojiListView: View {
-    @State private var emojis: [Emoji] = [
-        Emoji(symbol: "😀", name: "Grinning Face", description: "A typical smiley face.", usage: "happiness"),
-        // ... (other Emoji initializers)
-    ]
+    @State private var emojis: [Emoji] = []
     @State private var isShowingAddEdit = false
     @State private var editingEmoji: Emoji? = nil
 
@@ -47,6 +44,13 @@ struct EmojiListView: View {
                     isShowingAddEdit = false
                 }
             }
+        }
+        .onAppear {
+            let loadedEmojis = Emoji.loadFromFile()
+            emojis = loadedEmojis.isEmpty ? Emoji.sampleEmojis() : loadedEmojis
+        }
+        .onChange(of: emojis) { _, newValue in
+            Emoji.saveToFile(emojis: newValue)
         }
     }
 }

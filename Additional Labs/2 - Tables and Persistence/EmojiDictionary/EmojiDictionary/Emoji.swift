@@ -11,7 +11,7 @@
 
 import Foundation
 
-struct Emoji: Codable, Identifiable {
+struct Emoji: Codable, Identifiable, Equatable {
     var id: UUID = UUID()
     var symbol: String
     var name: String
@@ -24,7 +24,7 @@ struct Emoji: Codable, Identifiable {
     static func saveToFile(emojis: [Emoji]) {
         let propertyListEncoder = PropertyListEncoder()
         
-        if let encodedEmoji = try? propertyListEncoder.encode(newEmoji), let archiveURL {
+        if let encodedEmoji = try? propertyListEncoder.encode(emojis), let archiveURL {
             print(encodedEmoji)
             try? encodedEmoji.write(to: archiveURL)
         }
@@ -39,6 +39,11 @@ struct Emoji: Codable, Identifiable {
         }
         return []
     }
+    
+    static func sampleEmojis() -> [Emoji] {
+        return [
+            Emoji(symbol: "🐕", name: "Dog", description: "A generic, imaged of a dog", usage: "For refrence to dogs"),
+            
+        ]
+    }
 }
-
-let newEmoji = Emoji(symbol: "dog.fill", name: "Filled Dog", description: "A generic, filled in imaged of a dog", usage: "For refrence to dogs")
