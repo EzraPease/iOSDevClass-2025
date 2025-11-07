@@ -11,7 +11,7 @@ import SwiftUI
 class StoreItemListViewModel {
     var items: [StoreItem] = []
 
-    func fetchItems(searchText: String, mediaTypeIndex: Int) {
+     func fetchItems(searchText: String, mediaTypeIndex: Int) async {
         // Map mediaTypeIndex to the API string ("movie", "music", "software", "ebook") and perform network fetch.
         // On completion, update items on main queue.
         // For this template, leave as a stub.
@@ -24,9 +24,18 @@ class StoreItemListViewModel {
         var components = URLComponents(string: baseURL)
         components?.queryItems = query.map { URLQueryItem(name: $0.key, value: $0.value) }
         
-        let (data, response) = URLSession.shared.data(from: baseURL)
+        guard let url = components?.url else { return }
+        
+        Task {
+            let (data, _) = try await URLSession.shared.data(from: url)
+            if let stringData = String(data: data, encoding: .utf8) {
+                print(stringData)
+            }
+        }
     }
 }
+
+
 
 struct StoreItemListView: View {
     @State private var viewModel = StoreItemListViewModel()
@@ -46,9 +55,9 @@ struct StoreItemListView: View {
                 .pickerStyle(SegmentedPickerStyle())
                 .padding([.horizontal, .top])
 
-                TextField("Search...", text: $searchText, onCommit: {
-                    viewModel.fetchItems(searchText: searchText, mediaTypeIndex: selectedMediaType)
-                })
+                    TextField("Search...", text: $searchText, onCommit: {
+                        Task { await viewModel.fetchItems(searchText: searchText, mediaTypeIndex: selectedMediaType) }
+                        })
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .padding([.horizontal, .bottom])
 
@@ -59,7 +68,7 @@ struct StoreItemListView: View {
             }
             .navigationTitle("iTunes Search")
             .onAppear {
-                viewModel.fetchItems(searchText: searchText, mediaTypeIndex: selectedMediaType)
+                Task { await viewModel.fetchItems(searchText: searchText, mediaTypeIndex: selectedMediaType) }
             }
         }
     }
