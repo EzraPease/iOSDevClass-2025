@@ -40,9 +40,9 @@ struct ItemCellView: View {
                     .foregroundColor(.gray)
             }
             VStack(alignment: .leading) {
-                Text(item.name)
+                Text(item.artistName)
                     .font(.headline)
-                Text(item.artist)
+                Text(item.artistName)
                     .font(.subheadline)
                     .foregroundColor(.secondary)
             }

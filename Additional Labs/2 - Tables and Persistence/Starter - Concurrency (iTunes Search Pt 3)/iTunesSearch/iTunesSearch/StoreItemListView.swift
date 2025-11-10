@@ -7,45 +7,6 @@
 
 import SwiftUI
 
-@Observable
-class StoreItemListViewModel {
-    var items: [StoreItem] = []
-    
-    func fetchItems(searchText: String, mediaTypeIndex: Int) async {
-        // Map mediaTypeIndex to the API string ("movie", "music", "software", "ebook") and perform network fetch.
-        // On completion, update items on main queue.
-        // For this template, leave as a stub.
-        let baseURL = "https://itunes.apple.com/search"
-        let query: [String: String] = [
-            "term": "Apple",
-            "media": "audiobook"
-        ]
-        
-        var components = URLComponents(string: baseURL)
-        components?.queryItems = query.map { URLQueryItem(name: $0.key, value: $0.value) }
-        
-        guard let url = components?.url else { return }
-        
-        Task {
-            let (data, _) = try await URLSession.shared.data(from: url)
-                data.prettyPrintedJSONString()
-        }
-    }
-}
-
-extension Data {
-    func prettyPrintedJSONString() {
-        guard
-            let jsonObject = try? JSONSerialization.jsonObject(with: self, options: []),
-            let jsonData = try? JSONSerialization.data(withJSONObject: jsonObject, options: [.prettyPrinted]),
-            let prettyJSONString = String(data: jsonData, encoding: .utf8) else {
-            print("Failed to read JSON Object.")
-            return
-        }
-        print(prettyJSONString)
-    }
-}
-
 //Task {
 //    let (data, response) = try await       URLSession.shared.data(from: urlComponents.url!)
 //
@@ -85,8 +46,8 @@ struct StoreItemListView: View {
                 .listStyle(.plain)
             }
             .navigationTitle("iTunes Search")
-            .onAppear {
-                Task { await viewModel.fetchItems(searchText: searchText, mediaTypeIndex: selectedMediaType) }
+            .task {
+                await viewModel.fetchItems(searchText: searchText, mediaTypeIndex: selectedMediaType)
             }
         }
     }
