@@ -11,6 +11,7 @@ import SwiftUI
 struct CurrentUser: Codable {
     var profilePhoto: URL?
     var backgroundCoverPhoto: URL?
+    
     var firstName: String
     var lastName: String
     var userBio: String
