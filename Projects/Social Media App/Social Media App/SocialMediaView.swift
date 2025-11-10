@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct ParentView: View {
+    @State private var viewModel = CurrentUserViewModel()
+    
+    
     var body: some View {
         
     }

@@ -6,17 +6,8 @@
 	objectVersion = 77;
 	objects = {
 
-/* Begin PBXBuildFile section */
-		0FD307EF2EC2499A006229DE /* ParentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FD307EE2EC2497B006229DE /* ParentViewModel.swift */; };
-		0FD307F12EC24A23006229DE /* UserProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FD307F02EC24A1A006229DE /* UserProfileViewModel.swift */; };
-		0FD307F32EC24A3B006229DE /* TimeLineViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FD307F22EC24A34006229DE /* TimeLineViewModel.swift */; };
-/* End PBXBuildFile section */
-
 /* Begin PBXFileReference section */
 		0FD307DF2EC24957006229DE /* Social Media App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Social Media App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		0FD307EE2EC2497B006229DE /* ParentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParentViewModel.swift; sourceTree = "<group>"; };
-		0FD307F02EC24A1A006229DE /* UserProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileViewModel.swift; sourceTree = "<group>"; };
-		0FD307F22EC24A34006229DE /* TimeLineViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeLineViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -43,9 +34,6 @@
 			children = (
 				0FD307E12EC24957006229DE /* Social Media App */,
 				0FD307E02EC24957006229DE /* Products */,
-				0FD307EE2EC2497B006229DE /* ParentViewModel.swift */,
-				0FD307F02EC24A1A006229DE /* UserProfileViewModel.swift */,
-				0FD307F22EC24A34006229DE /* TimeLineViewModel.swift */,
 			);
 			sourceTree = "<group>";
 		};
@@ -131,9 +119,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0FD307F12EC24A23006229DE /* UserProfileViewModel.swift in Sources */,
-				0FD307F32EC24A3B006229DE /* TimeLineViewModel.swift in Sources */,
-				0FD307EF2EC2499A006229DE /* ParentViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
