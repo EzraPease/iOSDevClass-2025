@@ -22,7 +22,16 @@ class QuizManager {
                 Answer(text: "Play some video games", type: .XR)
             ]
         ),
-        
+        Question(
+            text: "kjlhliujh do first?",
+            type: .single,
+            answers: [
+                Answer(text: "Go out with friends", type: .SE),
+                Answer(text: "Watch or play something alone", type: .thirteenPro),
+                Answer(text: "Work on a hobby or project", type: .XR),
+                Answer(text: "Play some video games", type: .XR)
+            ]
+        ),
         Question(text: "How often do you use an iphone?",
                  type: .ranged,
                  answers: [
