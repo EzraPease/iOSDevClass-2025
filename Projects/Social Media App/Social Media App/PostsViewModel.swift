@@ -8,7 +8,9 @@
 import SwiftUI
 
 struct UserPostsViewModel {
-    
+    var user: CurrentUser
+    var title: String
+    var description: String
 }
 
 

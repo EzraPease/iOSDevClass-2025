@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ParentView: View {
+struct SocialMediaView: View {
     
     
     
@@ -17,5 +17,5 @@ struct ParentView: View {
 }
 
 #Preview {
-    ParentView()
+    SocialMediaView()
 }

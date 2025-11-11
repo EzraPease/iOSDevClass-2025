@@ -11,7 +11,7 @@ import SwiftUI
 struct Social_Media_AppApp: App {
     var body: some Scene {
         WindowGroup {
-            ParentView()
+            SocialMediaView()
         }
     }
 }
