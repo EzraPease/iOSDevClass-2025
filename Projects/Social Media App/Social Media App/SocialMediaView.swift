@@ -13,7 +13,7 @@ struct ParentView: View {
     
     var body: some View {
         ZStack {
-            if let temporaryBackgroundPhoto = URL(string: "https://placehold.co/600x400/orange/white") {
+            if let temporaryBackgroundPhoto = URL(string: "https://placehold.co/1200x800/1e293b/ffffff?text=Background") {
                 AsyncImage(url: temporaryBackgroundPhoto) { phase in
                     switch phase {
                     case .empty:
@@ -22,8 +22,8 @@ struct ParentView: View {
                     case .success(let image):
                         image
                             .resizable()
-                            .frame(width: 200, height: 200)
-                            .clipShape(Circle())
+                            .ignoresSafeArea()
+                            .frame(width: .infinity, height: .infinity)
                     case .failure:
                         Image(systemName: "photo")
                             .resizable()
@@ -45,16 +45,16 @@ struct ParentView: View {
                     switch phase {
                     case .empty:
                         ProgressView()
-                            .frame(width: 100, height: 100)
+                            .frame(width: 100, height: 100, alignment: .topLeading)
                     case .success(let image):
                         image
                             .resizable()
-                            .frame(width: 100, height: 100)
+                            .frame(width: 100, height: 100, alignment: .topLeading)
                             .clipShape(Circle())
                     case .failure:
                         Image(systemName: "photo")
                             .resizable()
-                            .frame(width: 75, height: 75)
+                            .frame(width: 75, height: 75, alignment: .topLeading)
                             .foregroundColor(.gray)
                     @unknown default:
                         EmptyView()

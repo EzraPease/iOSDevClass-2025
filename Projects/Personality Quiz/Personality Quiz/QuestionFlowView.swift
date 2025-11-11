@@ -168,7 +168,7 @@ struct RangedQuestionSubview: View {
                     .padding()
                 Text(question.answers[Int(rangedSlider)].text)
                     .padding()
-                Slider(value: $rangedSlider, in: 0...4.9)
+                Slider(value: $rangedSlider, in: 0...Double(quiz.questionList[1].answers.count) - 0.1)
                     .padding()
                     .padding()
                     .background(.fill)
@@ -311,8 +311,8 @@ struct ResultsView: View {
 
 #Preview {
     @Previewable @State var quizManager = QuizManager()
-//    QuestionFlowView(question: QuizManager().questionList[1])
-    ResultsView()
+    QuestionFlowView(question: QuizManager().questionList[1])
+//    ResultsView()
         .environment(quizManager)
 }
 

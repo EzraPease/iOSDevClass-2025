@@ -23,14 +23,15 @@ class QuizManager {
             ]
         ),
         
-        Question(text: "On a scale from 1-5, how often do you use an iphone?",
+        Question(text: "How often do you use an iphone?",
                  type: .ranged,
                  answers: [
                     Answer(text: "1 - Whats an iPhone?", type: .samsungGalaxyNote7),
                     Answer(text: "2 - I mean... I've held one before", type: .SE),
                     Answer(text: "3 - I use one on occasion, but not all that much", type: .SE),
                     Answer(text: "4 - I use one on a pretty regular basis, but not all the time", type: .thirteenPro),
-                    Answer(text: "5 - I use them all day every day", type: .XR)
+                    Answer(text: "5 - I use them all day every day", type: .XR),
+                    Answer(text: "6 - This is a test if the range works", type: .thirteenPro)
                  ]
                 ),
         
