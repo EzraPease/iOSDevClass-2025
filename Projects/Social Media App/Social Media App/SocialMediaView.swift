@@ -12,7 +12,17 @@ struct SocialMediaView: View {
     
     
     var body: some View {
-       CurrentUserView()
+        TabView {
+            CurrentUserView()
+                .tabItem {
+                    Label("Profile", systemImage: "person.crop.circle")
+                }
+            
+            TimeLineView()
+                .tabItem {
+                    Label("Timeline", systemImage: "person.3.fill")
+                }
+        }
     }
 }
 

@@ -22,16 +22,16 @@ class QuizManager {
                 Answer(text: "Play some video games", type: .XR)
             ]
         ),
-        Question(
-            text: "kjlhliujh do first?",
-            type: .single,
-            answers: [
-                Answer(text: "Go out with friends", type: .SE),
-                Answer(text: "Watch or play something alone", type: .thirteenPro),
-                Answer(text: "Work on a hobby or project", type: .XR),
-                Answer(text: "Play some video games", type: .XR)
-            ]
-        ),
+//        Question( // Extra Question
+//            text: "kjlhliujh do first?",
+//            type: .single,
+//            answers: [
+//                Answer(text: "Go out with friends", type: .SE),
+//                Answer(text: "Watch or play something alone", type: .thirteenPro),
+//                Answer(text: "Work on a hobby or project", type: .XR),
+//                Answer(text: "Play some video games", type: .XR)
+//            ]
+//        ),
         Question(text: "How often do you use an iphone?",
                  type: .ranged,
                  answers: [
@@ -40,7 +40,6 @@ class QuizManager {
                     Answer(text: "3 - I use one on occasion, but not all that much", type: .SE),
                     Answer(text: "4 - I use one on a pretty regular basis, but not all the time", type: .thirteenPro),
                     Answer(text: "5 - I use them all day every day", type: .XR),
-                    Answer(text: "6 - This is a test if the range works", type: .thirteenPro)
                  ]
                 ),
         

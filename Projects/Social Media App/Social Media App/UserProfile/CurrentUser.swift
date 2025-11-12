@@ -16,4 +16,6 @@ struct CurrentUser: Codable {
     var lastName: String
     var userBio: String
     var techInterests: String
+    
+    // you'll need to make this codable so that you can get the data from the json endpoint
 }
