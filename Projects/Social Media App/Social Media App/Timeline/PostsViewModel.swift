@@ -7,15 +7,13 @@
 
 import SwiftUI
 
-struct UserPostsViewModel {
-    var user: CurrentUser
+struct PostsViewModel: Codable {
+//    var user: CurrentUser?
+    var image: URL?
     var title: String
     var description: String
+    
+    var likes: Int
+    var comments: Int
 }
 
-
-struct PostsViewModel: View {
-    var body: some View {
-        
-    }
-}
