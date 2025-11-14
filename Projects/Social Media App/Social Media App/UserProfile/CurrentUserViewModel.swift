@@ -11,7 +11,7 @@ import SwiftUI
 class CurrentUserViewModel {
     // Temporary Current User
     var currentUser: CurrentUser?
-    var recentPost: PostsViewModel?
+    var recentPost: PostViewModel?
     
     
     // have the state to display, like this current user (point up)
@@ -29,11 +29,11 @@ class CurrentUserViewModel {
                                   userBio: "Insert user bio here",
                                   techInterests: "I really like computers, computer good yes")
         
-        recentPost = PostsViewModel(image: URL(string: "https://picsum.photos/2000/2000"),
-                                    title: "Post Title",
-                                    description: "Post Description",
-                                    likes: 320,
-                                    comments: 137)
+        recentPost = PostViewModel(image: URL(string: "https://picsum.photos/2000/2000"),
+                                   title: "Post Title",
+                                   description: "Post Description",
+                                   likes: 320,
+                                   comments: 137)
     }
 }
 
@@ -45,7 +45,7 @@ struct CurrentUserView: View {
     
     var body: some View {
         ZStack {
-            LinearGradient(colors: [.white, .white, .gray],
+            LinearGradient(colors: [.backgroundWhite, .backgroundWhite, .gray],
                            startPoint: .top,
                            endPoint: .bottom)
             .ignoresSafeArea()
@@ -108,7 +108,7 @@ struct CurrentUserView: View {
                             .foregroundColor(.gray)
                     }
                 }
-                ScrollView {
+                ScrollView { // Displays user data and recent post
                     if let currentUser = viewModel.currentUser {
                         VStack(alignment: .leading) {
                             VStack(alignment: .leading) {
@@ -148,7 +148,7 @@ struct CurrentUserView: View {
                                         .padding()
                                 }
                             }
-                            HStack {
+                            HStack { // Likes and Comments
                                 HStack {
                                     Text("\(recentPost.likes)")
                                     Image(systemName: "hand.thumbsup")
@@ -162,16 +162,12 @@ struct CurrentUserView: View {
                             }
                             Text(recentPost.description)
                         }
-                    } else {
+                    } else { // Displays when nothing else has loaded
                         Text("Nothing here yet...")
                             .font(.largeTitle)
                     }
                 }
                 .frame(height: 478)
-                
-                
-                //            Spacer(minLength: 280)
-                
             }
         }
         .task {

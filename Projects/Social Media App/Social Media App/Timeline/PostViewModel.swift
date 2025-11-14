@@ -7,8 +7,8 @@
 
 import SwiftUI
 
-struct PostsViewModel: Codable {
-//    var user: CurrentUser?
+struct PostViewModel: Codable {
+    var user: CurrentUser?
     var image: URL?
     var title: String
     var description: String
