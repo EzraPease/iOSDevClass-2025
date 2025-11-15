@@ -14,7 +14,8 @@ struct EditUserProfileViewModel: View {
     
     var body: some View {
         List {
-            TextField("First Name", text: $viewModel.currentUser.firstName)
+            Text("Placeholder Text")
+//            TextField("First Name", text: $viewModel.currentUser.firstName)
         }
         .task {
             await viewModel.fetchCurrentUser()
