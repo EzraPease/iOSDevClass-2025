@@ -123,7 +123,7 @@ struct CurrentUserView: View {
                                     .italic()
                                     .font(.footnote)
                             }
-                            .padding(.vertical)
+                            .padding(.vertical, 40)
                             Text(currentUser.techInterests) // User Tech Interests
                                 .padding(.vertical)
                         }
@@ -167,7 +167,7 @@ struct CurrentUserView: View {
                             .font(.largeTitle)
                     }
                 }
-                .frame(height: 478)
+                .frame(height: 420)
             }
         }
         .task {

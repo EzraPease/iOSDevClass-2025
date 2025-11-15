@@ -8,20 +8,49 @@
 import SwiftUI
 
 struct SocialMediaView: View {
-    
-    
+    @State var newPostPresented = false
+    @State var editUserPresented = false
     
     var body: some View {
-        TabView {
-            CurrentUserView()
-                .tabItem {
-                    Label("Profile", systemImage: "person.crop.circle")
+        
+        NavigationStack {
+            TabView {
+                CurrentUserView()
+                    .tabItem {
+                        Label("Profile", systemImage: "person.crop.circle")
+                    }
+                
+                TimeLineView()
+                    .tabItem {
+                        Label("Timeline", systemImage: "person.3.fill")
+                    }
+            }
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        newPostPresented = true
+                    } label: {
+                        Image(systemName: "square.and.pencil")
+                    }
                 }
-            
-            TimeLineView()
-                .tabItem {
-                    Label("Timeline", systemImage: "person.3.fill")
+                ToolbarItem(placement: .topBarLeading) {
+                    Button {
+                        editUserPresented = true
+                    } label: {
+                        Image(systemName: "person.crop.circle.badge.plus")
+                    }
                 }
+            }
+        }
+        .sheet(isPresented: $editUserPresented) {
+            NavigationStack {
+                EditUserProfileViewModel()
+            }
+        }
+        .sheet(isPresented: $newPostPresented) {
+            NavigationStack {
+                NewPostViewModel()
+            }
         }
     }
 }
