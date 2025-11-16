@@ -14,9 +14,24 @@ struct EditUserProfileViewModel: View {
     
     var body: some View {
         List {
-            Text("Placeholder Text")
-//            TextField("First Name", text: $viewModel.currentUser.firstName)
+            Section {
+//                TextField("First Name", text: $viewModel.firstName)
+                Text("First Name")
+                Text("Last Name")
+            }
+            Section {
+                Text("Bio")
+                Text("Tech Interests")
+            }
         }
+        .navigationTitle("Edit Profile")
+        .navigationBarTitleDisplayMode(.inline)
+        Button("Save") {
+            print("Save Button Pressed")
+            dismiss()
+        }
+        .padding()
+        .glassEffect()
         .task {
             await viewModel.fetchCurrentUser()
         }

@@ -37,7 +37,8 @@ struct SocialMediaView: View {
                     Button {
                         editUserPresented = true
                     } label: {
-                        Image(systemName: "person.crop.circle.badge.plus")
+//                        Image(systemName: "person.crop.circle.badge.plus")
+                        Text("Edit Profile")
                     }
                 }
             }

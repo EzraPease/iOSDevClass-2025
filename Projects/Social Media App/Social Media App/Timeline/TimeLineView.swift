@@ -45,6 +45,9 @@ struct TimeLineView: View {
                             }
                         }
                         Text(viewModel.description)
+                        HStack {
+                            
+                        }
                         Spacer()
                     }
                     .padding(.vertical)
