@@ -7,13 +7,13 @@
 
 import SwiftUI
 
+
 struct SocialMediaView: View {
-    @State var viewModel = CurrentUserViewModel()
+    @State private var viewModel = CurrentUserViewModel()
     @State var newPostPresented = false
     @State var editUserPresented = false
     
     var body: some View {
-        
         NavigationStack {
             TabView {
                 CurrentUserView()

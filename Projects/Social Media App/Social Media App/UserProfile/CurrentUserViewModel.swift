@@ -64,7 +64,7 @@ class CurrentUserViewModel {
 }
 
 struct CurrentUserView: View {
-    @Environment var viewModel: CurrentUserViewModel
+    @Environment(CurrentUserViewModel.self) private var viewModel
     @State private var profileTab = 0
     @State private var tabs = ["Profile", "Timeline"]
     

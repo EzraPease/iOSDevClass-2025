@@ -10,13 +10,12 @@ import SwiftUI
 
 struct EditUserProfileView: View {
     @Environment(\.dismiss) private var dismiss
-    @Environment var viewModel: CurrentUserViewModel
-    @State private var firstName = ""
+    @Environment(CurrentUserViewModel.self) private var viewModel: CurrentUserViewModel
     
     var body: some View {
         List {
             Section {
-                TextField("First Name", text: $firstName)
+                TextField("First Name", text: $viewModel.currentUser?.firstName)
                 Text("First Name")
                 Text("Last Name")
             }
@@ -33,9 +32,6 @@ struct EditUserProfileView: View {
         }
         .padding()
         .glassEffect()
-        .onAppear {
-            firstName = viewModel.currentUser?.firstName ?? ""
-        }
         .task {
             await viewModel.fetchCurrentUser()
         }
@@ -45,5 +41,5 @@ struct EditUserProfileView: View {
 
 
 #Preview {
-    EditUserProfileViewModel().environment(CurrentUserViewModel())
+    EditUserProfileView().environment(CurrentUserViewModel())
 }
