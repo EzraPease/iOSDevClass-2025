@@ -33,24 +33,30 @@ struct SocialMediaView: View {
                         Image(systemName: "square.and.pencil")
                     }
                 }
+            }
+            .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     Button {
                         editUserPresented = true
                     } label: {
-//                        Image(systemName: "person.crop.circle.badge.plus")
+                        //                        Image(systemName: "person.crop.circle.badge.plus")
                         Text("Edit Profile")
                     }
                 }
             }
-        }
-        .sheet(isPresented: $editUserPresented) {
-            NavigationStack {
-                EditUserProfileViewModel()
+            .sheet(isPresented: $editUserPresented) {
+                NavigationStack {
+                    EditUserProfileViewModel()
+                        .presentationDetents([.medium])
+                        .presentationDragIndicator(.visible)
+                }
             }
-        }
-        .sheet(isPresented: $newPostPresented) {
-            NavigationStack {
-                NewPostViewModel()
+            .sheet(isPresented: $newPostPresented) {
+                NavigationStack {
+                    NewPostViewModel()
+                        .presentationDetents([.medium])
+                        .presentationDragIndicator(.visible)
+                }
             }
         }
     }

@@ -15,12 +15,7 @@ struct PostViewModel: Codable {
     
     var likes: Int
     var comments: Int
-}
-
-struct LikesAndComments: View {
-    // Re-usable view to for Likes and Comments in UserProfile and TimeLineView
-    var body: some View {
-        
-    }
+    
+    var commentsList: [String] = []
 }
 
