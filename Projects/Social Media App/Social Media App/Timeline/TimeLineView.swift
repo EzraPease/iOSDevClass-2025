@@ -29,7 +29,7 @@ struct TimeLineView: View {
                     //                .frame(maxHeight: .infinity)
                         .padding()
                     ScrollView {
-                        ForEach(viewModel.timeLinePosts.indices.shuffled(), id: \.self) { index in
+                        ForEach(viewModel.timeLinePosts.indices, id: \.self) { index in
                             let post = viewModel.timeLinePosts[index]
                             VStack {
                                 Text(post.title)
@@ -75,6 +75,9 @@ struct TimeLineView: View {
                     }
                 }
             }
+        }
+        .onAppear {
+            viewModel.timeLinePosts.shuffle()
         }
         .sheet(isPresented: $commentsPresented) {
             NavigationStack {

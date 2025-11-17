@@ -15,7 +15,8 @@ struct EditUserProfileView: View {
     var body: some View {
         List {
             Section {
-                TextField("First Name", text: $viewModel.currentUser?.firstName)
+                // NEED TO GET THIS TO WORK STILL
+//                TextField("First Name", text: $viewModel.currentUser?.firstName)
                 Text("First Name")
                 Text("Last Name")
             }

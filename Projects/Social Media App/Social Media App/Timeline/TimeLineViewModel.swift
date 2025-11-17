@@ -16,6 +16,7 @@ class TimeLineViewModel {
             likes: 683,
             comments: 121,
             commentsList: [
+                "Comment 1",
                 "Love this!",
                 "So inspiring 🔥",
                 "Congrats!",
@@ -30,6 +31,7 @@ class TimeLineViewModel {
             likes: 58392,
             comments: 4321,
             commentsList: [
+                "Comment 2",
                 "This photo is amazing",
                 "What camera did you use?",
                 "Instant wallpaper 😍",
@@ -44,6 +46,7 @@ class TimeLineViewModel {
             likes: 4731,
             comments: 3340,
             commentsList: [
+                "Comment 3",
                 "Great write-up",
                 "Super helpful, thanks",
                 "I learned something new today",
