@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct SocialMediaView: View {
+    @State var viewModel = CurrentUserViewModel()
     @State var newPostPresented = false
     @State var editUserPresented = false
     
@@ -16,6 +17,7 @@ struct SocialMediaView: View {
         NavigationStack {
             TabView {
                 CurrentUserView()
+                    .environment(viewModel)
                     .tabItem {
                         Label("Profile", systemImage: "person.crop.circle")
                     }
@@ -46,7 +48,8 @@ struct SocialMediaView: View {
             }
             .sheet(isPresented: $editUserPresented) {
                 NavigationStack {
-                    EditUserProfileViewModel()
+                    EditUserProfileView()
+                        .environment(viewModel)
                         .presentationDetents([.medium])
                         .presentationDragIndicator(.visible)
                 }
