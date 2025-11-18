@@ -143,6 +143,7 @@ struct CurrentUserView: View {
         }
         .task {
             await viewModel.fetchCurrentUser()
+            await viewModel.fetchPosts()
         }
     }
 }

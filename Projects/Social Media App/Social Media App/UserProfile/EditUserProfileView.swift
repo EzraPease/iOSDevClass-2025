@@ -11,18 +11,20 @@ import SwiftUI
 struct EditUserProfileView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(CurrentUserViewModel.self) private var viewModel: CurrentUserViewModel
+    @State private var firstName = ""
+    @State private var lastName = ""
+    @State private var userBio = ""
+    @State private var userTechInterests = ""
     
     var body: some View {
         List {
             Section {
-                // NEED TO GET THIS TO WORK STILL
-//                TextField("First Name", text: $viewModel.currentUser?.firstName)
-                Text("First Name")
-                Text("Last Name")
+                TextField("First Name", text: $firstName)
+                TextField("Last Name", text: $lastName)
             }
             Section {
-                Text("Bio")
-                Text("Tech Interests")
+                TextField("Bio", text: $userBio)
+                TextField("Tech Interests", text: $userTechInterests)
             }
         }
         .navigationTitle("Edit Profile")
@@ -42,5 +44,5 @@ struct EditUserProfileView: View {
 
 
 #Preview {
-    EditUserProfileView().environment(CurrentUserViewModel())
+    EditUserProfileView().environment(CurrentUserViewModel(postService: MockPostService()))
 }

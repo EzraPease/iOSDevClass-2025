@@ -7,40 +7,62 @@
 
 import SwiftUI
 
+protocol PostService {
+    func fetchPosts() async throws -> [PostViewModel]
+}
+
+class MockPostService: PostService {
+    func fetchPosts() async throws -> [PostViewModel] {
+        [PostViewModel(image: URL(string: "https://picsum.photos/2000/2000"),
+                                   title: "Current User Post 1",
+                                   description: "Post Description 1",
+                                   likes: 320,
+                                   comments: 137),
+        PostViewModel(image: URL(string: "https://picsum.photos/2000/2000"),
+                                   title: "Current User Post 2",
+                                   description: "Post Description 2",
+                                   likes: 198,
+                                   comments: 19),
+        PostViewModel(image: URL(string: "https://picsum.photos/2000/2000"),
+                                   title: "Current User Post 3",
+                                   description: "Post Description 3",
+                                   likes: 47491,
+                                   comments: 1347),
+        PostViewModel(image: URL(string: "https://picsum.photos/2000/2000"),
+                                   title: "Current User Post 4",
+                                   description: "Post Description 4",
+                                   likes: 581,
+                                   comments: 433),
+        PostViewModel(image: URL(string: "https://picsum.photos/2000/2000"),
+                                   title: "Current User Post 5",
+                                   description: "Post Description 5",
+                                   likes: 3240,
+                                   comments: 2413)]
+    }
+}
+
 @Observable
 class CurrentUserViewModel {
     // Temporary Current User
     var currentUser: CurrentUser?
     var recentPost: PostViewModel?
     
-    var userPosts: [PostViewModel] = [
-        PostViewModel(image: URL(string: "https://picsum.photos/2000/2000"),
-                                   title: "Post Title 1",
-                                   description: "Post Description 1",
-                                   likes: 320,
-                                   comments: 137),
-        PostViewModel(image: URL(string: "https://picsum.photos/2000/2000"),
-                                   title: "Post Title 2",
-                                   description: "Post Description 2",
-                                   likes: 198,
-                                   comments: 19),
-        PostViewModel(image: URL(string: "https://picsum.photos/2000/2000"),
-                                   title: "Post Title 3",
-                                   description: "Post Description 3",
-                                   likes: 47491,
-                                   comments: 1347),
-        PostViewModel(image: URL(string: "https://picsum.photos/2000/2000"),
-                                   title: "Post Title 4",
-                                   description: "Post Description 4",
-                                   likes: 581,
-                                   comments: 433),
-        PostViewModel(image: URL(string: "https://picsum.photos/2000/2000"),
-                                   title: "Post Title 5",
-                                   description: "Post Description 5",
-                                   likes: 3240,
-                                   comments: 2413)
-    ]
+    var userPosts: [PostViewModel]
     
+    var postService: PostService
+    
+    init(currentUser: CurrentUser? = nil, recentPost: PostViewModel? = nil, userPosts: [PostViewModel] = [], postService: PostService) {
+        self.currentUser = currentUser
+        self.recentPost = recentPost
+        self.userPosts = userPosts
+        self.postService = postService
+    }
+    
+    func fetchPosts() {
+        Task {
+            userPosts = try! await postService.fetchPosts()
+        }
+    }
     
     // have the state to display, like this current user (point up)
     

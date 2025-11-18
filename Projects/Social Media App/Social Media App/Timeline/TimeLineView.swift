@@ -10,10 +10,15 @@ import SwiftUI
 
 struct TimeLineView: View {
 //    @Environment(TimeLineViewModel.self) private var timeLineVM
-    @State private var viewModel = TimeLineViewModel()
-    @State private var commentsPresented = false
+    @State private var viewModel: TimeLineViewModel
+    @State private var commentsPresented: Bool
     @State private var selectedPost: PostViewModel? = nil
     
+    init(viewModel: TimeLineViewModel, commentsPresented: Bool = false, selectedPost: PostViewModel? = nil) {
+        self.viewModel = viewModel
+        self.commentsPresented = commentsPresented
+        self.selectedPost = selectedPost
+    }
     
     var body: some View {
         NavigationStack {
@@ -86,8 +91,8 @@ struct TimeLineView: View {
         }
         .task {
             await viewModel.fetchTimeLine()
-        }
-        .onAppear {
+            await viewModel.fetchCurrentUserPosts()
+            print("\(viewModel.timeLinePosts.count) posts loaded")
             viewModel.timeLinePosts.shuffle()
         }
         .sheet(isPresented: $commentsPresented) {
@@ -104,5 +109,5 @@ struct TimeLineView: View {
 }
 
 #Preview {
-    TimeLineView()
+    TimeLineView(viewModel: TimeLineViewModel())
 }

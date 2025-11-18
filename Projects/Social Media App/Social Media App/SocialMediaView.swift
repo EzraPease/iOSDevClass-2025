@@ -9,8 +9,8 @@ import SwiftUI
 
 
 struct SocialMediaView: View {
-    @State private var viewModel = CurrentUserViewModel()
-    @State private var timeLineVM = TimeLineViewModel()
+    @State private var viewModel = CurrentUserViewModel(postService: MockPostService())
+//    @State private var timeLineVM = TimeLineViewModel()
     @State var newPostPresented = false
     @State var editUserPresented = false
     
@@ -23,7 +23,7 @@ struct SocialMediaView: View {
                         Label("Profile", systemImage: "person.crop.circle")
                     }
                 
-                TimeLineView()
+                TimeLineView(viewModel: TimeLineViewModel())
 //                    .environment(timeLineVM)
                     .tabItem {
                         Label("Timeline", systemImage: "person.3.fill")

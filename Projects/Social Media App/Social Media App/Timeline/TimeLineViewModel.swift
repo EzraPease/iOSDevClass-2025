@@ -16,7 +16,7 @@ class TimeLineViewModel {
         try? await Task.sleep(nanoseconds: 1 * 1_000_000_000)
         timeLinePosts = [
             PostViewModel(
-                title: "Title 1",
+                title: "Timeline Post 1",
                 description: "Description 1",
                 likes: 683,
                 comments: 121,
@@ -31,7 +31,7 @@ class TimeLineViewModel {
             ),
             PostViewModel(
                 image: URL(string: "https://picsum.photos/2000/2000"),
-                title: "Title 2",
+                title: "Timeline Post 2",
                 description: "Description 2",
                 likes: 58392,
                 comments: 4321,
@@ -46,7 +46,7 @@ class TimeLineViewModel {
             ),
             PostViewModel(
                 image: URL(string: "https://picsum.photos/2000/2000"),
-                title: "Title 3",
+                title: "Timeline Post 3",
                 description: "Description 3",
                 likes: 4731,
                 comments: 3340,
@@ -60,5 +60,12 @@ class TimeLineViewModel {
                 ]
             )
         ]
+    }
+    
+    func fetchCurrentUserPosts() async {
+        let posts = CurrentUserViewModel(postService: MockPostService())
+        for post in posts.userPosts {
+            timeLinePosts.append(post)
+        }
     }
 }
