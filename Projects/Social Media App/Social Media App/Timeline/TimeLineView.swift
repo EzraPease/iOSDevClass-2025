@@ -9,6 +9,7 @@ import SwiftUI
 
 
 struct TimeLineView: View {
+//    @Environment(TimeLineViewModel.self) private var timeLineVM
     @State private var viewModel = TimeLineViewModel()
     @State private var commentsPresented = false
     @State private var selectedPost: PostViewModel? = nil
@@ -33,7 +34,8 @@ struct TimeLineView: View {
                             let post = viewModel.timeLinePosts[index]
                             VStack {
                                 Text(post.title)
-                                
+                                    .font(.title2)
+                                    .bold()
                                 if let image = post.image {
                                     AsyncImage(url: image) { phase in
                                         switch phase {
@@ -66,15 +68,24 @@ struct TimeLineView: View {
                                         Text("\(post.commentsList.count)")
                                         Image(systemName: "message")
                                     }
+                                    .foregroundStyle(.black)
                                     .padding()
                                 }
                                 Spacer()
                             }
-                            .padding(.vertical)
+                            .background(LinearGradient(colors: [.teal, .teal, .indigo],
+                                                       startPoint: .topLeading,
+                                                       endPoint: .bottomTrailing),
+                                        in: RoundedRectangle(cornerRadius: 20))
+                            .shadow(radius: 7)
+                            .padding(20)
                         }
                     }
                 }
             }
+        }
+        .task {
+            await viewModel.fetchTimeLine()
         }
         .onAppear {
             viewModel.timeLinePosts.shuffle()

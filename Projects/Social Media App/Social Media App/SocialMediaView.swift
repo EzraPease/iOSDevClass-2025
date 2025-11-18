@@ -10,6 +10,7 @@ import SwiftUI
 
 struct SocialMediaView: View {
     @State private var viewModel = CurrentUserViewModel()
+    @State private var timeLineVM = TimeLineViewModel()
     @State var newPostPresented = false
     @State var editUserPresented = false
     
@@ -23,6 +24,7 @@ struct SocialMediaView: View {
                     }
                 
                 TimeLineView()
+//                    .environment(timeLineVM)
                     .tabItem {
                         Label("Timeline", systemImage: "person.3.fill")
                     }
