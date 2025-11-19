@@ -9,14 +9,24 @@ import SwiftUI
 
 @Observable
 class StoreItemListViewModel {
+    let itemController = StoreItemController()
     var items: [StoreItem] = []
     
     var searchText = ""
     var selectedMediaType: MediaType = .music
     
+    var query: [String: String] = [:]
+    
     func fetchMatchingItems() {
         if !searchText.isEmpty {
             // set up query dictionary
+            query = [
+                "term": searchText,
+                "media": selectedMediaType.rawValue,
+                "limit": "50",
+                "lang": Locale.current.identifier,
+                "country": Locale.current.region?.identifier ?? "US"
+            ]
             
             // use the item controller to fetch items
             // if successful, use the main queue to set self.items
@@ -24,7 +34,7 @@ class StoreItemListViewModel {
             Task {
                 do {
                     let controller = StoreItemController()
-                    let results = try await controller.fetchItems(searchText: searchText, mediaTypeIndex: selectedMediaType)
+                    let results = try await controller.fetchItems(matching: query)
                     await MainActor.run {
                         self.items = results
                     }
@@ -55,12 +65,15 @@ struct StoreItemListView: View {
                         viewModel.fetchMatchingItems()
                     }
                     .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .onSubmit {
+                        viewModel.fetchMatchingItems()
+                    }
                     .submitLabel(.search)
                     .padding([.horizontal, .bottom])
                 }
                 
                 List(viewModel.items, id: \.self) { item in
-                    ItemCellView(name: item.trackName, artist: item.artistName)
+                    ItemCellView(storeItem: item)
                 }
                 .listStyle(.plain)
             }

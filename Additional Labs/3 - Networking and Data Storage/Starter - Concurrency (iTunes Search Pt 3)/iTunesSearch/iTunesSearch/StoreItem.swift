@@ -8,25 +8,31 @@
 import SwiftUI
 
 struct StoreItem: Codable, Identifiable, Hashable {
-    var id: String { String(collectionId) }
-    var collectionId: Int
+    var id = UUID()
+    var collectionId: Int?
+    var collectionName: String?
+    let trackName: String?
     
     let artworkURL: URL?
-//    let kind: String
     let artistName: String
-//    let trackName: String
-    let description: String
+    let description: String?
     
-    init(from decoder: any Decoder) throws {
-        
-    }
+    //    init(from decoder: any Decoder) throws {
+    //        let values = try decoder.container(keyedBy: CodingKeys.self)
+    //        collectionId = try? values.decodeIfPresent(Int.self, forKey: CodingKeys.collectionId)
+    //        collectionName = try values.decode(String.self, forKey: CodingKeys.collectionName)
+    //        artworkURL = try values.decode(URL.self, forKey: CodingKeys.artworkURL)
+    //        artistName = try values.decode(String.self, forKey: CodingKeys.artistName)
+    //        description = try? values.decode(String.self, forKey: CodingKeys.description)
+    //    }
     
     enum CodingKeys: String, CodingKey {
+        case collectionId = "collectionId"
+        case collectionName = "collectionName"
+        case trackName = "trackName"
         case artworkURL = "artworkUrl60"
-        
-        //    enum AdditionalKeys: CodingKey {
-        //        case longDescription
-        //    }
+        case artistName = "artistName"
+        case description = "description"
     }
 }
 

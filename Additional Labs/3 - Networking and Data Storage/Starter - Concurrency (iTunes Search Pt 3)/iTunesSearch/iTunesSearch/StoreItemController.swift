@@ -13,12 +13,9 @@ class StoreItemController {
         case unableToFindURLComponents
     }
     
-    func fetchItems(searchText: String, mediaTypeIndex: MediaType) async throws -> [StoreItem] {
+    func fetchItems(matching query: [String: String]) async throws -> [StoreItem] {
         let baseURL = "https://itunes.apple.com/search"
-        let query: [String: String] = [
-            "term": searchText,
-            "media": "audiobook"
-        ]
+        
         
         var components = URLComponents(string: baseURL)
         components?.queryItems = query.map { URLQueryItem(name: $0.key, value: $0.value) }

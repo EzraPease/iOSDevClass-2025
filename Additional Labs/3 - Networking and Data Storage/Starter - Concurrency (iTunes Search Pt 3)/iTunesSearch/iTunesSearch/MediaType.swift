@@ -10,7 +10,7 @@ import SwiftUI
 
 enum MediaType: String, CaseIterable {
     case music
-    case movies
-    case apps
-    case books
+    case movies = "movie"
+    case apps = "software"
+    case books = "ebook"
 }

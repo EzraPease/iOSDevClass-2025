@@ -8,8 +8,10 @@
 import SwiftUI
 
 struct ItemCellView: View {
-    let name: String
-    let artist: String
+    var storeItem: StoreItem
+
+//    let name: String
+//    let artist: String
 
     var body: some View {
         HStack {
@@ -19,9 +21,13 @@ struct ItemCellView: View {
                 .frame(width: 75, height: 75)
                 .foregroundColor(.gray)
             VStack(alignment: .leading) {
-                Text(name)
-                    .font(.headline)
-                Text(artist)
+                if let trackName = storeItem.trackName {
+                    Text(trackName)
+                        .font(.headline)
+                } else {
+                    Text("Failed to load name...")
+                }
+                Text(storeItem.artistName)
                     .font(.subheadline)
                     .foregroundColor(.secondary)
             }
