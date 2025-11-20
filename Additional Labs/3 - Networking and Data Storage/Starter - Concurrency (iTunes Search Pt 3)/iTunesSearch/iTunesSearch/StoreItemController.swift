@@ -27,4 +27,9 @@ class StoreItemController {
         let searchResponse = try decoder.decode(SearchResponse.self, from: data)
         return searchResponse.results
     }
+    
+    func fetchPreview(from url: URL) async throws -> Data {
+        let (data, _) = try await URLSession.shared.data(from: url)
+        return data
+    }
 }

@@ -5,6 +5,8 @@
  
  Your workout app now features a server-side API for users to upload and retrieve their workout data to use across multiple devices. For simplicity's sake, we will not be using a real API for this exercise. Below, an APIRequest protocol has been provided, alongside a sample implementation for a `GetUserRequest` API call.
  */
+import Foundation
+
 
 protocol APIRequest {
     associatedtype Response
@@ -51,14 +53,48 @@ class WorkoutAPIService {
     }
 }
 
-//:  Create another struct, `GetRecentWorkoutRequest` that conforms to APIRequest. The url path should be "/workout/getLast/", with no query items needed. The response type should be `Workout`, which you will need to create as a struct as well; for simplicity's sake you can leave the struct empty with no parameters, but it will need to conform to Codable..
+let userRequest = GetUserRequest(username: "Ezra")
+let workoutAPIRequest = WorkoutAPIService()
+Task {
+    let user = try? await workoutAPIRequest.performRequest(userRequest)
+}
+// The type will be Response which is the associated type from APIRequest
 
+
+//:  Create another struct, `GetRecentWorkoutRequest` that conforms to APIRequest. The url path should be "/workout/getLast/", with no query items needed. The response type should be `Workout`, which you will need to create as a struct as well; for simplicity's sake you can leave the struct empty with no parameters, but it will need to conform to Codable..
+struct Workout: Codable {}
+
+
+struct GetRecentWorkoutRequest: APIRequest {
+    typealias Response = Workout
+    var urlRequest: URLRequest
+
+    init(username: String) {
+        // Construct path to API call (base url omitted for simplicity's sake)
+        var urlComponents = URLComponents()
+        urlComponents.path = "/workout/getLast/"
+        urlComponents.queryItems = [URLQueryItem(name: "username", value: username)]
+        
+        urlRequest = URLRequest(url: urlComponents.url!)
+    }
+    
+    func decodeResponse(data: Data) throws -> Workout {
+        let jsonDecoder = JSONDecoder()
+        return try jsonDecoder.decode(Workout.self, from: data)
+    }
+    
+    
+}
 
 
 //:  Try calling WorkoutAPIService.performRequest(_:) again, this time with your new GetRecentWorkoutRequest. In a comment, answer: What type will the function return this time, and where was that type derived from?
+let recentWorkoutRequest = GetRecentWorkoutRequest(username: "Ezra")
+let apiService = WorkoutAPIService()
 
-
-
+Task {
+    let apiResult = try? await apiService.performRequest(recentWorkoutRequest)
+}
+// The type will be Response which is the associated type from APIRequest (still)
 
 /*:
  [Previous](@previous)  |  page 4 of 4

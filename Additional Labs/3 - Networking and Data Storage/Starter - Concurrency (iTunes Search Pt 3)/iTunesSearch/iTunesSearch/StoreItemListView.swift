@@ -14,8 +14,28 @@ class StoreItemListViewModel {
     
     var searchText = ""
     var selectedMediaType: MediaType = .music
-    
     var query: [String: String] = [:]
+    
+    var previewTask: Task<Void, Never>? = nil
+    
+    func fetchPreview(item: StoreItem) {
+        if let previewTask {
+            previewTask.cancel()
+            self.previewTask = nil
+        }
+
+        previewTask = Task {
+            if let previewURL = item.previewURL {
+                do {
+                    let data = try await itemController.fetchPreview(from: previewURL)
+                } catch {
+                    print(error)
+                }
+            } else {
+                previewTask = nil
+            }
+        }
+    }
     
     func fetchMatchingItems() {
         if !searchText.isEmpty {
@@ -73,7 +93,8 @@ struct StoreItemListView: View {
                 }
                 
                 List(viewModel.items, id: \.self) { item in
-                    ItemCellView(storeItem: item)
+                    ItemCellView(storeItem: item, onPlayButtonPressed: { viewModel.fetchMatchingItems() })
+                    
                 }
                 .listStyle(.plain)
             }
