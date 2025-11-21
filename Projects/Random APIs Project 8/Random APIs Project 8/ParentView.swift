@@ -8,10 +8,13 @@
 import SwiftUI
 
 struct ParentView: View {
+    @State private var dogViewModel = DogListCellViewModel()
+    
     var body: some View {
         NavigationStack {
             TabView {
                 DogsView(apiController: DogAPIController())
+                    .environment(dogViewModel)
                     .tabItem {
                         Label("Dogs", systemImage: "dog.fill")
                     }

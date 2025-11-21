@@ -6,3 +6,13 @@
 //
 
 import SwiftUI
+
+
+
+struct DogListCell: Hashable {
+    var image: URL
+    var name: String
+}
+
+
+
