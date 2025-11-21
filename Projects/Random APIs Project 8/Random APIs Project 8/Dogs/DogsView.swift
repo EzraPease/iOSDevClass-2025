@@ -13,6 +13,7 @@ struct DogsView: View {
     @State private var apiController: DogAPIController
     @State private var imageURL: URL?
     @State private var dogName = ""
+    @State private var saveDogDisabled = false
     
     init(apiController: DogAPIController) {
         self.apiController = apiController
@@ -21,6 +22,7 @@ struct DogsView: View {
     var body: some View {
         NavigationStack {
             VStack {
+                // Main Dog - Large photo at the top
                 AsyncImage(url: imageURL) { phase in
                     switch phase {
                     case .empty:
@@ -41,8 +43,11 @@ struct DogsView: View {
                 }
                 .frame(height: 300)
             }
-            TextField("Name Me?", text: $dogName)
+            TextField("Name Me?", text: $dogName) // Field for naming the dog
+            // Button for saving the dog image and name
             Button {
+                saveDogDisabled = true
+                // Sets dogName to a default when none is entered before saving dog
                 if dogName.isEmpty {
                     dogName = "No Name Entered"
                 }
@@ -58,13 +63,21 @@ struct DogsView: View {
                     } catch {
                         print(error)
                     }
+                    try? await Task.sleep(nanoseconds: 1_000_000_000)
+                    saveDogDisabled = false
                 }
-                dogName = ""
+                dogName = "" // Clears the dog name when generating a new dog image
+                
+                // Debugging Prints
                 print(viewModel.dogList)
-                print(viewModel.dogList.count)
+                print("Saved Dogs: \(viewModel.dogList.count)")
             } label: {
                 Text("Save Dog | Generate New One")
             }
+            .disabled(saveDogDisabled)
+            .padding(8)
+            .glassEffect()
+            // Lists all the currently saved dogs (Image and Name)
             List(viewModel.dogList, id: \.self) { dog in
                 HStack {
                     AsyncImage(url: dog.image) { phase in
