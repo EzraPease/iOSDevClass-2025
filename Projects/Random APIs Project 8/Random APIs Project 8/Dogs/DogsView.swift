@@ -11,9 +11,11 @@ import SwiftUI
 struct DogsView: View {
     @Environment(DogListCellViewModel.self) private var viewModel
     @State private var apiController: DogAPIController
+    @State private var selectedDog: DogListCell? = nil
     @State private var imageURL: URL?
     @State private var dogName = ""
     @State private var saveDogDisabled = false
+    @State private var editIsPresented = false
     
     init(apiController: DogAPIController) {
         self.apiController = apiController
@@ -63,7 +65,7 @@ struct DogsView: View {
                     } catch {
                         print(error)
                     }
-                    try? await Task.sleep(nanoseconds: 1_000_000_000)
+                    try? await Task.sleep(nanoseconds: 1_200_000_000)
                     saveDogDisabled = false
                 }
                 dogName = "" // Clears the dog name when generating a new dog image
@@ -80,28 +82,43 @@ struct DogsView: View {
             // Lists all the currently saved dogs (Image and Name)
             List(viewModel.dogList, id: \.self) { dog in
                 HStack {
-                    AsyncImage(url: dog.image) { phase in
-                        switch phase {
-                        case .empty:
-                            ProgressView()
-                        case .success(let image):
-                            image
-                                .resizable()
-                                .scaledToFit()
-                                .clipShape(RoundedRectangle(cornerRadius: 12))
-                                .shadow(radius: 4)
-                                .frame(maxWidth: 100, maxHeight: 100)
-                        case .failure:
-                            Image(systemName: "photo")
-                                .font(.largeTitle)
-                                .foregroundColor(.secondary)
-                        @unknown default:
-                            EmptyView()
+                    Button {
+                        editIsPresented = true
+                        selectedDog = dog
+//                        print(selectedDog)
+                    } label: {
+                        AsyncImage(url: dog.image) { phase in
+                            switch phase {
+                            case .empty:
+                                ProgressView()
+                            case .success(let image):
+                                image
+                                    .resizable()
+                                    .scaledToFit()
+                                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                                    .shadow(radius: 4)
+                                    .frame(maxWidth: 100, maxHeight: 100)
+                            case .failure:
+                                Image(systemName: "photo")
+                                    .font(.largeTitle)
+                                    .foregroundColor(.secondary)
+                            @unknown default:
+                                EmptyView()
+                            }
                         }
                     }
                     
+                    
                     Spacer()
                     Text(dog.name)
+                }
+            }
+            .sheet(isPresented: $editIsPresented) {
+                NavigationStack {
+                    if let selectedDog {
+                        DogDetailView(currentDog: $selectedDog)
+                            .presentationDetents([.large, .medium])
+                    }
                 }
             }
         }

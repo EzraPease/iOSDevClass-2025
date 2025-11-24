@@ -6,3 +6,12 @@
 //
 
 import SwiftUI
+
+
+struct DogDetailView: View {
+    @Binding var currentDog: DogListCell
+    
+    var body: some View {
+        TextField(currentDog.name, text: $currentDog.name)
+    }
+}
