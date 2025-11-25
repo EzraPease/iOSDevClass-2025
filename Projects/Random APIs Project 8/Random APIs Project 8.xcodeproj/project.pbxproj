@@ -16,11 +16,6 @@
 			path = "Random APIs Project 8";
 			sourceTree = "<group>";
 		};
-		0F4B08ED2ED0B92C00C9C12E /* USA Reps */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "USA Reps";
-			sourceTree = "<group>";
-		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -39,7 +34,6 @@
 			children = (
 				0F4B08CF2ED0B4C500C9C12E /* Random APIs Project 8 */,
 				0F4B08CE2ED0B4C500C9C12E /* Products */,
-				0F4B08ED2ED0B92C00C9C12E /* USA Reps */,
 			);
 			sourceTree = "<group>";
 		};
@@ -68,7 +62,6 @@
 			);
 			fileSystemSynchronizedGroups = (
 				0F4B08CF2ED0B4C500C9C12E /* Random APIs Project 8 */,
-				0F4B08ED2ED0B92C00C9C12E /* USA Reps */,
 			);
 			name = "Random APIs Project 8";
 			packageProductDependencies = (
