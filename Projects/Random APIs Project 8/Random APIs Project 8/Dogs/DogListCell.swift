@@ -9,7 +9,8 @@ import SwiftUI
 
 
 
-struct DogListCell: Hashable {
+struct DogListCell: Hashable, Identifiable {
+    var id = UUID()
     var image: URL
     var name: String
 }

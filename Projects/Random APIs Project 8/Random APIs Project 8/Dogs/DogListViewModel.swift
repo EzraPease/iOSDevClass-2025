@@ -9,6 +9,6 @@ import SwiftUI
 
 
 @Observable
-class DogListCellViewModel {
+class DogListViewModel {
     var dogList: [DogListCell] = []
 }

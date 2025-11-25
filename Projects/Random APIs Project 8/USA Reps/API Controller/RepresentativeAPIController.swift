@@ -1,0 +1,34 @@
+//
+//  RepresentativeAPIControllerProtocol.swift
+//  Random APIs Project 8
+//
+//  Created by Ezra Pease on 11/25/25.
+//
+
+import SwiftUI
+
+
+class RepresentativeAPIController: RepresenativeAPIControllerProtocol {
+    func fetchUSARep(zip: String? = nil) async throws -> USReps {
+        var components = URLComponents()
+        components.scheme = "https"
+        components.host = "whoismyrepresentative.com"
+        components.path = "/getall_mems.php"
+        
+        let items = [
+            URLQueryItem(name: "zip", value: "31023"),
+            URLQueryItem(name: "output", value: "json")
+        ]
+        
+        components.queryItems = items
+        print("DEBUGING INFO - \(components)")
+
+        
+        guard let url = components.url else { throw USRepErrors.unableToFetchREP }
+        let (data, _) = try await URLSession.shared.data(from: url)
+//        print(String(data: data, encoding: .utf8))
+        
+        let APIReps = try  JSONDecoder().decode(USReps.self, from: data)
+        return APIReps
+    }
+}

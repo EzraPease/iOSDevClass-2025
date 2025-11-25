@@ -9,9 +9,28 @@ import SwiftUI
 
 
 struct DogDetailView: View {
-    @Binding var currentDog: DogListCell
+    @Environment(DogListViewModel.self) private var viewModel
+    @Environment(\.dismiss) var dismiss
+    @State private var dogName: String
+    var currentDog: DogListCell
+    
+    init(currentDog: DogListCell) {
+        self.currentDog = currentDog
+        self.dogName = currentDog.name
+    }
     
     var body: some View {
-        TextField(currentDog.name, text: $currentDog.name)
+        List {
+            TextField(currentDog.name, text: $dogName)
+        }
+        Button("Save") {
+            if let index = viewModel.dogList.firstIndex(of: currentDog) {
+                viewModel.dogList[index] = DogListCell(id: currentDog.id, image: currentDog.image, name: dogName)
+                dismiss()
+            }
+        }
     }
+}
+#Preview {
+    ParentView()
 }

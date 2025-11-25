@@ -9,7 +9,7 @@ import SwiftUI
 
 
 struct DogsView: View {
-    @Environment(DogListCellViewModel.self) private var viewModel
+    @Environment(DogListViewModel.self) private var viewModel
     @State private var apiController: DogAPIController
     @State private var selectedDog: DogListCell? = nil
     @State private var imageURL: URL?
@@ -22,6 +22,8 @@ struct DogsView: View {
     }
     
     var body: some View {
+        @Bindable var viewModel = viewModel
+        
         NavigationStack {
             VStack {
                 // Main Dog - Large photo at the top
@@ -80,7 +82,7 @@ struct DogsView: View {
             .padding(8)
             .glassEffect()
             // Lists all the currently saved dogs (Image and Name)
-            List(viewModel.dogList, id: \.self) { dog in
+            List($viewModel.dogList) { $dog in
                 HStack {
                     Button {
                         editIsPresented = true
@@ -113,12 +115,11 @@ struct DogsView: View {
                     Text(dog.name)
                 }
             }
-            .sheet(isPresented: $editIsPresented) {
+            .sheet(item: $selectedDog) { dog in
                 NavigationStack {
-                    if let selectedDog {
-                        DogDetailView(currentDog: $selectedDog)
+
+                        DogDetailView(currentDog: dog)
                             .presentationDetents([.large, .medium])
-                    }
                 }
             }
         }

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ParentView: View {
-    @State private var dogViewModel = DogListCellViewModel()
+    @State private var dogViewModel = DogListViewModel()
     
     var body: some View {
         NavigationStack {
@@ -18,7 +18,7 @@ struct ParentView: View {
                     .tabItem {
                         Label("Dogs", systemImage: "dog.fill")
                     }
-                USARepsView()
+                USARepsView(apiController: RepresentativeAPIController())
                     .tabItem {
                         Label("USA Reps", systemImage: "person.2.shield")
                     }
