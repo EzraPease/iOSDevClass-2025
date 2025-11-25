@@ -9,14 +9,14 @@ import SwiftUI
 
 
 class RepresentativeAPIController: RepresenativeAPIControllerProtocol {
-    func fetchUSARep(zip: String? = nil) async throws -> USReps {
+    func fetchUSARep(zip: String? = nil) async throws -> [USReps] {
         var components = URLComponents()
         components.scheme = "https"
         components.host = "whoismyrepresentative.com"
         components.path = "/getall_mems.php"
         
         let items = [
-            URLQueryItem(name: "zip", value: "31023"),
+            URLQueryItem(name: "zip", value: "31023"), // Zip value should = zip | Numbers in place indicate debugging
             URLQueryItem(name: "output", value: "json")
         ]
         
@@ -28,7 +28,7 @@ class RepresentativeAPIController: RepresenativeAPIControllerProtocol {
         let (data, _) = try await URLSession.shared.data(from: url)
 //        print(String(data: data, encoding: .utf8))
         
-        let APIReps = try  JSONDecoder().decode(USReps.self, from: data)
-        return APIReps
+        let APIReps = try  JSONDecoder().decode(USRepsResults.self, from: data)
+        return APIReps.results
     }
 }

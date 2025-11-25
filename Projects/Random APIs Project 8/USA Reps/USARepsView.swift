@@ -33,7 +33,7 @@ struct USARepsView: View {
                     Task {
                         {
                             do {
-                                currentREP = try await apitController.fetchUSARep()
+                                currentREP = try await apitController.fetchUSARep().first
                             } catch {
                                 print(error)
                             }
@@ -43,8 +43,19 @@ struct USARepsView: View {
                     print("Zip Code Submitted")
                 }
         }
+        // .task is for debugging
         .task {
-            print(currentREP.name)
+            do {
+                currentREP = try await apitController.fetchUSARep().first
+            } catch {
+                print(error)
+            }
+            print("Current REP = \(currentREP)")
+            if let currentREP {
+                print(currentREP.name)
+            } else {
+                print("Failed")
+            }
         }
     }
 }

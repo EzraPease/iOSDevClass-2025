@@ -7,6 +7,9 @@
 
 import SwiftUI
 
+struct USRepsResults: Codable {
+    let results: [USReps]
+}
 
 struct USReps: Codable {
     let name: String
@@ -14,5 +17,5 @@ struct USReps: Codable {
     let district: String
     let phone: String
     let office: String
-    let website: String
+    let link: String
 }

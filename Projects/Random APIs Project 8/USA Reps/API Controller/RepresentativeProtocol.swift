@@ -8,5 +8,5 @@
 import SwiftUI
 
 protocol RepresenativeAPIControllerProtocol {
-    func fetchUSARep(zip: String?) async throws -> USReps
+    func fetchUSARep(zip: String?) async throws -> [USReps]
 }
