@@ -11,7 +11,7 @@ import SwiftUI
 struct USARepsView: View {
     @State private var zipCode = ""
     @State private var apitController: RepresentativeAPIController
-    @State private var repsList: [USReps]?
+    @State private var repsList: [USReps]? // Storage for reps list from API
     
     
     init(apiController: RepresentativeAPIController) {
@@ -30,6 +30,7 @@ struct USARepsView: View {
                 .frame(width: 300, height: 30)
                 .keyboardType(.numberPad)
             Button("Search") {
+                // Dismisses keyboard on click
                 UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder),
                                                 to: nil, from: nil, for: nil)
                 Task {
@@ -44,6 +45,7 @@ struct USARepsView: View {
                 }
             }
             .padding()
+            // View for when the user submits a search
             if let reps = repsList, !reps.isEmpty {
                 
                 ScrollView {

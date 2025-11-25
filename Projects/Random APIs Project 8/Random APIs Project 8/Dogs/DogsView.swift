@@ -11,7 +11,7 @@ import SwiftUI
 struct DogsView: View {
     @Environment(DogListViewModel.self) private var viewModel
     @State private var apiController: DogAPIController
-    @State private var selectedDog: DogListCell? = nil
+    @State private var selectedDog: DogListCell? = nil // Variable used for editing specific dogs in the list
     @State private var imageURL: URL?
     @State private var dogName = ""
     @State private var saveDogDisabled = false
@@ -115,6 +115,7 @@ struct DogsView: View {
                     Text(dog.name)
                 }
             }
+            // Sheet for viewing dog details / editing the name
             .sheet(item: $selectedDog) { dog in
                 NavigationStack {
 
@@ -123,6 +124,7 @@ struct DogsView: View {
                 }
             }
         }
+        // Refreshes / fetches a new image whenver the view is shown
         .task {
             do {
                 let urlString = try await apiController.fetchDogImage()
