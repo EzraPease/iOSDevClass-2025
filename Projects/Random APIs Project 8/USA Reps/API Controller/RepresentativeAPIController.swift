@@ -16,19 +16,19 @@ class RepresentativeAPIController: RepresenativeAPIControllerProtocol {
         components.path = "/getall_mems.php"
         
         let queryItems = [
-            URLQueryItem(name: "zip", value: "31023"), // Zip value should = zip | Numbers in place indicate debugging
+            URLQueryItem(name: "zip", value: zip), // Zip value should = zip | Numbers in place indicate debugging
             URLQueryItem(name: "output", value: "json")
         ]
         
         components.queryItems = queryItems
-        print("DEBUGING INFO - \(components)")
+        print("DEBUGING INFO LINK - \(components)")
 
         
         guard let url = components.url else { throw USRepErrors.unableToFetchREP }
         let (data, _) = try await URLSession.shared.data(from: url)
 //        print(String(data: data, encoding: .utf8))
         
-        let APIReps = try  JSONDecoder().decode(USRepsResults.self, from: data)
+        let APIReps = try JSONDecoder().decode(USRepsResults.self, from: data)
         return APIReps.results
     }
 }

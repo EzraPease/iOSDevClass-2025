@@ -29,38 +29,90 @@ struct USARepsView: View {
                 .glassEffect()
                 .frame(width: 300, height: 30)
                 .keyboardType(.numberPad)
-                .onSubmit {
-                    Task {
-                        {
-                            do {
-                                repsList = try await apitController.fetchUSARep()
-                            } catch {
-                                print(error)
-                            }
-                            
-                        }
+            Button("Search") {
+                UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder),
+                                                to: nil, from: nil, for: nil)
+                Task {
+                    do {
+                        repsList = try await apitController.fetchUSARep(zip: zipCode)
+                    } catch {
+                        print(error)
                     }
-                    print("Zip Code Submitted")
+                    print(repsList as Any) // DEBUGGING
+                    print(repsList?.count as Any) // DEBUGGING
+                    print("Zip Code Submitted") // DEBUGGING
                 }
+            }
+            .padding()
+            if let reps = repsList, !reps.isEmpty {
+                
+                ScrollView {
+                    ForEach(Array(reps.enumerated()), id: \.offset) { _, rep in
+                        VStack(alignment: .leading) {
+                            Text(rep.name)
+                                .font(.headline)
+                                .bold()
+                                .underline()
+                                .padding(.vertical, 10)
+                            HStack(alignment: .top) {
+                                Text("Office Address: ")
+                                    .bold()
+                                Text(rep.office)
+                            }
+                            HStack {
+                                Text("Phone Number: ")
+                                    .bold()
+                                Text(rep.phone)
+                            }
+                            HStack {
+                                Text("State: ")
+                                    .bold()
+                                Text(rep.state)
+                            }
+                            HStack {
+                                Text("Disctrict: ")
+                                    .bold()
+                                Text(rep.district)
+                            }
+                            HStack {
+                                Text("Link: ")
+                                    .bold()
+                                if let url = URL(string: rep.link) {
+                                    Link(rep.link, destination: url)
+                                        .foregroundStyle(.blue)
+                                } else {
+                                    Text(rep.link)
+                                        .foregroundStyle(.secondary)
+                                }
+                            }
+                        }
+                        .padding(15)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .background(Color.orange, in: RoundedRectangle(cornerRadius: 30))
+                        .padding(10)
+                    }
+                }
+            }
+            
         }
         // .task is for debugging
-//        .task {
-//            do {
-//                repsList = try await apitController.fetchUSARep().first
-//            } catch {
-//                print(error)
-//            }
-//            print("Reps List = \(currrepsListentREP)")
-//            if let repsList {
-//                print(repsList.name)
-//            } else {
-//                print("Failed")
-//            }
-//        }
+        //        .task {
+        //            do {
+        //                repsList = try await apitController.fetchUSARep().first
+        //            } catch {
+        //                print(error)
+        //            }
+        //            print("Reps List = \(currrepsListentREP)")
+        //            if let repsList {
+        //                print(repsList.name)
+        //            } else {
+        //                print("Failed")
+        //            }
+        //        }
     }
 }
 
 
 #Preview {
-    ParentView()
+    USARepsView(apiController: RepresentativeAPIController())
 }
