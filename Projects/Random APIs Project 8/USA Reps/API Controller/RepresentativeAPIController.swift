@@ -15,12 +15,12 @@ class RepresentativeAPIController: RepresenativeAPIControllerProtocol {
         components.host = "whoismyrepresentative.com"
         components.path = "/getall_mems.php"
         
-        let items = [
+        let queryItems = [
             URLQueryItem(name: "zip", value: "31023"), // Zip value should = zip | Numbers in place indicate debugging
             URLQueryItem(name: "output", value: "json")
         ]
         
-        components.queryItems = items
+        components.queryItems = queryItems
         print("DEBUGING INFO - \(components)")
 
         

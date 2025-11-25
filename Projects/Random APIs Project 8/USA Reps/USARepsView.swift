@@ -11,7 +11,7 @@ import SwiftUI
 struct USARepsView: View {
     @State private var zipCode = ""
     @State private var apitController: RepresentativeAPIController
-    @State private var currentREP: USReps?
+    @State private var repsList: [USReps]?
     
     
     init(apiController: RepresentativeAPIController) {
@@ -24,7 +24,7 @@ struct USARepsView: View {
                 .font(.largeTitle)
                 .bold()
                 .padding()
-            TextField("Zip Code", text: $zipCode)
+            TextField("Search By Zip Code", text: $zipCode)
                 .padding()
                 .glassEffect()
                 .frame(width: 300, height: 30)
@@ -33,7 +33,7 @@ struct USARepsView: View {
                     Task {
                         {
                             do {
-                                currentREP = try await apitController.fetchUSARep().first
+                                repsList = try await apitController.fetchUSARep()
                             } catch {
                                 print(error)
                             }
@@ -44,19 +44,19 @@ struct USARepsView: View {
                 }
         }
         // .task is for debugging
-        .task {
-            do {
-                currentREP = try await apitController.fetchUSARep().first
-            } catch {
-                print(error)
-            }
-            print("Current REP = \(currentREP)")
-            if let currentREP {
-                print(currentREP.name)
-            } else {
-                print("Failed")
-            }
-        }
+//        .task {
+//            do {
+//                repsList = try await apitController.fetchUSARep().first
+//            } catch {
+//                print(error)
+//            }
+//            print("Reps List = \(currrepsListentREP)")
+//            if let repsList {
+//                print(repsList.name)
+//            } else {
+//                print("Failed")
+//            }
+//        }
     }
 }
 
