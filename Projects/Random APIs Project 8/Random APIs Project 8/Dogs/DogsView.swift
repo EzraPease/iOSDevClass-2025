@@ -16,6 +16,8 @@ struct DogsView: View {
     @State private var dogName = ""
     @State private var saveDogDisabled = false
     @State private var editIsPresented = false
+    @State private var noNameErrorPresented = false
+    @State private var dogNameTextField = "Dog Name..."
     
     init(apiController: DogAPIController) {
         self.apiController = apiController
@@ -47,30 +49,50 @@ struct DogsView: View {
                 }
                 .frame(height: 300)
             }
-            TextField("Name Me?", text: $dogName) // Field for naming the dog
+            TextField(
+                "",
+                text: $dogName,
+                prompt: Text(dogNameTextField)
+                    .foregroundStyle(noNameErrorPresented ? .red : .secondary)
+            ) // Field for setting dog name
+        
             // Button for saving the dog image and name
             Button {
                 saveDogDisabled = true
                 // Sets dogName to a default when none is entered before saving dog
                 if dogName.isEmpty {
-                    dogName = "No Name Entered"
-                }
-                if let imageURL {
-                    viewModel.dogList.append(DogListCell(image: imageURL, name: dogName))
-                } else {
-                    print("Unable to save image")
-                }
-                Task {
-                    do {
-                        let urlString = try await apiController.fetchDogImage()
-                        imageURL = URL(string: urlString)
-                    } catch {
-                        print(error)
+                    print("No dog name entered")
+                    
+                    dogNameTextField = "Please input name..."
+                    noNameErrorPresented = true
+                    
+                    Task {
+                        try? await Task.sleep(nanoseconds: 1_200_000_000) // Temporary button disable
+                        saveDogDisabled = false
                     }
-                    try? await Task.sleep(nanoseconds: 1_200_000_000)
-                    saveDogDisabled = false
+                    Task {
+                        try? await Task.sleep(nanoseconds: 5 * 1_000_000_000) // Temporary text to indicate a dog needs a name inputed
+                        noNameErrorPresented = false
+                        dogNameTextField = "Dog Name..."
+                    }
+                } else {
+                    if let imageURL {
+                        viewModel.dogList.append(DogListCell(image: imageURL, name: dogName))
+                    } else {
+                        print("Unable to save image")
+                    }
+                    Task {
+                        do {
+                            let urlString = try await apiController.fetchDogImage()
+                            imageURL = URL(string: urlString)
+                        } catch {
+                            print(error)
+                        }
+                        try? await Task.sleep(nanoseconds: 1_200_000_000)
+                        saveDogDisabled = false
+                    }
+                    dogName = "" // Clears the dog name when generating a new dog image
                 }
-                dogName = "" // Clears the dog name when generating a new dog image
                 
                 // Debugging Prints
                 print(viewModel.dogList)
