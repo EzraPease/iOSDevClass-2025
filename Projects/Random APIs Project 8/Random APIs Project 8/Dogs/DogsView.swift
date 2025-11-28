@@ -23,7 +23,7 @@ struct DogsView: View {
         self.apiController = apiController
     }
     
-    private func playHaptic() {
+    private func playHaptic() { // Haptic function
         let generator = UIImpactFeedbackGenerator(style: .medium)
         generator.impactOccurred()
     }
@@ -64,7 +64,7 @@ struct DogsView: View {
         
             // Button for saving the dog image and name
             Button {
-                playHaptic()
+                playHaptic() // Plays a haptic when the button is clicked
                 saveDogDisabled = true
                 // Sets dogName to a default when none is entered before saving dog
                 if dogName.isEmpty {
