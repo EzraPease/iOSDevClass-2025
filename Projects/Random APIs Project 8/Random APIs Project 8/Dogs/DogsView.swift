@@ -23,6 +23,11 @@ struct DogsView: View {
         self.apiController = apiController
     }
     
+    private func playHaptic() {
+        let generator = UIImpactFeedbackGenerator(style: .medium)
+        generator.impactOccurred()
+    }
+    
     var body: some View {
         @Bindable var viewModel = viewModel
         
@@ -54,10 +59,12 @@ struct DogsView: View {
                 text: $dogName,
                 prompt: Text(dogNameTextField)
                     .foregroundStyle(noNameErrorPresented ? .red : .secondary)
+                    .bold(noNameErrorPresented)
             ) // Field for setting dog name
         
             // Button for saving the dog image and name
             Button {
+                playHaptic()
                 saveDogDisabled = true
                 // Sets dogName to a default when none is entered before saving dog
                 if dogName.isEmpty {
@@ -67,11 +74,11 @@ struct DogsView: View {
                     noNameErrorPresented = true
                     
                     Task {
-                        try? await Task.sleep(nanoseconds: 1_200_000_000) // Temporary button disable
+                        try? await Task.sleep(nanoseconds: 450_000_000) // Temporary button disable for .45 seconds
                         saveDogDisabled = false
                     }
                     Task {
-                        try? await Task.sleep(nanoseconds: 5 * 1_000_000_000) // Temporary text to indicate a dog needs a name inputed
+                        try? await Task.sleep(nanoseconds: 5 * 1_000_000_000) // Temporary text to indicate a dog needs a name inputed (lasts for 5 seconds)
                         noNameErrorPresented = false
                         dogNameTextField = "Dog Name..."
                     }
