@@ -63,53 +63,59 @@ struct DogsView: View {
             ) // Field for setting dog name
         
             // Button for saving the dog image and name
-            Button {
-                playHaptic() // Plays a haptic when the button is clicked
-                saveDogDisabled = true
-                // Sets dogName to a default when none is entered before saving dog
-                if dogName.isEmpty {
-                    print("No dog name entered")
-                    
-                    dogNameTextField = "Please input name..."
-                    noNameErrorPresented = true
-                    
-                    Task {
-                        try? await Task.sleep(nanoseconds: 450_000_000) // Temporary button disable for .45 seconds
-                        saveDogDisabled = false
-                    }
-                    Task {
-                        try? await Task.sleep(nanoseconds: 5 * 1_000_000_000) // Temporary text to indicate a dog needs a name inputed (lasts for 5 seconds)
-                        noNameErrorPresented = false
-                        dogNameTextField = "Dog Name..."
-                    }
-                } else {
-                    if let imageURL {
-                        viewModel.dogList.append(DogListCell(image: imageURL, name: dogName))
-                    } else {
-                        print("Unable to save image")
-                    }
-                    Task {
-                        do {
-                            let urlString = try await apiController.fetchDogImage()
-                            imageURL = URL(string: urlString)
-                        } catch {
-                            print(error)
+            HStack {
+                Button {
+                    playHaptic() // Plays a haptic when the button is clicked
+                    saveDogDisabled = true
+                    // Sets dogName to a default when none is entered before saving dog
+                    if dogName.isEmpty {
+                        print("No dog name entered")
+                        
+                        dogNameTextField = "Please input name..."
+                        noNameErrorPresented = true
+                        
+                        Task {
+                            try? await Task.sleep(nanoseconds: 450_000_000) // Temporary button disable for .45 seconds
+                            saveDogDisabled = false
                         }
-                        try? await Task.sleep(nanoseconds: 1_200_000_000)
-                        saveDogDisabled = false
+                        Task {
+                            try? await Task.sleep(nanoseconds: 5 * 1_000_000_000) // Temporary text to indicate a dog needs a name inputed (lasts for 5 seconds)
+                            noNameErrorPresented = false
+                            dogNameTextField = "Dog Name..."
+                        }
+                    } else {
+                        if let imageURL {
+                            viewModel.dogList.append(DogListCell(image: imageURL, name: dogName))
+                        } else {
+                            print("Unable to save image")
+                        }
+                        Task {
+                            do {
+                                let urlString = try await apiController.fetchDogImage()
+                                imageURL = URL(string: urlString)
+                            } catch {
+                                print(error)
+                            }
+                            try? await Task.sleep(nanoseconds: 1_200_000_000)
+                            saveDogDisabled = false
+                        }
+                        dogName = "" // Clears the dog name when generating a new dog image
                     }
-                    dogName = "" // Clears the dog name when generating a new dog image
+                    
+                    // Debugging Prints
+                    print(viewModel.dogList)
+                    print("Saved Dogs: \(viewModel.dogList.count)")
+                } label: {
+                    Text(saveDogDisabled ? "Saving..." : "Save Dog | Generate New One")
+                        .animation(.none)
                 }
-                
-                // Debugging Prints
-                print(viewModel.dogList)
-                print("Saved Dogs: \(viewModel.dogList.count)")
-            } label: {
-                Text("Save Dog | Generate New One")
+                .disabled(saveDogDisabled)
+                .padding(8)
+                .glassEffect()
+                if saveDogDisabled {
+                    ProgressView()
+                }
             }
-            .disabled(saveDogDisabled)
-            .padding(8)
-            .glassEffect()
             // Lists all the currently saved dogs (Image and Name)
             List($viewModel.dogList) { $dog in
                 HStack {
