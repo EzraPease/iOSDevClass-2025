@@ -79,7 +79,7 @@ struct DogsView: View {
                             saveDogDisabled = false
                         }
                         Task {
-                            try? await Task.sleep(nanoseconds: 5 * 1_000_000_000) // Temporary text to indicate a dog needs a name inputed (lasts for 5 seconds)
+                            try? await Task.sleep(nanoseconds: 30 * 1_000_000_000) // Temporary text to indicate a dog needs a name inputed (lasts for 5 seconds)
                             noNameErrorPresented = false
                             dogNameTextField = "Dog Name..."
                         }
