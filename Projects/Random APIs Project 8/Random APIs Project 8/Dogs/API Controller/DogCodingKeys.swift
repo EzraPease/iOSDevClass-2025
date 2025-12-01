@@ -7,6 +7,6 @@
 
 import SwiftUI
 
-struct Dogs: Codable {
-    let message: String
+struct Dog: Codable {
+    let message: URL
 }

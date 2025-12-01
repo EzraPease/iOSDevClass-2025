@@ -42,7 +42,7 @@ struct USARepsView: View {
                         } catch {
                             print(error)
                         }
-                        try? await Task.sleep(nanoseconds: 350_000_000) // Waits for 0.35 seconds
+//                        try? await Task.sleep(nanoseconds: 350_000_000) // Waits for 0.35 seconds
                         loadingIndicatorShown = false
                         print(repsList as Any) // DEBUGGING
                         print(repsList?.count as Any) // DEBUGGING

@@ -9,5 +9,5 @@ import SwiftUI
 
 
 protocol DogAPIControllerProtocol {
-    func fetchDogImage() async throws -> String
+    func fetchDog() async throws -> Dog
 }

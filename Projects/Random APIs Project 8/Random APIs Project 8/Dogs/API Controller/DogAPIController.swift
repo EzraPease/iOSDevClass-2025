@@ -12,15 +12,12 @@ import SwiftUI
 class DogAPIController: DogAPIControllerProtocol {
     
     
-    
-    func fetchDogImage() async throws -> String {
+    func fetchDog() async throws -> Dog {
         guard let url = URL(string: "https://dog.ceo/api/breeds/image/random") else { throw DogErrors.unableToFetchURL }
         let (data, _) = try await URLSession.shared.data(from: url)
 //        print(String(data: data, encoding: .utf8))
         
-        let dogAPI = try JSONDecoder().decode(Dogs.self, from: data)
-        return dogAPI.message
+        return try JSONDecoder().decode(Dog.self, from: data)
     }
-    
     
 }
