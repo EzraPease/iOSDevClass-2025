@@ -12,6 +12,7 @@ struct USARepsView: View {
     @State private var zipCode = ""
     @State private var apitController: RepresentativeAPIController
     @State private var repsList: [USReps]? // Storage for reps list from API
+    @State private var loadingIndicatorShown = false
     
     
     init(apiController: RepresentativeAPIController) {
@@ -29,25 +30,32 @@ struct USARepsView: View {
                 .glassEffect()
                 .frame(width: 300, height: 30)
                 .keyboardType(.numberPad)
-            Button("Search") {
-                // Dismisses keyboard on click
-                UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder),
-                                                to: nil, from: nil, for: nil)
-                Task {
-                    do {
-                        repsList = try await apitController.fetchUSARep(zip: zipCode)
-                    } catch {
-                        print(error)
+            HStack {
+                Button("Search") {
+                    // Dismisses keyboard on click
+                    UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder),
+                                                    to: nil, from: nil, for: nil)
+                    loadingIndicatorShown = true
+                    Task {
+                        do {
+                            repsList = try await apitController.fetchUSARep(zip: zipCode)
+                        } catch {
+                            print(error)
+                        }
+                        try? await Task.sleep(nanoseconds: 350_000_000) // Waits for 0.35 seconds
+                        loadingIndicatorShown = false
+                        print(repsList as Any) // DEBUGGING
+                        print(repsList?.count as Any) // DEBUGGING
+                        print("Zip Code Submitted") // DEBUGGING
                     }
-                    print(repsList as Any) // DEBUGGING
-                    print(repsList?.count as Any) // DEBUGGING
-                    print("Zip Code Submitted") // DEBUGGING
+                }
+                if loadingIndicatorShown {
+                    ProgressView()
                 }
             }
             .padding()
             // View for when the user submits a search
             if let reps = repsList, !reps.isEmpty {
-                
                 ScrollView {
                     ForEach(Array(reps.enumerated()), id: \.offset) { _, rep in
                         VStack(alignment: .leading) {
