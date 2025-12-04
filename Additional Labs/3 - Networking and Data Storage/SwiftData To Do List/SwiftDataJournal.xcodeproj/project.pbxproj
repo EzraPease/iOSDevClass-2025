@@ -11,9 +11,9 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		0FDEF6212EDF3B620065DC8B /* SwiftData To Do List */ = {
+		0FDEF6212EDF3B620065DC8B /* SwiftDataJournal */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "SwiftData To Do List";
+			path = SwiftDataJournal;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -32,7 +32,7 @@
 		0FDEF6162EDF3B620065DC8B = {
 			isa = PBXGroup;
 			children = (
-				0FDEF6212EDF3B620065DC8B /* SwiftData To Do List */,
+				0FDEF6212EDF3B620065DC8B /* SwiftDataJournal */,
 				0FDEF6202EDF3B620065DC8B /* Products */,
 			);
 			sourceTree = "<group>";
@@ -61,7 +61,7 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				0FDEF6212EDF3B620065DC8B /* SwiftData To Do List */,
+				0FDEF6212EDF3B620065DC8B /* SwiftDataJournal */,
 			);
 			name = "SwiftData To Do List";
 			packageProductDependencies = (
