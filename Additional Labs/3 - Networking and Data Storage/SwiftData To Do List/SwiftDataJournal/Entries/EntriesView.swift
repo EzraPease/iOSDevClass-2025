@@ -10,11 +10,17 @@ import SwiftData
 
 
 struct EntriesView: View {
-    @Query(sort: \JournalEntries.timeStamp, order: .reverse) private var journalEntries: [JournalEntries]
+//    @Query(sort: \JournalEntries.timeStamp, order: .reverse) private var journalEntries: [JournalEntries]
+    
     
     @Environment(\.modelContext) private var context
-    @State private var detailViewPresented: JournalEntries?
+    @State private var entryDetails: JournalEntries?
     @State private var newEntryPresented = false
+    
+    var journalEntries: [JournalEntries] {
+        return journal.entries
+    }
+    var journal: Journals
     
     var body: some View {
         NavigationStack {
@@ -24,7 +30,7 @@ struct EntriesView: View {
                 } else {
                     ForEach(journalEntries) { entry in
                         Button {
-                            detailViewPresented = entry
+                            entryDetails = entry
                         } label: {
                             HStack {
                                 VStack(alignment: .leading) {
@@ -45,7 +51,7 @@ struct EntriesView: View {
                     }
                 }
             }
-            .navigationTitle("Journal Entries")
+            .navigationTitle(journal.title)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button(action: newEntry) {
@@ -53,11 +59,11 @@ struct EntriesView: View {
                     }
                 }
             }
-            .sheet(item: $detailViewPresented) { entry in
+            .sheet(item: $entryDetails) { entry in
                     EntryDetailView(entry: entry)
             }
             .sheet(isPresented: $newEntryPresented) {
-                NewEntryView()
+                NewEntryView(journal: journal)
             }
         }
     }
@@ -76,10 +82,7 @@ struct EntriesView: View {
         }
     }
     
-    private func save(title: String, body: String) {
-        let newEntry = JournalEntries(title: title, body: body)
-        context.insert(newEntry)
-    }
+    
     
     private func newEntry() {
         newEntryPresented = true
@@ -87,7 +90,7 @@ struct EntriesView: View {
 }
 
 
-#Preview {
-    EntriesView()
-        .modelContainer(for: JournalEntries.self)
-}
+//#Preview {
+//    EntriesView(journal: journal)
+//        .modelContainer(for: JournalEntries.self)
+//}

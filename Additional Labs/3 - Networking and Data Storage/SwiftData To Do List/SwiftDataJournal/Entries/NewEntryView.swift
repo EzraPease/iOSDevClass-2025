@@ -14,6 +14,11 @@ struct NewEntryView: View {
     @State private var title = ""
     @State private var entryBody = ""
     
+    var journalEntries: [JournalEntries] {
+        return journal.entries
+    }
+    var journal: Journals
+    
     var body: some View {
         NavigationStack {
             List {
@@ -44,7 +49,9 @@ struct NewEntryView: View {
     
     private func save() {
         let newEntry = JournalEntries(title: title, body: entryBody)
-            context.insert(newEntry)
+        newEntry.journal = journal
+        journal.entries.append(newEntry)
+        context.insert(newEntry)
         dismiss()
     }
     

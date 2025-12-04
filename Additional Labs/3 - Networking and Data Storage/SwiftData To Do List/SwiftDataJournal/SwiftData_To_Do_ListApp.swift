@@ -12,7 +12,7 @@ import SwiftData
 struct SwiftData_To_Do_ListApp: App {
     var body: some Scene {
         WindowGroup {
-            EntriesView()
+            JournalsView()
         }
         .modelContainer(for: [JournalEntries.self, Journals.self])
     }
