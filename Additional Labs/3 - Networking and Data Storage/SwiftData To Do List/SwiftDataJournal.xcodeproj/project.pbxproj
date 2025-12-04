@@ -85,7 +85,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 0FDEF61A2EDF3B620065DC8B /* Build configuration list for PBXProject "SwiftData To Do List" */;
+			buildConfigurationList = 0FDEF61A2EDF3B620065DC8B /* Build configuration list for PBXProject "SwiftDataJournal" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -313,7 +313,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		0FDEF61A2EDF3B620065DC8B /* Build configuration list for PBXProject "SwiftData To Do List" */ = {
+		0FDEF61A2EDF3B620065DC8B /* Build configuration list for PBXProject "SwiftDataJournal" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				0FDEF6282EDF3B630065DC8B /* Debug */,
