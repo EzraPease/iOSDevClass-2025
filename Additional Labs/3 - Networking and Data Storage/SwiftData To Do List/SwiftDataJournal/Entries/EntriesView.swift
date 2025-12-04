@@ -9,7 +9,7 @@ import SwiftUI
 import SwiftData
 
 
-struct ContentView: View {
+struct EntriesView: View {
     @Query(sort: \JournalEntries.timeStamp, order: .reverse) private var journalEntries: [JournalEntries]
     
     @Environment(\.modelContext) private var context
@@ -88,6 +88,6 @@ struct ContentView: View {
 
 
 #Preview {
-    ContentView()
+    EntriesView()
         .modelContainer(for: JournalEntries.self)
 }

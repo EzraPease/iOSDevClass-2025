@@ -1,18 +1,20 @@
 //
-//  NewEntryView.swift
+//  NewJournalView.swift
 //  SwiftData To Do List
 //
-//  Created by Ezra Pease on 12/2/25.
+//  Created by Ezra Pease on 12/4/25.
 //
 
 import SwiftUI
 import SwiftData
 
-struct NewEntryView: View {
+
+
+struct NewJournalView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var context
     @State private var title = ""
-    @State private var entryBody = ""
+    @State private var journalBody = ""
     
     var body: some View {
         NavigationStack {
@@ -21,10 +23,11 @@ struct NewEntryView: View {
                     TextField("Title", text: $title)
                 }
                 Section {
-                    TextField("Body", text: $entryBody)
+                    TextEditor(text: $journalBody)
+                        .frame(height: 200)
                 }
             }
-            .navigationTitle("New Entry")
+            .navigationTitle("New Journal")
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     Button(action: cancel) {
@@ -42,8 +45,8 @@ struct NewEntryView: View {
     }
     
     private func save() {
-        let newEntry = JournalEntries(title: title, body: entryBody)
-            context.insert(newEntry)
+        let newJournal = Journals(title: title, body: journalBody)
+            context.insert(newJournal)
         dismiss()
     }
     
