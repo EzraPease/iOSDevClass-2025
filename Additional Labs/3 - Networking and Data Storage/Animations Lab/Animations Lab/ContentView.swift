@@ -77,7 +77,7 @@ struct ContentView: View {
             scale = 0
             opacity = 0
         }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
             switch currentNumber {
             case 2...3:
                 currentNumber -= 1
@@ -93,13 +93,9 @@ struct ContentView: View {
             
                 print("GO Displayed")
             default:
-                // Finished countdown
-                showGo = true
-                currentNumber = 3
-                scale = 1
-                opacity = 1
+                resetView()
                 
-                print("Countdown Completed")
+                print("ERROR - Unable to complete countdown, view reset")
             }
         }
     }
