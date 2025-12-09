@@ -9,21 +9,31 @@ import SwiftUI
 
 struct ContentView: View {
     @State private var showCountdown = false
+    @State private var countdownVisible = false
     @State private var showGo = false
     @State private var currentNumber = 3
     @State private var scale: CGFloat = 1
     @State private var opacity: Double = 1
     
+    
+    // Transitions Animation (Part 2)
+    @State private var numberOneVisible = false
+    @State private var numberTwoVisible = false
+    @State private var numberThreeVisible = false
+    
     var body: some View {
         VStack {
             if showCountdown {
-                Text("\(currentNumber)")
-                    .font(.system(size: 500, weight: .bold, design: .rounded))
-                    .scaleEffect(scale)
-                    .opacity(opacity)
-                    .onAppear {
-                        startCountdown()
-                    }
+                VStack {
+                    Text("\(currentNumber)")
+                        .font(.system(size: 500, weight: .bold, design: .rounded))
+                        .scaleEffect(scale)
+                        .opacity(opacity)
+                        .transition(.opacity.combined(with: .scale))
+                        .onAppear {
+                            startCountdown()
+                        }
+                }
             } else if showGo {
                 VStack {
                     Spacer()
@@ -56,12 +66,25 @@ struct ContentView: View {
         }
     }
     
+    private func changeCountDownNumber() {
+        currentNumber -= 1
+        
+        scale = 1
+        opacity = 1
+        animateNumber()
+        
+        print("Current Number: \(currentNumber)")
+    }
+    
     private func resetView() {
         scale = 1
         opacity = 1
         currentNumber = 3
         showGo = false
         showCountdown = false
+        numberOneVisible = false
+        numberTwoVisible = false
+        numberThreeVisible = false
     }
     
     private func startCountdown() {
@@ -73,24 +96,23 @@ struct ContentView: View {
     }
     
     private func animateNumber() {
-        withAnimation(.easeInOut(duration: 0.5)) {
-            scale = 0.4
-            opacity = 0
+        withAnimation {
+            countdownVisible.toggle()
+            print("Countdown Toggled")
         }
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
             switch currentNumber {
-            case 2...3:
-                currentNumber -= 1
-                
-                scale = 1
-                opacity = 1
-                animateNumber()
-                
-                print("Current Number: \(currentNumber)")
+            case 3:
+                changeCountDownNumber()
+                numberThreeVisible = true
+            case 2:
+                changeCountDownNumber()
+                numberTwoVisible = true
             case 1:
+                numberOneVisible = true
                 showCountdown = false
                 showGo = true
-            
+                
                 print("GO Displayed")
             default:
                 resetView()
