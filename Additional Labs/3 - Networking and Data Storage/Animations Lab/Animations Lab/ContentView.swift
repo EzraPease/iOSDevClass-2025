@@ -74,7 +74,7 @@ struct ContentView: View {
     
     private func animateNumber() {
         withAnimation(.easeInOut(duration: 0.5)) {
-            scale = 0
+            scale = 0.4
             opacity = 0
         }
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
