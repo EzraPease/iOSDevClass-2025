@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct ContentView: View {
+    @Namespace private var animation
+    
     @State private var showCountdown = false
     @State private var countdownVisible = false
     @State private var showGo = false
@@ -15,39 +17,51 @@ struct ContentView: View {
     @State private var scale: CGFloat = 1
     @State private var opacity: Double = 1
     
+    private let loadingViewsID = "loadingViewsID"
     
-    // Transitions Animation (Part 2)
-    @State private var numberOneVisible = false
-    @State private var numberTwoVisible = false
-    @State private var numberThreeVisible = false
+    private var loading1 = "person.fill"
+    private var loading2 = "person.2.fill"
+    private var loading3 = "person.3.fill"
+    
     
     var body: some View {
         VStack {
+            if showCountdown || showGo {
+                personsView
+            }
             if showCountdown {
                 VStack {
-                    Text("\(currentNumber)")
-                        .font(.system(size: 500, weight: .bold, design: .rounded))
-                        .scaleEffect(scale)
-                        .opacity(opacity)
-                        .transition(.opacity.combined(with: .scale))
-                        .onAppear {
-                            startCountdown()
-                        }
+                    ZStack {
+                        Text("\(currentNumber)")
+                            .font(.system(size: 500, weight: .bold, design: .rounded))
+                            .scaleEffect(scale)
+                            .opacity(opacity)
+                            .transition(.opacity.combined(with: .scale))
+                            .id(currentNumber)
+                            .onAppear {
+                                startCountdown()
+                            }
+                    }
+                    .animation(.easeInOut(duration: 0.3), value: currentNumber)
                 }
             } else if showGo {
                 VStack {
                     Spacer()
                     
-                    Text("GO!")
-                        .font(.system(size: 200, weight: .bold, design: .rounded))
-                        .scaleEffect(scale)
-                        .opacity(opacity)
-                        .onAppear {
-                            withAnimation(.easeIn(duration: 0.28)) {
-                                scale = 1
-                                opacity = 1
+                    ZStack {
+                        Text("GO!")
+                            .font(.system(size: 200, weight: .bold, design: .rounded))
+                            .scaleEffect(scale)
+                            .opacity(opacity)
+                            .transition(.opacity.combined(with: .scale))
+                            .onAppear {
+                                withAnimation(.easeIn(duration: 0.28)) {
+                                    scale = 1
+                                    opacity = 1
+                                }
                             }
-                        }
+                            .animation(.easeInOut(duration: 0.3), value: showGo)
+                    }
                     Spacer()
                     
                     Button("Reset") {
@@ -58,7 +72,9 @@ struct ContentView: View {
                 Spacer()
                 
                 Button("Start Game") {
-                    showCountdown.toggle()
+                    withAnimation {
+                        showCountdown.toggle()
+                    }
                 }
                 .padding()
                 .glassEffect()
@@ -66,13 +82,49 @@ struct ContentView: View {
         }
     }
     
+    @ViewBuilder
+    var personsView: some View {
+        HStack {
+            if currentNumber == 3 {
+                loading1View
+            } else if currentNumber == 2 {
+                loading2View
+            } else if currentNumber == 1 {
+                loading3View
+            }
+        }
+    }
+    
+    @ViewBuilder
+    var loading1View: some View {
+        Image(systemName: loading1)
+            .padding()
+            .matchedGeometryEffect(id: loadingViewsID, in: animation)
+            .offset(x: -100)
+    }
+    
+    @ViewBuilder
+    var loading2View: some View {
+        Image(systemName: loading2)
+            .padding()
+            .matchedGeometryEffect(id: loadingViewsID, in: animation)
+    }
+    
+    @ViewBuilder
+    var loading3View: some View {
+        Image(systemName: loading3)
+            .padding()
+            .matchedGeometryEffect(id: loadingViewsID, in: animation)
+            .offset(x: 100)
+    }
+    
     private func changeCountDownNumber() {
-        currentNumber -= 1
-        
-        scale = 1
-        opacity = 1
+        withAnimation {
+            currentNumber -= 1
+            scale = 1
+            opacity = 1
+        }
         animateNumber()
-        
         print("Current Number: \(currentNumber)")
     }
     
@@ -82,9 +134,6 @@ struct ContentView: View {
         currentNumber = 3
         showGo = false
         showCountdown = false
-        numberOneVisible = false
-        numberTwoVisible = false
-        numberThreeVisible = false
     }
     
     private func startCountdown() {
@@ -100,18 +149,15 @@ struct ContentView: View {
             countdownVisible.toggle()
             print("Countdown Toggled")
         }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             switch currentNumber {
-            case 3:
+            case 2...3:
                 changeCountDownNumber()
-                numberThreeVisible = true
-            case 2:
-                changeCountDownNumber()
-                numberTwoVisible = true
             case 1:
-                numberOneVisible = true
                 showCountdown = false
-                showGo = true
+                withAnimation {
+                    showGo = true
+                }
                 
                 print("GO Displayed")
             default:
