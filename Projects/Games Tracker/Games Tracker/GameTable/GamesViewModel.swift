@@ -8,11 +8,11 @@
 import SwiftUI
 
 
-
+@Observable
 class GamesViewModel {
     var addPlayerPresented = false
     
     func addGame() {
-        
+        addPlayerPresented = true
     }
 }

@@ -11,8 +11,6 @@ import SwiftData
 
 
 struct GamesTableView: View {
-    
-    @Environment(\.dismiss) private var dismiss
     @State private var gamesModel: [GamesModel]? = [
         GamesModel(gameTitle: "Hearts", currentLeader: "Player 2"),
         GamesModel(gameTitle: "Golf", currentLeader: "Player 6"),
@@ -52,7 +50,7 @@ struct GamesTableView: View {
                 }
             }
             .sheet(isPresented: $viewModel.addPlayerPresented) {
-                Text("Test")
+                NewGameView()
             }
         }
     }
