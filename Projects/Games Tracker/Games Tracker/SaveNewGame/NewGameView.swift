@@ -14,6 +14,8 @@ struct NewGameView: View {
     @State private var gameName = ""
     @State private var sortMode: NewGameViewModel.PlayerSortMode = .highestScore
     @State private var winnerMode: NewGameViewModel.PlayerWinMode = .highestScore
+    @State private var viewModel = NewGameViewModel()
+    
     
     var body: some View {
         NavigationStack {
@@ -63,7 +65,7 @@ struct NewGameView: View {
                         Spacer()
                         
                         Button("Add Player") {
-                            
+                            viewModel.newPlayerPresented = true
                         }
                         .padding()
                         .glassEffect()
@@ -78,6 +80,15 @@ struct NewGameView: View {
                         dismiss()
                     }
                 }
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button("Save") {
+                        
+                    }
+                }
+            }
+            .sheet(isPresented: $viewModel.newPlayerPresented) {
+                PlayersView()
+                    .presentationDetents([.height(300)])
             }
         }
     }

@@ -9,10 +9,8 @@ import SwiftUI
 import SwiftData
 
 
-
+@Model
 class GamesModel: Identifiable {
-    let id = UUID()
-    
     var image = "dice.fill"
     var gameTitle: String
     var currentLeader: String

@@ -9,8 +9,10 @@ import SwiftUI
 
 
 
-
+@Observable
 class NewGameViewModel {
+    var newPlayerPresented = false
+    
     enum PlayerSortMode {
         case highestScore
         case lowestScore

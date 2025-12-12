@@ -13,7 +13,8 @@ struct Games_TrackerApp: App {
     
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            GamesTableView()
         }
+        .modelContainer(for: [GamesModel.self])
     }
 }
