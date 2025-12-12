@@ -15,6 +15,7 @@ class GamesModel: Identifiable {
     var gameTitle: String
     var currentLeader: String
     var timeStamp: Date
+    @Relationship(deleteRule: .cascade, inverse: \GamesModel.currentLeader) var newGame = [NewGameModel]()
     
     init(gameTitle: String, currentLeader: String, timeStamp: Date = .now) {
         self.gameTitle = gameTitle

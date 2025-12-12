@@ -6,10 +6,11 @@
 //
 
 import SwiftUI
+import SwiftData
 
 
 
-struct PlayersCell {
+struct PlayersCell: Codable {
     var image: String = "person.fill"
     var name: String = ""
     var score: Int = 0

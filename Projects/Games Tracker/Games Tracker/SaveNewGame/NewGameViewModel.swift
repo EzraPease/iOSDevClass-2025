@@ -13,11 +13,11 @@ import SwiftUI
 class NewGameViewModel {
     var newPlayerPresented = false
     
-    enum PlayerSortMode {
+    enum PlayerSortMode: Codable {
         case highestScore
         case lowestScore
     }
-    enum PlayerWinMode {
+    enum PlayerWinMode: Codable {
         case highestScore
         case lowestScore
     }

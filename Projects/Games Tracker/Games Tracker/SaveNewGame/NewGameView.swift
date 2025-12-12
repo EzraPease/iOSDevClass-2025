@@ -6,15 +6,23 @@
 //
 
 import SwiftUI
+import SwiftData
 
 
 
 struct NewGameView: View {
+    @Environment(\.modelContext) private var context
     @Environment(\.dismiss) private var dismiss
     @State private var gameName = ""
     @State private var sortMode: NewGameViewModel.PlayerSortMode = .highestScore
     @State private var winnerMode: NewGameViewModel.PlayerWinMode = .highestScore
+    @State private var playerList: [PlayersCell] = []
     @State private var viewModel = NewGameViewModel()
+    
+    var newGame: [NewGameModel] {
+        return games.newGame
+    }
+    var games: GamesModel
     
     
     var body: some View {
@@ -82,7 +90,7 @@ struct NewGameView: View {
                 }
                 ToolbarItem(placement: .topBarTrailing) {
                     Button("Save") {
-                        
+                        save()
                     }
                 }
             }
@@ -92,9 +100,13 @@ struct NewGameView: View {
             }
         }
     }
+    
+    private func save() {
+        let newGame = NewGameModel(sortBy: sortMode, winBy: winnerMode, playerList: playerList)
+        newGame.games = games
+        games.newGame.append(newGame)
+        context.insert(newGame)
+        dismiss()
+    }
 }
 
-
-#Preview {
-    NewGameView()
-}

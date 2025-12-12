@@ -11,6 +11,7 @@ import SwiftData
 
 
 struct GamesTableView: View {
+    @Environment(\.modelContext) private var context
     @State private var gamesModel: [GamesModel]? = [
         GamesModel(gameTitle: "Hearts", currentLeader: "Player 2"),
         GamesModel(gameTitle: "Golf", currentLeader: "Player 6"),
@@ -61,4 +62,5 @@ struct GamesTableView: View {
 
 #Preview {
     GamesTableView()
+        .modelContainer(for: GamesModel.self)
 }

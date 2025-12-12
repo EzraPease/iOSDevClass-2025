@@ -15,6 +15,6 @@ struct Games_TrackerApp: App {
         WindowGroup {
             GamesTableView()
         }
-        .modelContainer(for: [GamesModel.self])
+        .modelContainer(for: [GamesModel.self, NewGameModel.self])
     }
 }
