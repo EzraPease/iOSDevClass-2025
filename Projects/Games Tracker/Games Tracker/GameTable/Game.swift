@@ -10,7 +10,7 @@ import SwiftData
 
 
 @Model
-class GamesModel: Identifiable {
+class Game: Identifiable {
     var image = "dice.fill"
     var gameTitle: String
     var currentLeader: String

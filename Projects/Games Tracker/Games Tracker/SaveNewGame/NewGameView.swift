@@ -107,7 +107,12 @@ struct NewGameView: View {
                                    winBy: winMode,
                                    playerList: playerList)
         context.insert(newGame)
-        dismiss()
+        do {
+            try context.save()
+            dismiss()
+        } catch {
+            print("Unable to save game: \(error)")
+        }
     }
 }
 

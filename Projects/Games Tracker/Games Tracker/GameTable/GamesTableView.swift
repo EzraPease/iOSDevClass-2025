@@ -11,22 +11,19 @@ import SwiftData
 
 
 struct GamesTableView: View {
+    @Query(sort: \Game.timeStamp, order: .reverse) var gamesList: [Game]
+    
     @Environment(\.modelContext) private var context
-    @State private var gamesModel: [GamesModel]? = [
-        GamesModel(gameTitle: "Hearts", currentLeader: "Player 2"),
-        GamesModel(gameTitle: "Golf", currentLeader: "Player 6"),
-        GamesModel(gameTitle: "Wii Sports", currentLeader: "Player 1"),
-        GamesModel(gameTitle: "Mario Kart", currentLeader: "Player 4")
-        ]
     @State private var viewModel = GamesViewModel()
+    
     
     var body: some View {
         NavigationStack {
             List {
-                if let gamesModel {
-                    ForEach(gamesModel) { gameCell in
+//                if !gamesList.isEmpty {
+                    ForEach(gamesList) { gameCell in
                         NavigationLink {
-                            
+                            Text("Detail")
                         } label: {
                             VStack(alignment: .leading) {
                                 HStack {
@@ -38,9 +35,17 @@ struct GamesTableView: View {
                             .padding()
                         }
                     }
-                } else {
-                    Text("No available data")
-                }
+//                } else {
+//                    HStack {
+//                        Spacer()
+//                        VStack {
+//                            Text("No Games Yet")
+//                            Text("Click + to create one")
+//                        }
+//                        .italic()
+//                        Spacer()
+//                    }
+//                }
             }
             .navigationTitle("Games")
             .toolbar {
@@ -62,5 +67,5 @@ struct GamesTableView: View {
 
 #Preview {
     GamesTableView()
-        .modelContainer(for: GamesModel.self)
+        .modelContainer(for: Game.self)
 }
