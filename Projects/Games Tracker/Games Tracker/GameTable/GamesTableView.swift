@@ -20,7 +20,7 @@ struct GamesTableView: View {
     var body: some View {
         NavigationStack {
             List {
-//                if !gamesList.isEmpty {
+                if !gamesList.isEmpty {
                     ForEach(gamesList) { gameCell in
                         NavigationLink {
                             Text("Detail")
@@ -35,17 +35,17 @@ struct GamesTableView: View {
                             .padding()
                         }
                     }
-//                } else {
-//                    HStack {
-//                        Spacer()
-//                        VStack {
-//                            Text("No Games Yet")
-//                            Text("Click + to create one")
-//                        }
-//                        .italic()
-//                        Spacer()
-//                    }
-//                }
+                } else {
+                    HStack {
+                        Spacer()
+                        VStack {
+                            Text("No Games Yet")
+                            Text("Click + to create one")
+                        }
+                        .italic()
+                        Spacer()
+                    }
+                }
             }
             .navigationTitle("Games")
             .toolbar {
