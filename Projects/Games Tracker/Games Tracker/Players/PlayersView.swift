@@ -13,6 +13,7 @@ struct PlayersView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var playerName = ""
     @State private var playerScore = ""
+    @State private var 
     
     var body: some View {
         NavigationStack {
@@ -28,16 +29,22 @@ struct PlayersView: View {
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     Button("Cancel") {
+//                        playerName = ""
+//                        playerScore = ""
                         dismiss()
                     }
                 }
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button("Save") {
+                    Button("Add Player") {
                         
                     }
                 }
             }
         }
+    }
+    
+    private func save() {
+        
     }
 }
 

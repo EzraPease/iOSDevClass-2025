@@ -13,16 +13,17 @@ import SwiftData
 struct NewGameView: View {
     @Environment(\.modelContext) private var context
     @Environment(\.dismiss) private var dismiss
+    
     @State private var gameName = ""
     @State private var sortMode: NewGameViewModel.PlayerSortMode = .highestScore
-    @State private var winnerMode: NewGameViewModel.PlayerWinMode = .highestScore
+    @State private var winMode: NewGameViewModel.PlayerWinMode = .highestScore
     @State private var playerList: [PlayersCell] = []
     @State private var viewModel = NewGameViewModel()
     
-    var newGame: [NewGameModel] {
-        return games.newGame
-    }
-    var games: GamesModel
+//    var newGame: [NewGameModel] {
+//        return games.newGame
+//    }
+//    var games: GamesModel
     
     
     var body: some View {
@@ -43,7 +44,7 @@ struct NewGameView: View {
                     Text("Who Wins?")
                         .font(.headline)
                     
-                    Picker("Who Wins?", selection: $winnerMode) {
+                    Picker("Who Wins?", selection: $winMode) {
                         Text("Highest Score").tag(NewGameViewModel.PlayerWinMode.highestScore)
                         Text("Lowest Score").tag(NewGameViewModel.PlayerWinMode.lowestScore)
                     }
@@ -102,11 +103,16 @@ struct NewGameView: View {
     }
     
     private func save() {
-        let newGame = NewGameModel(sortBy: sortMode, winBy: winnerMode, playerList: playerList)
-        newGame.games = games
-        games.newGame.append(newGame)
+        let newGame = NewGameModel(sortBy: sortMode,
+                                   winBy: winMode,
+                                   playerList: playerList)
         context.insert(newGame)
         dismiss()
     }
 }
 
+
+
+#Preview {
+    NewGameView()
+}
