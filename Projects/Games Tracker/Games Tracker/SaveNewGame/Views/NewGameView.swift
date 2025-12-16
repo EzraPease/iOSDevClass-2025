@@ -19,6 +19,7 @@ struct NewGameView: View {
     @State private var winMode: NewGameViewModel.PlayerWinMode = .highestScore
     @State private var playerList: [PlayersCell] = []
     @State private var viewModel = NewGameViewModel()
+//    @State private var game = Game()
     
 //    var newGame: [NewGameModel] {
 //        return games.newGame
@@ -103,9 +104,15 @@ struct NewGameView: View {
     }
     
     private func save() {
-        let newGame = NewGameModel(sortBy: sortMode,
-                                   winBy: winMode,
-                                   playerList: playerList)
+//        let newGame = NewGameModel(sortBy: sortMode,
+//                                   winBy: winMode,
+//                              playerList: playerList)
+        let newGame = Game(
+            gameTitle: gameName,
+            playerSortBy: sortMode,
+            winBy: winMode,
+            playerList: playerList
+        )
         print(newGame) // Debuging
         
         context.insert(newGame)
@@ -122,4 +129,5 @@ struct NewGameView: View {
 
 #Preview {
     NewGameView()
+        .modelContainer(for: Game.self)
 }

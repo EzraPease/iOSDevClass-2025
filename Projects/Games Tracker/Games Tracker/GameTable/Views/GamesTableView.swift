@@ -35,6 +35,7 @@ struct GamesTableView: View {
                             .padding()
                         }
                     }
+                    .onDelete(perform: deleteGame)
                 } else {
                     HStack {
                         Spacer()
@@ -58,6 +59,12 @@ struct GamesTableView: View {
             .sheet(isPresented: $viewModel.addPlayerPresented) {
                 NewGameView()
             }
+        }
+    }
+    
+    private func deleteGame(at offsets: IndexSet) {
+        for index in offsets {
+            context.delete(gamesList[index])
         }
     }
 }

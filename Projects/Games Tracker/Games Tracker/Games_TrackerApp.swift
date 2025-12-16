@@ -28,7 +28,7 @@ struct Games_TrackerApp: App {
         WindowGroup {
             GamesTableView()
         }
-        .modelContainer(for: [Game.self, NewGameModel.self])
+        .modelContainer(for: Game.self)
 //        .modelContainer(sharedModelContainer)
     }
 }
