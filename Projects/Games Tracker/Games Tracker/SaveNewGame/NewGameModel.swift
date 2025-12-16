@@ -6,6 +6,7 @@
 //
 
 import SwiftData
+import SwiftUI
 
 
 @Model
@@ -14,10 +15,12 @@ class NewGameModel {
     var winBy: NewGameViewModel.PlayerWinMode
     var playerList: [PlayersCell]
     var games: Game?
+    var timeStamp: Date
     
-    init(sortBy: NewGameViewModel.PlayerSortMode, winBy: NewGameViewModel.PlayerWinMode, playerList: [PlayersCell]) {
+    init(sortBy: NewGameViewModel.PlayerSortMode, winBy: NewGameViewModel.PlayerWinMode, playerList: [PlayersCell], timeStamp: Date = .now) {
         self.sortBy = sortBy
         self.winBy = winBy
         self.playerList = playerList
+        self.timeStamp = timeStamp
     }
 }

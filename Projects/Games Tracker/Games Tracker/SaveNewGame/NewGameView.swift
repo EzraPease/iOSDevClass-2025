@@ -106,6 +106,8 @@ struct NewGameView: View {
         let newGame = NewGameModel(sortBy: sortMode,
                                    winBy: winMode,
                                    playerList: playerList)
+        print(newGame) // Debuging
+        
         context.insert(newGame)
         do {
             try context.save()

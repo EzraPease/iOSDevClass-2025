@@ -11,24 +11,24 @@ import SwiftData
 @main
 struct Games_TrackerApp: App {
     
-    var sharedModelContainer: ModelContainer = {
-        let schema = Schema([
-            Game.self,
-        ])
-        let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
-
-        do {
-            return try ModelContainer(for: schema, configurations: [modelConfiguration])
-        } catch {
-            fatalError("Could not create ModelContainer: \(error)")
-        }
-    }()
+//    var sharedModelContainer: ModelContainer = {
+//        let schema = Schema([
+//            Game.self,
+//        ])
+//        let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
+//
+//        do {
+//            return try ModelContainer(for: schema, configurations: [modelConfiguration])
+//        } catch {
+//            fatalError("Could not create ModelContainer: \(error)")
+//        }
+//    }()
     
     var body: some Scene {
         WindowGroup {
             GamesTableView()
         }
-//        .modelContainer(for: [Game.self])
-        .modelContainer(sharedModelContainer)
+        .modelContainer(for: [Game.self, NewGameModel.self])
+//        .modelContainer(sharedModelContainer)
     }
 }

@@ -1,5 +1,5 @@
 //
-//  GameDetailsView.swift
+//  ScoreBoard.swift
 //  Games Tracker
 //
 //  Created by Ezra Pease on 12/15/25.
@@ -9,14 +9,15 @@ import SwiftUI
 
 
 
-struct GameDetailsView: View {
+struct GameDetailView: View {
     var body: some View {
-     Text(
+        Text("Game Detail View")
     }
 }
 
 
 
+
 #Preview {
-    GameDetailsView()
+    GameDetailView()
 }

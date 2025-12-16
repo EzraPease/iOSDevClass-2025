@@ -50,7 +50,7 @@ struct GamesTableView: View {
             .navigationTitle("Games")
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button(action: viewModel.addGame) {
+                    Button(action: viewModel.showAddGameView) {
                         Image(systemName: "plus")
                     }
                 }

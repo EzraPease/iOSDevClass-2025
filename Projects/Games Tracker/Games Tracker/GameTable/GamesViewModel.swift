@@ -12,7 +12,7 @@ import SwiftUI
 class GamesViewModel {
     var addPlayerPresented = false
     
-    func addGame() {
+    func showAddGameView() {
         addPlayerPresented = true
     }
 }

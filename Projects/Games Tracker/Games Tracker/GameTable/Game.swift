@@ -15,12 +15,11 @@ class Game: Identifiable {
     var gameTitle: String
     var currentLeader: String
     var timeStamp: Date
-    @Relationship(deleteRule: .cascade) var newGame: [NewGameModel] = []
+    @Relationship(deleteRule: .cascade) var newGame = [NewGameModel]()
     
-    init(gameTitle: String, currentLeader: String, timeStamp: Date = .now, newGame: [NewGameModel] = []) {
+    init(gameTitle: String, currentLeader: String, timeStamp: Date = .now) {
         self.gameTitle = gameTitle
         self.currentLeader = currentLeader
         self.timeStamp = timeStamp
-        self.newGame = newGame
     }
 }
