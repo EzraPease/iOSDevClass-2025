@@ -9,9 +9,16 @@ import SwiftUI
 import SwiftData
 
 
-
-struct PlayersCell: Codable {
+@Model
+class Player: Identifiable {
+    var id = UUID()
+    
     var image: String = "person.fill"
     var name: String = ""
     var score: Int = 0
+    
+    init(name: String, score: Int) {
+        self.name = name
+        self.score = score
+    }
 }

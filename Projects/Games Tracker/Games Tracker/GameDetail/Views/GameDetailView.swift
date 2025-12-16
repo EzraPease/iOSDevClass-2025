@@ -10,8 +10,42 @@ import SwiftUI
 
 
 struct GameDetailView: View {
+    @State var game: Game
+    
     var body: some View {
-        Text("Game Detail View")
+        NavigationStack {
+            List {
+                ForEach(game.playerList) { player in
+                    HStack {
+                        Text(player.name)
+                        
+                        Spacer()
+                        
+                        Text("\(player.score)")
+                    }
+                    .padding(.horizontal, 3)
+                }
+            }
+            .toolbar {
+                ToolbarItem(placement: .principal) {
+                    VStack {
+                        Text("Leaderboard")
+                            .font(.largeTitle)
+                            .bold()
+                        Text(game.gameTitle)
+                            .italic()
+                    }
+                    .padding()
+                }
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                         
+                    } label: {
+                        Image(systemName: "plus")
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -19,5 +53,9 @@ struct GameDetailView: View {
 
 
 #Preview {
-    GameDetailView()
+    GameDetailView(game: Game(gameTitle: "Test Game",
+                              playerSortBy: .highestScore,
+                              winBy: .lowestScore,
+                              playerList: [Player(name: "Player 1", score: 0),
+                                           Player(name: "Player 2", score: 3)]))
 }

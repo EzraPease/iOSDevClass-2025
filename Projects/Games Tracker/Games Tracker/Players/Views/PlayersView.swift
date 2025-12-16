@@ -11,8 +11,10 @@ import SwiftUI
 
 struct PlayersView: View {
     @Environment(\.dismiss) private var dismiss
+    @Binding var player: [Player]
+    
     @State private var playerName = ""
-    @State private var playerScore = ""
+    @State private var playerScore = 0
     
     var body: some View {
         NavigationStack {
@@ -21,7 +23,8 @@ struct PlayersView: View {
                     TextField("Player Name", text: $playerName)
                 }
                 Section {
-                    TextField("Score (Optional)", text: $playerScore)
+//                    TextField("Score (Optional)", text: $playerScore)
+                    Stepper("Score (Optional): \(playerScore)", value: $playerScore, in: 0...999)
                 }
             }
             .padding()
@@ -35,19 +38,24 @@ struct PlayersView: View {
                 }
                 ToolbarItem(placement: .topBarTrailing) {
                     Button("Add Player") {
-                        
+                        savePlayer()
                     }
                 }
             }
         }
     }
     
-    private func save() {
-        
+    private func savePlayer() {
+            let newPlayer = Player(
+                name: playerName,
+                score: playerScore
+            )
+        player.append(newPlayer)
+        dismiss()
     }
 }
 
 
-#Preview {
-    PlayersView()
-}
+//#Preview {
+//    PlayersView()
+//}

@@ -17,7 +17,7 @@ struct NewGameView: View {
     @State private var gameName = ""
     @State private var sortMode: NewGameViewModel.PlayerSortMode = .highestScore
     @State private var winMode: NewGameViewModel.PlayerWinMode = .highestScore
-    @State private var playerList: [PlayersCell] = []
+    @State private var playerList: [Player] = []
     @State private var viewModel = NewGameViewModel()
 //    @State private var game = Game()
     
@@ -69,7 +69,9 @@ struct NewGameView: View {
                 }
                 ZStack {
                     List {
-                        
+                        ForEach(playerList) { player in
+                            Text(player.name)
+                        }
                     }
                     VStack {
                         Spacer()
@@ -92,18 +94,18 @@ struct NewGameView: View {
                 }
                 ToolbarItem(placement: .topBarTrailing) {
                     Button("Save") {
-                        save()
+                        saveGame()
                     }
                 }
             }
             .sheet(isPresented: $viewModel.newPlayerPresented) {
-                PlayersView()
+                PlayersView(player: $playerList)
                     .presentationDetents([.height(300)])
             }
         }
     }
     
-    private func save() {
+    private func saveGame() {
 //        let newGame = NewGameModel(sortBy: sortMode,
 //                                   winBy: winMode,
 //                              playerList: playerList)

@@ -14,14 +14,19 @@ class Game: Identifiable {
     var image: String
     var gameTitle: String
     var currentLeader: String? {
-        return nil
+        if let player = playerList.first {
+            return player.name
+        } else {
+            return nil
+        }
+        
     }
     var timeStamp: Date = Date.now
     var playerSortBy: NewGameViewModel.PlayerSortMode
     var winBy: NewGameViewModel.PlayerWinMode
-    var playerList: [PlayersCell]
+    var playerList: [Player]
     
-    init(image: String = "dice.fill", gameTitle: String, playerSortBy: NewGameViewModel.PlayerSortMode, winBy: NewGameViewModel.PlayerWinMode, playerList: [PlayersCell]) {
+    init(image: String = "dice.fill", gameTitle: String, playerSortBy: NewGameViewModel.PlayerSortMode, winBy: NewGameViewModel.PlayerWinMode, playerList: [Player]) {
         self.image = image
         self.gameTitle = gameTitle
         self.playerSortBy = playerSortBy

@@ -21,16 +21,18 @@ struct GamesTableView: View {
         NavigationStack {
             List {
                 if !gamesList.isEmpty {
-                    ForEach(gamesList) { gameCell in
+                    ForEach(gamesList) { game in
                         NavigationLink {
-                            Text("Detail")
+                            GameDetailView(game: game)
                         } label: {
                             VStack(alignment: .leading) {
                                 HStack {
-                                    Image(systemName: gameCell.image)
-                                    Text(gameCell.gameTitle)
+                                    Image(systemName: game.image)
+                                    Text(game.gameTitle)
                                 }
-                                Text("Current Leader: \(gameCell.currentLeader)")
+                                if let currentLeader = game.currentLeader {
+                                    Text("Current Leader: \(currentLeader)")
+                                }
                             }
                             .padding()
                         }
