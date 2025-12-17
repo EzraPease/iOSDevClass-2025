@@ -6,22 +6,31 @@
 //
 
 import SwiftUI
+import SwiftData
 
 
 
 struct GameDetailView: View {
+    @Environment(\.modelContext) private var context
     @State var game: Game
     
     var body: some View {
         NavigationStack {
             List {
-                ForEach(game.playerList) { player in
+                ForEach($game.playerList) { $player in
                     HStack {
-                        Text(player.name)
+                        Text("\(player.name) ")
+                            .padding(.horizontal, 4)
                         
                         Spacer()
                         
-                        Text("\(player.score)")
+                        Stepper(value: $player.score, in: 0...999) {
+                            Text("\(player.score)")
+                        }
+                        .onChange(of: player.score) { _, _ in
+                            try? context.save()
+                            print("Current score updated to: \(player.score)")
+                        }
                     }
                     .padding(.horizontal, 3)
                 }
@@ -58,4 +67,5 @@ struct GameDetailView: View {
                               winBy: .lowestScore,
                               playerList: [Player(name: "Player 1", score: 0),
                                            Player(name: "Player 2", score: 3)]))
+    .modelContainer(for: Game.self)
 }

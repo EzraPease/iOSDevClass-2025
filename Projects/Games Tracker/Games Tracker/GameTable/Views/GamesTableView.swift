@@ -11,7 +11,7 @@ import SwiftData
 
 
 struct GamesTableView: View {
-    @Query(sort: \Game.timeStamp, order: .reverse) var gamesList: [Game]
+    @Query(sort: \Game.timeStamp, order: .forward) var gamesList: [Game]
     
     @Environment(\.modelContext) private var context
     @State private var viewModel = GamesViewModel()
