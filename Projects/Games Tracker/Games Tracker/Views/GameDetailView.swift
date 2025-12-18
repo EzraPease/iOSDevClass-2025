@@ -110,11 +110,11 @@ private struct PlayerRow: View {
 
 
 
-#Preview {
-    GameDetailView(game: Game(gameTitle: "Test Game",
-                              playerSortBy: .highestScore,
-                              winBy: .lowestScore,
-                              playerList: [Player(name: "Player 1", score: 0),
-                                           Player(name: "Player 2", score: 3)]))
-    .modelContainer(for: Game.self)
-}
+//#Preview {
+//    GameDetailView(game: Game(gameTitle: "Test Game",
+//                              playerSortBy: .highestScore,
+//                              winBy: .lowestScore,
+//                              playerList: [Player(name: "Player 1", score: 0),
+//                                           Player(name: "Player 2", score: 3)]))
+//    .modelContainer(for: Game.self)
+//}

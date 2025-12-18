@@ -15,6 +15,8 @@ struct GamesTableView: View {
     
     @Environment(\.modelContext) private var context
     @State private var viewModel = GamesViewModel()
+    @State private var rectangleToggled = false
+    @Namespace private var animation
     
     
     var body: some View {
@@ -23,7 +25,7 @@ struct GamesTableView: View {
                 if !gamesList.isEmpty {
                     ForEach(gamesList) { game in
                         NavigationLink {
-                            GameDetailView(game: game)
+                                GameDetailView(game: game)
                         } label: {
                             VStack(alignment: .leading) {
                                 HStack {
@@ -64,6 +66,21 @@ struct GamesTableView: View {
             }
             .sheet(isPresented: $viewModel.addPlayerPresented) {
                 NewGameView()
+            }
+            Button("Toggle Size") {
+                withAnimation {
+                    rectangleToggled.toggle()
+                }
+            }
+            if !rectangleToggled {
+                RoundedRectangle(cornerRadius: 20)
+                    .frame(width: 50, height: 50)
+                    .matchedGeometryEffect(id: "rectangle", in: animation)
+                    .position(x: 100)
+            } else {
+                RoundedRectangle(cornerRadius: 20)
+                    .frame(width: 200, height: 50)
+                    .matchedGeometryEffect(id: "rectangle", in: animation)
             }
         }
     }
