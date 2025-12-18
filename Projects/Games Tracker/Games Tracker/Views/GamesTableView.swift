@@ -38,6 +38,7 @@ struct GamesTableView: View {
                         }
                     }
                     .onDelete(perform: deleteGame)
+                    .onMove(perform: moveGames)
                 } else {
                     HStack {
                         Spacer()
@@ -57,10 +58,28 @@ struct GamesTableView: View {
                         Image(systemName: "plus")
                     }
                 }
+                ToolbarItem(placement: .topBarLeading) {
+                    EditButton()
+                }
             }
             .sheet(isPresented: $viewModel.addPlayerPresented) {
                 NewGameView()
             }
+        }
+    }
+    
+    private func moveGames(from source: IndexSet, to destination: Int) {
+        // Create a temporary array reflecting the current order
+        var ordered = gamesList
+        // Apply the move to the temporary array
+        ordered.move(fromOffsets: source, toOffset: destination)
+
+        // Reassign timestamps in ascending order to persist the new order
+        // Use a base date and increasing intervals to ensure strict ordering
+        let baseDate = Date()
+        for (index, game) in ordered.enumerated() {
+            // Space timestamps by one second to maintain order stability
+            game.timeStamp = baseDate.addingTimeInterval(TimeInterval(index))
         }
     }
     

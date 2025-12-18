@@ -31,8 +31,6 @@ struct PlayersView: View {
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     Button("Cancel") {
-//                        playerName = ""
-//                        playerScore = ""
                         dismiss()
                     }
                 }
