@@ -42,6 +42,7 @@ struct DragonDetailsView: View {
             }
             .padding()
         }
+        .scrollContentBackground(.hidden)
     }
 }
 

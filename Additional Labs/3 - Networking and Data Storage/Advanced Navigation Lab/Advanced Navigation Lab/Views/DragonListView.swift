@@ -29,6 +29,16 @@ struct DragonListView: View {
                 }
             }
         }
+        .scrollContentBackground(.hidden)
+        .toolbar {
+            ToolbarItem(placement: .topBarLeading) {
+                Button {
+                    router.navigateTo(route: .settings)
+                } label: {
+                    Image(systemName: "gearshape")
+                }
+            }
+        }
     }
 }
 

@@ -11,11 +11,18 @@ struct RootView: View {
     @State private var router = DragonRouter()
     
     var body: some View {
-        NavigationStack(path: $router.navigationPath) {
-            DragonListView()
-                .navigationDestination(for: DragonRouter.Route.self) { route in
-                    router.view(for: route)
-                }
+        ZStack {
+            router.backgroundColor
+                .ignoresSafeArea()
+            
+            NavigationStack(path: $router.navigationPath) {
+                DragonListView()
+                    .navigationDestination(for: DragonRouter.Route.self) { route in
+                        router.view(for: route)
+                    }
+            }
+            .toolbarBackground(.hidden, for: .navigationBar)
+            .scrollContentBackground(.hidden)
         }
         .environment(router)
     }

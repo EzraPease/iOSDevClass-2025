@@ -11,6 +11,11 @@ import SwiftUI
 @Observable
 class DragonRouter {
     var navigationPath = NavigationPath()
+    var selectedColor: CGColor = UIColor.systemGreen.cgColor
+    
+    var backgroundColor: Color {
+        Color(cgColor: selectedColor)
+    }
     
     enum Route: Hashable {
         case dragonList
