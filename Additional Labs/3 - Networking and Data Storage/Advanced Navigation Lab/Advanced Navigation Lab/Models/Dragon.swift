@@ -16,4 +16,13 @@ struct Dragon: Identifiable, Hashable {
     var lore: String
     var age: Int
     var fireType: String
+    var abilities: String
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+    
+    static func == (lhs: Dragon, rhs: Dragon) -> Bool {
+        lhs.id == rhs.id
+    }
 }

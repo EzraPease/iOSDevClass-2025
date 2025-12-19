@@ -23,7 +23,7 @@ struct DragonListView: View {
                             .resizable()
                             .frame(width: 50, height: 50)
                             .scaledToFit()
-                        Text(dragon.lore)
+                        Text(dragon.fireType)
                     }
                     .padding()
                 }
