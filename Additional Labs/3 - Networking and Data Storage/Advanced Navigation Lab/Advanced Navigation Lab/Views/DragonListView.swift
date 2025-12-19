@@ -15,7 +15,18 @@ struct DragonListView: View {
     var body: some View {
         List {
             ForEach(viewModel.dragonList) { dragon in
-                Image(systemName: dragon.image)
+                Button {
+                    router.navigateTo(route: .dragonDetails(dragon: dragon))
+                } label: {
+                    HStack {
+                        Image(dragon.image)
+                            .resizable()
+                            .frame(width: 50, height: 50)
+                            .scaledToFit()
+                        Text(dragon.lore)
+                    }
+                    .padding()
+                }
             }
         }
     }

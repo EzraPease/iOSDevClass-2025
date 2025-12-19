@@ -11,6 +11,8 @@ import SwiftUI
 struct DragonDetailsView: View {
     @Environment(DragonRouter.self) var router
     
+    let dragon: Dragon
+    
     var body: some View {
         
     }

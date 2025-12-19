@@ -9,7 +9,7 @@ import SwiftUI
 
 
 
-struct Dragon: Identifiable {
+struct Dragon: Identifiable, Hashable {
     var id = UUID()
     
     var image: String

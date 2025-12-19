@@ -14,7 +14,7 @@ class DragonRouter {
     
     enum Route: Hashable {
         case dragonList
-        case dragonDetails
+        case dragonDetails(dragon: Dragon)
         case powerList
         case settings
     }
@@ -25,8 +25,8 @@ class DragonRouter {
         case .dragonList:
             DragonListView()
             
-        case .dragonDetails:
-            DragonDetailsView()
+        case .dragonDetails(let dragon):
+            DragonDetailsView(dragon: dragon)
             
         case .powerList:
             PowerListView()
