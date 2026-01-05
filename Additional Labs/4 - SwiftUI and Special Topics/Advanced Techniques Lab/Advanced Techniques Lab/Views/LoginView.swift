@@ -17,7 +17,7 @@ struct LoginView: View {
     
     var body: some View {
         VStack(alignment: .center) {
-            VStack(alignment: .leading, spacing: 10) {
+            VStack {
                 switch loginState {
                 case .idle:
                     Text("")
@@ -30,11 +30,13 @@ struct LoginView: View {
                     Text(string)
                         .foregroundStyle(.red)
                 }
-//            .frame(height: 20)
-//            .padding()
+            }
+            .frame(height: 20)
+            .padding()
             
+            VStack(alignment: .leading, spacing: 10) {
             TextField("Username", text: $username)
-                .modifier(CustomTextFeildStyle())
+                    .modifier(CustomTextFeildStyle())
                 HStack {
                     if passwordHidden {
                         SecureField("Password", text: $password)
