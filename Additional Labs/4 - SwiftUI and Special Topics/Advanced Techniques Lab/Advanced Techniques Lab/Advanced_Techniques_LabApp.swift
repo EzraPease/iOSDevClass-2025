@@ -11,7 +11,7 @@ import SwiftUI
 struct Advanced_Techniques_LabApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            LoginView()
         }
     }
 }

@@ -43,6 +43,12 @@ struct LoginView: View {
                 }
                 .buttonStyle(CustomButtonStyle())
                 .padding(.vertical)
+            VStack(alignment: .trailing) {
+                Button("Forgot Password") {
+                    
+                }
+                .buttonStyle(SecondCustomButtonStyle())
+            }
         }
         .padding()
     }
