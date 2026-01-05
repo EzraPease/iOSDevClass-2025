@@ -85,6 +85,9 @@ struct LoginView: View {
             loginState = .error("Please input username and password")
         } else {
             loginState = .success
+            try? await Task.sleep(for: .seconds(1))
+            username = ""
+            password = ""
         }
         
         try? await Task.sleep(for: .seconds(5))
