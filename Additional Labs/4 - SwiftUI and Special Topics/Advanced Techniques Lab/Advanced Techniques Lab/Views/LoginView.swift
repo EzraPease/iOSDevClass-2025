@@ -1,0 +1,70 @@
+//
+//  LoginView.swift
+//  Advanced Techniques Lab
+//
+//  Created by Ezra Pease on 1/5/26.
+//
+
+import SwiftUI
+
+
+struct LoginView: View {
+    @State private var username = ""
+    @State private var password = ""
+    @State private var loginState: LoginViewModel.LoginState = .idle
+    @State private var viewModel = LoginViewModel()
+    
+    var body: some View {
+        VStack(alignment: .center) {
+            VStack {
+                switch loginState {
+                case .idle:
+                    Text("")
+                case .success:
+                    Text("Success")
+                        .foregroundStyle(.green)
+                case .loading:
+                    ProgressView("Loading...")
+                case .error(let string):
+                    Text(string)
+                        .foregroundStyle(.red)
+                }
+            }
+            .frame(height: 20)
+            .padding()
+            
+            TextField("Username", text: $username)
+                .modifier(CustomTextFeildStyle())
+            TextField("Password", text: $password)
+                .modifier(CustomTextFeildStyle())
+            
+                Button("Login") {
+                    Task { await attemptLogin() }
+                }
+                .buttonStyle(CustomButtonStyle())
+                .padding(.vertical)
+        }
+        .padding()
+    }
+    
+    func attemptLogin() async {
+        loginState = .loading
+        
+        // Loading...
+        try? await Task.sleep(for: .seconds(1))
+        if username.isEmpty || password.isEmpty {
+            loginState = .error("Please input username and password")
+        } else {
+            loginState = .success
+        }
+        
+        try? await Task.sleep(for: .seconds(5))
+        loginState = .idle
+    }
+}
+
+
+
+#Preview {
+    LoginView()
+}
