@@ -13,10 +13,11 @@ struct LoginView: View {
     @State private var password = ""
     @State private var loginState: LoginViewModel.LoginState = .idle
     @State private var viewModel = LoginViewModel()
+    @State private var passwordHidden = true
     
     var body: some View {
         VStack(alignment: .center) {
-            VStack {
+            VStack(alignment: .leading, spacing: 10) {
                 switch loginState {
                 case .idle:
                     Text("")
@@ -29,19 +30,35 @@ struct LoginView: View {
                     Text(string)
                         .foregroundStyle(.red)
                 }
-            }
-            .frame(height: 20)
-            .padding()
+//            .frame(height: 20)
+//            .padding()
             
             TextField("Username", text: $username)
                 .modifier(CustomTextFeildStyle())
-            TextField("Password", text: $password)
-                .modifier(CustomTextFeildStyle())
-            
-                Button("Login") {
-                    Task { await attemptLogin() }
+                HStack {
+                    if passwordHidden {
+                        SecureField("Password", text: $password)
+                            .modifier(CustomTextFeildStyle())
+                    } else {
+                        TextField("Password", text: $password)
+                            .modifier(CustomTextFeildStyle())
+                    }
+                    Button {
+                        showPassword()
+                    } label: {
+                        if passwordHidden {
+                            Image(systemName: "eye.fill")
+                        } else {
+                            Image(systemName: "eye.slash.fill")
+                        }
+                    }
                 }
-                .buttonStyle(CustomButtonStyle())
+            }
+            
+            Button("Login") {
+                Task { await attemptLogin() }
+            }
+            .buttonStyle(CustomButtonStyle())
                 .padding(.vertical)
             VStack(alignment: .trailing) {
                 Button("Forgot Password") {
@@ -51,6 +68,10 @@ struct LoginView: View {
             }
         }
         .padding()
+    }
+    
+    func showPassword() {
+        passwordHidden.toggle()
     }
     
     func attemptLogin() async {
