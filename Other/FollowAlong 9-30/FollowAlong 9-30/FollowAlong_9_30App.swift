@@ -11,7 +11,7 @@ import SwiftUI
 struct FollowAlong_9_30App: App {
     var body: some Scene {
         WindowGroup {
-            ShapesView()
+            FollowAlong()
         }
     }
 }

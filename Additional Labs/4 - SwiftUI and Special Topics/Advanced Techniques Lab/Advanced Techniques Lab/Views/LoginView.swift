@@ -57,7 +57,7 @@ struct LoginView: View {
                         if passwordHidden {
                             Image(systemName: "eye.slash.fill")
                         } else {
-                            Image(systemName: "eye.fill")
+                            Image(systemName: "eye.fill") 
                         }
                     }
                 }
