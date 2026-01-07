@@ -47,16 +47,20 @@ let shirts: [Clothing] = [
 
 // Array of pants
 let pants: [Clothing] = [
-    Clothing(name: "Jeans", price: 39.99, size: "32", color: "Dark Blue"),
-    Clothing(name: "Chinos", price: 49.99, size: "34", color: "Khaki"),
-    Clothing(name: "Sweatpants", price: 29.99, size: "L", color: "Gray"),
-    Clothing(name: "Shorts", price: 19.99, size: "M", color: "Black"),
-    Clothing(name: "Cargo Pants", price: 44.99, size: "36", color: "Olive"),
-    Clothing(name: "Dress Pants", price: 59.99, size: "32", color: "Charcoal"),
     Clothing(name: "Joggers", price: 35.99, size: "M", color: "Navy"),
     Clothing(name: "Capri Pants", price: 25.99, size: "S", color: "White"),
     Clothing(name: "Corduroy Pants", price: 49.99, size: "34", color: "Brown"),
     Clothing(name: "Linen Pants", price: 39.99, size: "M", color: "Beige"),
     Clothing(name: "Overalls", price: 59.99, size: "L", color: "Denim"),
-    Clothing(name: "Track Pants", price: 29.99, size: "M", color: "Black/White")
+    Clothing(name: "Track Pants", price: 29.99, size: "M", color: "Black/White"),
+    Clothing(name: "Pleated Slacks", price: 54.99, size: "M", color: "Gray"),
+    Clothing(name: "Cargo Shorts", price: 27.99, size: "L", color: "Green"),
+    Clothing(name: "Leggings", price: 21.99, size: "S", color: "Black"),
+    Clothing(name: "Khaki Shorts", price: 24.99, size: "M", color: "Beige"),
+    Clothing(name: "Athletic Pants", price: 34.99, size: "L", color: "Navy"),
+    Clothing(name: "Cropped Pants", price: 28.99, size: "S", color: "Olive"),
+    Clothing(name: "Fleece Pants", price: 26.99, size: "M", color: "Gray"),
+    Clothing(name: "Yoga Pants", price: 29.99, size: "S", color: "Blue"),
+    Clothing(name: "Work Pants", price: 44.99, size: "XL", color: "Brown"),
+    Clothing(name: "Slim Fit Jeans", price: 41.99, size: "M", color: "Dark Indigo")
 ]
