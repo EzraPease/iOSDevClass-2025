@@ -10,6 +10,8 @@ import SwiftUI
 struct ContentView: View {
     var body: some View {
         GeometryReader { geometry in
+            let scale = geometry.size.width - 290
+            
             ScrollView {
                 Section(header: Text("Hats").font(.title2).bold().underline()) {
                     ScrollView(.horizontal, showsIndicators: false) {
@@ -30,8 +32,8 @@ struct ContentView: View {
                     ScrollView(.horizontal, showsIndicators: false) {
                         LazyHGrid(
                             rows: [
-                                GridItem(.fixed(geometry.size.width - 290), spacing: 16),
-                                GridItem(.fixed(geometry.size.width - 290), spacing: 16)
+                                GridItem(.fixed(scale), spacing: 16),
+                                GridItem(.fixed(scale), spacing: 16)
                             ]
                         ) {
                             ForEach(shirts, id: \.self) { shirt in
@@ -47,16 +49,14 @@ struct ContentView: View {
                     ScrollView(.horizontal, showsIndicators: false) {
                         LazyHGrid(
                             rows: [
-                                GridItem(.adaptive(minimum: (geometry.size.width - 290), maximum: .infinity), spacing: 16),
-                                GridItem(.adaptive(minimum: (geometry.size.width - 290), maximum: .infinity), spacing: 16),
-                                GridItem(.adaptive(minimum: (geometry.size.width - 290), maximum: .infinity), spacing: 16),
-                                GridItem(.adaptive(minimum: (geometry.size.width - 290), maximum: .infinity), spacing: 16)
+                                GridItem(.adaptive(minimum: (scale), maximum: .infinity), spacing: 5)
                             ]
                         ) {
                             ForEach(pants, id: \.self) { pant in
                                 ClothingCellView(clothing: pant, length: geometry.size.width)
                             }
                         }
+                        .frame(height: scale * 4 + 40)
                     }
                 }
             }
