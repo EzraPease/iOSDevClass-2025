@@ -8,12 +8,12 @@
 import SwiftUI
 
 struct ContentView: View {
-    private var currentView: CurrentView = .mainMenu
+    @State private var currentView: CurrentView = .mainMenu
     
     var body: some View {
         switch currentView {
         case .mainMenu:
-            MainMenuView()
+            MainMenuView(currentView: $currentView)
         case .budgetOverview:
             BudgetView()
         case .savings:

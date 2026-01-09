@@ -8,30 +8,34 @@
 import SwiftUI
 
 struct MainMenuView: View {
+    @Binding var currentView: CurrentView
+    
     var body: some View {
-        VStack(spacing: 80) {
-            Spacer()
-            
-            Button {
+        NavigationStack {
+            VStack(spacing: 80) {
+                Spacer()
                 
-            } label: {
-                Text("Savings Button")
-            }
-            Button {
+                Button {
+                    currentView = .savings
+                } label: {
+                    Text("Savings Button")
+                }
+                Button {
+                    currentView = .expenses
+                } label: {
+                    Text("Expenses Button")
+                }
                 
-            } label: {
-                Text("Expenses Button")
-            }
-
-            Button("View Budget") {
+                Button("View Budget") {
+                    currentView = .budgetOverview
+                }
                 
+                Spacer()
             }
-            
-            Spacer()
         }
     }
 }
 
 #Preview {
-    MainMenuView()
+    MainMenuView(currentView: .constant(.mainMenu))
 }
