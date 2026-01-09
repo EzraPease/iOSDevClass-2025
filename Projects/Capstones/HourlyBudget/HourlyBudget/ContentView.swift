@@ -8,14 +8,23 @@
 import SwiftUI
 
 struct ContentView: View {
+    private var currentView: CurrentView = .mainMenu
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        switch currentView {
+        case .mainMenu:
+            MainMenuView()
+        case .budgetOverview:
+            BudgetView()
+        case .savings:
+            SavingsView()
+        case .expenses:
+            ExpensesView()
+        case .detailView:
+            DetailView()
+        case .advancedDetails:
+            AdvancedDetailView()
         }
-        .padding()
     }
 }
 
