@@ -8,7 +8,6 @@
 import SwiftUI
 
 
-
 enum CurrentView {
     case mainMenu
     case budgetOverview
@@ -17,3 +16,5 @@ enum CurrentView {
     case detailView
     case advancedDetails
 }
+
+
