@@ -50,7 +50,7 @@ struct ContentView: View {
     }
 }
 
-#Preview("Content View with Trip List") {
+#Preview {
     ContentView()
         .modelContainer(ModelContainer.preview)
 }

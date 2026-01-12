@@ -33,7 +33,7 @@ struct NewTripScreen: View {
     }
 }
 
-#Preview("New Trip Screen") {
+#Preview {
     NewTripScreen()
         .modelContainer(ModelContainer.preview)
 }

@@ -42,7 +42,7 @@ struct TripMapScreen: View {
     }
 }
 
-#Preview("Trip Map Screen with Mock Trip Data") {
+#Preview {
     NavigationStack {
         TripMapScreen(trip: Trip.mock(), position: .automatic)
     }

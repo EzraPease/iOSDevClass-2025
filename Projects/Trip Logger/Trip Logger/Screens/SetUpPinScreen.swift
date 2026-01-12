@@ -35,7 +35,7 @@ struct SetUpPinScreen: View {
     }
 }
 
-#Preview("Set Up Pin Screen with Example Trip and Journal Entry") {
+#Preview {
     struct SetUpPinScreenPreviewWrapper: View {
         @Environment(\.dismiss) private var dismiss
         
