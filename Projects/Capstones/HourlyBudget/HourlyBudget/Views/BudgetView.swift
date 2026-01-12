@@ -12,21 +12,29 @@ struct BudgetView: View {
     
     var body: some View {
         GeometryReader { geometry in
-            let scale = geometry.size.width - 250
+//            let scale = geometry.size.width - 260
+            var scale: CGFloat {
+                if geometry.size.width < geometry.size.height {
+                    return geometry.size.width - 270
+                }
+                return geometry.size.height - 270
+            }
             
             ScrollView {
                 VStack {
                     Spacer()
                     
-                    LazyHGrid (
-                        rows: [
-                            GridItem(.fixed(scale), spacing: 16),
-                            GridItem(.fixed(scale), spacing: 16)
+                    LazyVGrid (
+                        columns: [
+                            //                            GridItem(.fixed(scale), spacing: 16),
+                            //                            GridItem(.fixed(scale), spacing: 16)
+                            GridItem(.flexible(minimum: 100, maximum: scale)),
+                            GridItem(.flexible(minimum: 100, maximum: scale))
                         ]
                     ){ ForEach(viewModel.budgetList) { budget in
                         RoundedRectangle(cornerRadius: 21)
                             .fill(.cyan)
-                            .frame(width: 150, height: 150)
+                            .frame(width: scale, height: scale)
                             .overlay {
                                 VStack {
                                     Text("\(budget.currentValue)")
@@ -34,7 +42,6 @@ struct BudgetView: View {
                                 }
                             }
                     }
-                        
                     }
                     
                     Spacer()
