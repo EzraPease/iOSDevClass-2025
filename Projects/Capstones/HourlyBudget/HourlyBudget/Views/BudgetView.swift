@@ -28,8 +28,8 @@ struct BudgetView: View {
                         columns: [
                             //                            GridItem(.fixed(scale), spacing: 16),
                             //                            GridItem(.fixed(scale), spacing: 16)
-                            GridItem(.flexible(minimum: 100, maximum: scale)),
-                            GridItem(.flexible(minimum: 100, maximum: scale))
+                            GridItem(.flexible(minimum: 100, maximum: .infinity)),
+                            GridItem(.flexible(minimum: 100, maximum: .infinity))
                         ]
                     ){ ForEach(viewModel.budgetList) { budget in
                         RoundedRectangle(cornerRadius: 21)
