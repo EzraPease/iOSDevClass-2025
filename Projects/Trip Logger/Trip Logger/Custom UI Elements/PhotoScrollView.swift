@@ -19,15 +19,21 @@ struct PhotoScrollView: View {
     
     var body: some View {
         ScrollView(.horizontal) {
-            HStack {
+            LazyHGrid(
+                rows: [
+                    GridItem(.fixed(150), spacing: 10),
+                    GridItem(.fixed(150), spacing: 10)
+                ],
+                spacing: 10
+            ) {
                 ForEach(journalEntry.photos) { image in
                     if let uiImage = UIImage(data: image.data) {
                         Image(uiImage: uiImage)
                             .resizable()
+                            .scaledToFill()
                             .frame(width: 150, height: 150)
-                            .scaledToFit()
+                            .clipShape(RoundedRectangle(cornerSize: CGSize(width: 10, height: 10)))
                             .background(.regularMaterial)
-//                            .clipShape(RoundedRectangle(cornerSize: CGSize(width: 10, height: 10)))
                     }
                 }
                 // Photo Picker appears at end of list of photos
