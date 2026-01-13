@@ -10,7 +10,7 @@ import MapKit
 import SwiftData
 
 @Model
-final class Trip {
+final class Trip: Hashable {
     var id: UUID
     var name: String
     var journalEntries: [JournalEntry]
@@ -19,6 +19,14 @@ final class Trip {
         self.id = UUID()
         self.name = name
         self.journalEntries = []
+    }
+    
+    static func == (lhs: Trip, rhs: Trip) -> Bool {
+        lhs.id == rhs.id
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
     }
 }
 

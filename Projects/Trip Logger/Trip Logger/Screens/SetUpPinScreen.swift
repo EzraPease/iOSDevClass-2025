@@ -12,6 +12,8 @@ import MapKit
 import PhotosUI
 
 struct SetUpPinScreen: View {
+    @Environment(\.modelContext) private var context
+    
     var dismissSheet: DismissAction
     @State var newTrip: Trip
     
@@ -23,15 +25,40 @@ struct SetUpPinScreen: View {
     var body: some View {
             VStack {
                 Text("Name your first pin, add photos, and add notes to this stop")
-                TextField("Entry Name", text: $newTrip.journalEntries.first!.name)
-                TextField("Entry Text", text: $newTrip.journalEntries.first!.text)
+                    .font(.title2)
+                    .fontWeight(.bold)
+                Group {
+                    TextField("Name", text: $newTrip.journalEntries.first!.name)
+                    TextField("Description", text: $newTrip.journalEntries.first!.text)
+                }
+                .padding()
+                .glassEffect()
+                .padding(.horizontal)
+                .shadow(radius: 10)
                 PhotoScrollView(journalEntry: newTrip.journalEntries.first!)
+                    .scrollIndicators(.hidden)
+                    .padding()
+                    .shadow(radius: 10)
             }
             .toolbar {
                 Button("Save") {
-                    dismissSheet()
+                    saveTrip()
                 }
             }
+            .onAppear {
+                print(newTrip.journalEntries.count)
+            }
+    }
+    
+    private func saveTrip() {
+        do {
+            context.insert(newTrip)
+            try context.save()
+            dismissSheet()
+            print("Sheet Saved")
+        } catch {
+            print("Failed to save trip: \(error)")
+        }
     }
 }
 

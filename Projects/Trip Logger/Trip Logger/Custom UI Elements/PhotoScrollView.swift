@@ -20,6 +20,16 @@ struct PhotoScrollView: View {
     var body: some View {
         ScrollView(.horizontal) {
             HStack {
+                ForEach(journalEntry.photos) { image in
+                    if let uiImage = UIImage(data: image.data) {
+                        Image(uiImage: uiImage)
+                            .resizable()
+                            .frame(width: 150, height: 150)
+                            .scaledToFit()
+                            .background(.regularMaterial)
+//                            .clipShape(RoundedRectangle(cornerSize: CGSize(width: 10, height: 10)))
+                    }
+                }
                 // Photo Picker appears at end of list of photos
                 PhotosPicker(
                     selection: $selectedItems,

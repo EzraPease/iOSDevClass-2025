@@ -16,9 +16,10 @@ struct ContentView: View {
     @Query private var trips: [Trip]
         
     @State var isShowingNewTrip = false
+    @State private var navigationPath = NavigationPath()
     
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $navigationPath) {
             ViewThatFits {
                 if trips.isEmpty {
                     Text("No trips yet.")
@@ -26,14 +27,18 @@ struct ContentView: View {
                     List {
                         ForEach(trips) { trip in
                             NavigationLink(
-                                destination: TripMapScreen(
-                                    trip: trip,
-                                    position: .automatic
-                                )
+                                value: trip
                             ) {
                                 Text(trip.name)
                             }
                         }
+                    }
+                    .navigationDestination(for: Trip.self) { trip in
+                        TripMapScreen(
+                            trip: trip,
+                            position: .automatic,
+                            navigationPath: $navigationPath
+                        )
                     }
                 }
             }

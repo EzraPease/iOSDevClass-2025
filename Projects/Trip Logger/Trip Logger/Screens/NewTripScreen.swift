@@ -20,7 +20,10 @@ struct NewTripScreen: View {
                 Text("First, give a name to your trip.")
                     .font(.title2)
                     .fontWeight(.bold)
-                TextField("Type Here", text: $tripName)
+                TextField("Type here...", text: $tripName)
+                    .padding()
+                    .glassEffect()
+                    .shadow(radius: 10)
             }
             .padding()
             .toolbar {

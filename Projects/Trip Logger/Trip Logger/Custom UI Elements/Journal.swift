@@ -13,6 +13,7 @@ import PhotosUI
 
 struct Journal: View {
     @Binding var journalEntry: JournalEntry?
+    
     var body: some View {
         JournalTopBar(journalEntry: $journalEntry)
             .padding()
@@ -24,6 +25,9 @@ struct Journal: View {
                 .font(.body)
             
             PhotoScrollView(journalEntry: journalEntry)
+                .scrollIndicators(.hidden)
+                .padding()
+                .shadow(radius: 10)
         }
     }
 }
@@ -33,10 +37,14 @@ struct Journal: View {
 struct JournalTopBar: View {
     @Binding var journalEntry: JournalEntry?
     
+    @State private var editingModePresented = false
+    
     var body: some View {
         HStack {
             Button("Edit") {
                 // TODO: Add ability to edit journal entries
+                editingModePresented = true
+                print("Editing Mode Enabled")
             }
             
             Spacer()
@@ -50,11 +58,23 @@ struct JournalTopBar: View {
                 journalEntry = nil
             }
         }
+        .sheet(isPresented: $editingModePresented) {
+            if let journalEntry {
+                JournalEditingScreen(journalEntry: journalEntry)
+                    .presentationDetents([.fraction(0.4)])
+            }
+        }
     }
 }
 
-#Preview("Journal View with Selected Entry from Mock Trip") {
+#Preview {
     @Previewable @State var mockTrip = Trip.mock()
+    @State var path = NavigationPath()
     
-    TripMapScreen(trip: mockTrip, position: .automatic, selectedEntry: mockTrip.journalEntries.first)
+    TripMapScreen(
+        trip: mockTrip,
+        position: .automatic,
+        selectedEntry: mockTrip.journalEntries.first,
+        navigationPath: $path
+    )
 }
