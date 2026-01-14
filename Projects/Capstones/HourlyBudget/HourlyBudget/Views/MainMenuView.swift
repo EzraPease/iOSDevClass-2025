@@ -14,20 +14,25 @@ struct MainMenuView: View {
             VStack(spacing: 80) {
                 Spacer()
                 
-                Button {
-                    currentView = .savings
-                } label: {
-                    Text("Savings Button")
+                Group {
+                    Button {
+                        currentView = .savings
+                    } label: {
+                        Text("Savings Button")
+                    }
+                    Button {
+                        currentView = .expenses
+                    } label: {
+                        Text("Expenses Button")
+                    }
+                    
+                    Button("View Budget") {
+                        currentView = .budgetOverview
+                    }
                 }
-                Button {
-                    currentView = .expenses
-                } label: {
-                    Text("Expenses Button")
-                }
-                
-                Button("View Budget") {
-                    currentView = .budgetOverview
-                }
+                .padding()
+                .glassEffect()
+                .shadow(radius: 15)
                 
                 Spacer()
             }

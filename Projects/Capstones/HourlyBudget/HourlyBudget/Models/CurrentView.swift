@@ -13,8 +13,8 @@ enum CurrentView {
     case budgetOverview
     case savings
     case expenses
-    case detailView
-    case advancedDetails
+//    case detailView
+//    case advancedDetails
 }
 
 

@@ -21,10 +21,10 @@ struct ContentView: View {
                 SavingsView(currentView: $currentView)
             case .expenses:
                 ExpensesView(currentView: $currentView)
-            case .detailView:
-                DetailView()
-            case .advancedDetails:
-                AdvancedDetailView()
+//            case .detailView:
+//                DetailView(currentView: $currentView)
+//            case .advancedDetails:
+//                AdvancedDetailView(currentView: $currentView)
             }
         }
     }

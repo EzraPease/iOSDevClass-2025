@@ -11,7 +11,16 @@ struct ExpensesView: View {
     @Binding var currentView: CurrentView
     
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack {
+            Savings_Expenses()
+        }
+        .toolbar {
+            ToolbarItem(placement: .topBarLeading) {
+                Button("Main Menu") {
+                    currentView = .mainMenu
+                }
+            }
+        }
     }
 }
 

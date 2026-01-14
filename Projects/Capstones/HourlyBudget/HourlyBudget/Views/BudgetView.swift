@@ -15,9 +15,9 @@ struct BudgetView: View {
         GeometryReader { geometry in
             var scale: CGFloat {
                 if geometry.size.width < geometry.size.height {
-                    return geometry.size.width - 280
+                    return geometry.size.width / 4 + 20
                 }
-                return geometry.size.height - 280
+                return geometry.size.height / 4 + 20
             }
             
             ScrollView(.vertical) {
@@ -29,12 +29,19 @@ struct BudgetView: View {
                             GridItem(.adaptive(minimum: scale, maximum: .infinity))
                         ]
                     ){ ForEach(viewModel.budgetList) { budget in
-                        BudgetCell(scale: scale, currentValue: budget.currentValue)
+                        NavigationLink {
+                            DetailView(budgetCell: BudgetCell(scale: scale * 4 - 20, currentValue: budget.currentValue))
+                        } label: {
+                            BudgetCell(scale: scale, currentValue: budget.currentValue)
+                                .foregroundStyle(.white)
+                        }
+                        .padding()
                     }
                     }
                     .padding(.horizontal, 8)
                 }
             }
+            .scrollIndicators(.hidden)
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     Button("Main Menu") {
