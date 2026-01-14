@@ -11,19 +11,21 @@ struct ContentView: View {
     @State private var currentView: CurrentView = .mainMenu
     
     var body: some View {
-        switch currentView {
-        case .mainMenu:
-            MainMenuView(currentView: $currentView)
-        case .budgetOverview:
-            BudgetView()
-        case .savings:
-            SavingsView()
-        case .expenses:
-            ExpensesView()
-        case .detailView:
-            DetailView()
-        case .advancedDetails:
-            AdvancedDetailView()
+        NavigationStack {
+            switch currentView {
+            case .mainMenu:
+                MainMenuView(currentView: $currentView)
+            case .budgetOverview:
+                BudgetView(currentView: $currentView)
+            case .savings:
+                SavingsView(currentView: $currentView)
+            case .expenses:
+                ExpensesView(currentView: $currentView)
+            case .detailView:
+                DetailView()
+            case .advancedDetails:
+                AdvancedDetailView()
+            }
         }
     }
 }

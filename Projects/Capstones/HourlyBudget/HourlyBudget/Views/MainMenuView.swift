@@ -11,7 +11,6 @@ struct MainMenuView: View {
     @Binding var currentView: CurrentView
     
     var body: some View {
-        NavigationStack {
             VStack(spacing: 80) {
                 Spacer()
                 
@@ -32,7 +31,6 @@ struct MainMenuView: View {
                 
                 Spacer()
             }
-        }
     }
 }
 

@@ -9,48 +9,44 @@ import SwiftUI
 
 struct BudgetView: View {
     @State var viewModel = BudgetViewModel()
+    @Binding var currentView: CurrentView
     
     var body: some View {
         GeometryReader { geometry in
-//            let scale = geometry.size.width - 260
             var scale: CGFloat {
                 if geometry.size.width < geometry.size.height {
-                    return geometry.size.width - 270
+                    return geometry.size.width - 280
                 }
-                return geometry.size.height - 270
+                return geometry.size.height - 280
             }
             
-            ScrollView {
+            ScrollView(.vertical) {
                 VStack {
-                    Spacer()
+                    Text("Filler VStack Text")
                     
                     LazyVGrid (
                         columns: [
-                            //                            GridItem(.fixed(scale), spacing: 16),
-                            //                            GridItem(.fixed(scale), spacing: 16)
-                            GridItem(.flexible(minimum: 100, maximum: .infinity)),
-                            GridItem(.flexible(minimum: 100, maximum: .infinity))
+                            GridItem(.adaptive(minimum: scale, maximum: .infinity))
                         ]
                     ){ ForEach(viewModel.budgetList) { budget in
-                        RoundedRectangle(cornerRadius: 21)
-                            .fill(.cyan)
-                            .frame(width: scale, height: scale)
-                            .overlay {
-                                VStack {
-                                    Text("\(budget.currentValue)")
-                                    Image(systemName: "photo")
-                                }
-                            }
+                        BudgetCell(scale: scale, currentValue: budget.currentValue)
                     }
                     }
-                    
-                    Spacer()
+                    .padding(.horizontal, 8)
                 }
             }
+            .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    Button("Main Menu") {
+                        currentView = .mainMenu
+                    }
+                }
+            }
+            .navigationTitle("Filler Navigation Text")
         }
     }
 }
 
 #Preview {
-    BudgetView()
+    BudgetView(currentView: .constant(.budgetOverview))
 }
