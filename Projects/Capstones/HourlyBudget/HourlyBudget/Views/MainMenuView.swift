@@ -16,40 +16,39 @@ struct MainMenuView: View {
                 Spacer()
                 
                 Group {
-                    Button {
-                        currentView = .savings
-                    } label: {
-                        VStack {
-                            Text("View Savings")
-                                .font(.title3)
-                                .bold()
-                            Text(viewModel.savings, format: .currency(code: "USD"))
-                                .italic()
+                    Group {
+                        Button {
+                            currentView = .savings
+                        } label: {
+                            VStack {
+                                Text("View Savings")
+                                Text(viewModel.savings, format: .currency(code: "USD"))
+                                    .italic()
+                            }
+                            .foregroundStyle(.green)
                         }
-                        .foregroundStyle(.green)
-                    }
-                    Button {
-                        currentView = .expenses
-                    } label: {
-                        VStack {
-                            Text("View Expenses")
-                                .font(.title3)
-                                .bold()
-                            Text(viewModel.expenses, format: .currency(code: "USD"))
-                                .italic()
+                        Button {
+                            currentView = .expenses
+                        } label: {
+                            VStack {
+                                Text("View Expenses")
+                                Text(viewModel.expenses, format: .currency(code: "USD"))
+                                    .italic()
+                            }
+                            .foregroundStyle(.red)
                         }
-                        .foregroundStyle(.red)
                     }
+                    .frame(width: 170)
                     
                     Button("View Budget") {
                         currentView = .budgetOverview
                     }
-                    .font(.title3)
-                    .bold()
                 }
                 .padding()
                 .glassEffect()
                 .shadow(radius: 15)
+                .font(.title3)
+                .bold()
                 
                 Spacer()
             }

@@ -14,7 +14,7 @@ struct Details: View {
     var body: some View {
         RoundedRectangle(cornerRadius: 10)
             .fill(.cyan)
-            .frame(width: scale * 0.6, height: scale * 0.25)
+            .frame(width: scale * 0.35, height: scale * 0.15)
             .overlay {
                 Text(currentValue, format: .currency(code: "USD"))
             }
@@ -23,7 +23,7 @@ struct Details: View {
         
         RoundedRectangle(cornerRadius: 15)
             .fill(.cyan)
-            .frame(width: scale * 0.7, height: scale * 1.1)
+            .frame(width: scale * 0.45, height: scale * 0.6)
             .overlay {
                 Text("Settings Section")
             }
@@ -31,5 +31,5 @@ struct Details: View {
 }
 
 #Preview {
-    Details(scale: 402, currentValue: 57291)
+    Details(scale: 720.666, currentValue: 57291)
 }

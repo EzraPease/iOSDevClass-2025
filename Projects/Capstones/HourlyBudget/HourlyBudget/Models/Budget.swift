@@ -11,7 +11,8 @@ import Foundation
 struct Budget: Identifiable {
     var id = UUID()
     
+    var categoryName: String
     var currentValue: Double
-    var setCatagory: BudgetCatagories = .uncategorized
+    var setCategory: BudgetCategories = .uncategorized
 }
 

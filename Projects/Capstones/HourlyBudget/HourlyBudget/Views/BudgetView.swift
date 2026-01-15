@@ -15,30 +15,60 @@ struct BudgetView: View {
         GeometryReader { geometry in
             var scale: CGFloat {
                 if geometry.size.width < geometry.size.height {
-                    return geometry.size.width / 4 + 20
+                    return geometry.size.width / 3 + 50
                 }
-                return geometry.size.height / 4 + 20
+                return geometry.size.height / 3 + 50
             }
             
             ScrollView(.vertical) {
+                // Expenses List
                 VStack {
-                    Text("Filler VStack Text")
+                    Text("Expenses")
+                        .font(.largeTitle)
+                        .bold()
+                        .foregroundStyle(.red)
                     
                     LazyVGrid (
                         columns: [
                             GridItem(.adaptive(minimum: scale, maximum: .infinity))
                         ]
-                    ){ ForEach(viewModel.budgetList) { budget in
-                        NavigationLink {
-                            DetailView(budgetCell: BudgetCell(scale: scale * 4 - 20, currentValue: budget.currentValue))
-                        } label: {
-                            BudgetCell(scale: scale, currentValue: budget.currentValue)
-                                .foregroundStyle(.white)
-                        }
-                        .padding()
+                    ){ ForEach(viewModel.expenseBudget) { budget in
+                            NavigationLink {
+                                DetailView(budgetCell: BudgetCell(scale: scale * 4 - 50, currentValue: budget.currentValue, categoryName: budget.categoryName))
+                            } label: {
+                                BudgetCell(scale: scale, currentValue: budget.currentValue, categoryName: budget.categoryName)
+                                    .foregroundStyle(.white)
+                            }
+                            .padding()
                     }
+                }
+                .padding(.horizontal, 8)
+                }
+                
+                Spacer(minLength: 80)
+                
+                // Savings List
+                VStack {
+                    Text("Savings")
+                        .font(.largeTitle)
+                        .bold()
+                        .foregroundStyle(.green)
+                    
+                    LazyVGrid (
+                        columns: [
+                            GridItem(.adaptive(minimum: scale, maximum: .infinity))
+                        ]
+                    ){ ForEach(viewModel.savingsBudget) { budget in
+                            NavigationLink {
+                                DetailView(budgetCell: BudgetCell(scale: scale * 4 - 50, currentValue: budget.currentValue, categoryName: budget.categoryName))
+                            } label: {
+                                BudgetCell(scale: scale, currentValue: budget.currentValue, categoryName: budget.categoryName)
+                                    .foregroundStyle(.white)
+                            }
+                            .padding()
                     }
-                    .padding(.horizontal, 8)
+                }
+                .padding(.horizontal, 8)
                 }
             }
             .scrollIndicators(.hidden)
@@ -48,6 +78,13 @@ struct BudgetView: View {
                         currentView = .mainMenu
                     } label: {
                         Image(systemName: "chevron.backward")
+                    }
+                }
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        
+                    } label: {
+                        Image(systemName: "plus")
                     }
                 }
             }

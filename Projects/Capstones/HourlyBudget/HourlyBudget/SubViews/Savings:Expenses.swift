@@ -9,7 +9,7 @@ import SwiftUI
 
 struct Savings_Expenses: View {
     @State var totalAmount: Double
-    @State var setCatagory: BudgetCatagories
+    @State var setCategory: BudgetCategories
     
     var body: some View {
         VStack {
@@ -18,7 +18,7 @@ struct Savings_Expenses: View {
                     .fill(.cyan)
                     .overlay {
                         VStack {
-                            switch setCatagory {
+                            switch setCategory {
                             case .savings:
                                 Text("Total Savings:")
                                     .font(.title2)
@@ -52,5 +52,5 @@ struct Savings_Expenses: View {
 }
 
 #Preview {
-    Savings_Expenses(totalAmount: 57281, setCatagory: .savings)
+    Savings_Expenses(totalAmount: 57281, setCategory: .savings)
 }

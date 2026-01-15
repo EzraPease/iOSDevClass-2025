@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-enum BudgetCatagories {
+enum BudgetCategories {
     case savings
     case expenses
     case uncategorized
