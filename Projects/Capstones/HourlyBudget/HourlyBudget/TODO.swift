@@ -13,4 +13,5 @@
  TODO: Set up SavignsView
  TODO: Optimize UI (Make it look better)
  TODO: Add actual logic / functions
+ TODO: Add a system for currency codes
 */

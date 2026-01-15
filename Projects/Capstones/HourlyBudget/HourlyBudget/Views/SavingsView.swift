@@ -8,16 +8,19 @@
 import SwiftUI
 
 struct SavingsView: View {
+    @Environment(BudgetViewModel.self) var viewModel
     @Binding var currentView: CurrentView
     
     var body: some View {
         VStack {
-            Savings_Expenses()
+            Savings_Expenses(totalAmount: viewModel.savings, setCatagory: .savings)
         }
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
-                Button("Main Menu") {
+                Button {
                     currentView = .mainMenu
+                } label: {
+                    Image(systemName: "chevron.backward")
                 }
             }
         }
@@ -26,4 +29,5 @@ struct SavingsView: View {
 
 #Preview {
     SavingsView(currentView: .constant(.savings))
+        .environment(BudgetViewModel())
 }

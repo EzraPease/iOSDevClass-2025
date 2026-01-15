@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct BudgetView: View {
-    @State var viewModel = BudgetViewModel()
+    @Environment(BudgetViewModel.self) var viewModel
     @Binding var currentView: CurrentView
     
     var body: some View {
@@ -44,8 +44,10 @@ struct BudgetView: View {
             .scrollIndicators(.hidden)
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
-                    Button("Main Menu") {
+                    Button {
                         currentView = .mainMenu
+                    } label: {
+                        Image(systemName: "chevron.backward")
                     }
                 }
             }
@@ -56,4 +58,5 @@ struct BudgetView: View {
 
 #Preview {
     BudgetView(currentView: .constant(.budgetOverview))
+        .environment(BudgetViewModel())
 }

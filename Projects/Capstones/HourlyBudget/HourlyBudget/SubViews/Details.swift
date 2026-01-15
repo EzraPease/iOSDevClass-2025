@@ -9,14 +9,14 @@ import SwiftUI
 
 struct Details: View {
     @State var scale: CGFloat
-    @State var currentValue: Int
+    @State var currentValue: Double
     
     var body: some View {
         RoundedRectangle(cornerRadius: 10)
             .fill(.cyan)
             .frame(width: scale * 0.6, height: scale * 0.25)
             .overlay {
-                Text("\(currentValue)")
+                Text(currentValue, format: .currency(code: "USD"))
             }
         
         Spacer(minLength: scale * 0.3)
