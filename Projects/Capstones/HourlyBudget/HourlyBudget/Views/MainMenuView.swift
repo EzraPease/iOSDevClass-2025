@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct MainMenuView: View {
+    @Environment(BudgetViewModel.self) var viewModel
     @Binding var currentView: CurrentView
     
     var body: some View {
@@ -18,17 +19,33 @@ struct MainMenuView: View {
                     Button {
                         currentView = .savings
                     } label: {
-                        Text("Savings Button")
+                        VStack {
+                            Text("View Savings")
+                                .font(.title3)
+                                .bold()
+                            Text(viewModel.savings, format: .currency(code: "USD"))
+                                .italic()
+                        }
+                        .foregroundStyle(.green)
                     }
                     Button {
                         currentView = .expenses
                     } label: {
-                        Text("Expenses Button")
+                        VStack {
+                            Text("View Expenses")
+                                .font(.title3)
+                                .bold()
+                            Text(viewModel.expenses, format: .currency(code: "USD"))
+                                .italic()
+                        }
+                        .foregroundStyle(.red)
                     }
                     
                     Button("View Budget") {
                         currentView = .budgetOverview
                     }
+                    .font(.title3)
+                    .bold()
                 }
                 .padding()
                 .glassEffect()
@@ -41,4 +58,5 @@ struct MainMenuView: View {
 
 #Preview {
     MainMenuView(currentView: .constant(.mainMenu))
+        .environment(BudgetViewModel())
 }

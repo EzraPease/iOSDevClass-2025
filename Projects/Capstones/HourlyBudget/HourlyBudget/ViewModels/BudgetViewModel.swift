@@ -39,21 +39,34 @@ class BudgetViewModel {
         ]
     }
     
+    // Total Expenses
     var expenses: Double {
         var result: Double = 0.0
         for budgetAmount in budgetList {
             if budgetAmount.setCatagory == .expenses {
-                result += Double(budgetAmount.currentValue)
+                result += budgetAmount.currentValue
             }
         }
         return result
     }
     
+    // Total Savings
     var savings: Double {
         var result: Double = 0.0
         for budgetAmount in budgetList {
             if budgetAmount.setCatagory == .savings {
-                result += Double(budgetAmount.currentValue)
+                result += budgetAmount.currentValue
+            }
+        }
+        return result
+    }
+    
+    // Total Left Uncategorized
+    var uncategorized: Double {
+        var result: Double = 0.0
+        for budgetAmount in budgetList {
+            if budgetAmount.setCatagory == .uncategorized {
+                result += budgetAmount.currentValue
             }
         }
         return result

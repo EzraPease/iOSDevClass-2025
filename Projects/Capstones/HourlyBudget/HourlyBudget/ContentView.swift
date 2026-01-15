@@ -16,6 +16,7 @@ struct ContentView: View {
             switch currentView {
             case .mainMenu:
                 MainMenuView(currentView: $currentView)
+                    .environment(viewModel)
             case .budgetOverview:
                 BudgetView(currentView: $currentView)
                     .environment(viewModel)
@@ -25,10 +26,6 @@ struct ContentView: View {
             case .expenses:
                 ExpensesView(currentView: $currentView)
                     .environment(viewModel)
-//            case .detailView:
-//                DetailView(currentView: $currentView)
-//            case .advancedDetails:
-//                AdvancedDetailView(currentView: $currentView)
             }
         }
     }

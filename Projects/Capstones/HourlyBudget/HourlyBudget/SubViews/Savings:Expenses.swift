@@ -21,10 +21,16 @@ struct Savings_Expenses: View {
                             switch setCatagory {
                             case .savings:
                                 Text("Total Savings:")
+                                    .font(.title2)
+                                    .bold()
                             case .expenses:
                                 Text("Total Expenses:")
+                                    .font(.title2)
+                                    .bold()
                             case .uncategorized:
                                 Text("Amount Is Not Categorized")
+                                    .font(.title2)
+                                    .bold()
                             }
                             Text(totalAmount, format: .currency(code: "USD"))
                         }
@@ -45,6 +51,6 @@ struct Savings_Expenses: View {
     }
 }
 
-//#Preview {
-//    Savings_Expenses(totalAmount: 57281)
-//}
+#Preview {
+    Savings_Expenses(totalAmount: 57281, setCatagory: .savings)
+}
