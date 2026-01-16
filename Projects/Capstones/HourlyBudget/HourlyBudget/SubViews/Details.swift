@@ -27,9 +27,6 @@ struct Details: View {
             .overlay {
                 VStack {
                     Text("Settings Section")
-                    Toggle(isOn: $deleteMe) {
-                        Text("Pin")
-                    }
                 }
                 .padding()
             }

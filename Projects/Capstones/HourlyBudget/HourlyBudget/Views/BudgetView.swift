@@ -25,11 +25,12 @@ struct BudgetView: View {
                 // Pinned Category
                 // TODO: Finish setting up pinned section
                 VStack {
-                    Text("Pinned")
-                        .font(.largeTitle)
-                        .bold()
-                        .foregroundStyle(.purple)
-                    
+                    if !viewModel.pinnedBudget.isEmpty {
+                        Text("Pinned")
+                            .font(.largeTitle)
+                            .bold()
+                            .foregroundStyle(.purple)
+                    }
                     LazyVGrid (
                         columns: [
                             GridItem(.adaptive(minimum: scale, maximum: .infinity))
@@ -49,11 +50,12 @@ struct BudgetView: View {
                 
                 // Expenses List
                 VStack {
-                    Text("Expenses")
-                        .font(.largeTitle)
-                        .bold()
-                        .foregroundStyle(.red)
-                    
+                    if !viewModel.expenseBudget.isEmpty {
+                        Text("Expenses")
+                            .font(.largeTitle)
+                            .bold()
+                            .foregroundStyle(.red)
+                    }
                     LazyVGrid (
                         columns: [
                             GridItem(.adaptive(minimum: scale, maximum: .infinity))
@@ -75,11 +77,12 @@ struct BudgetView: View {
                 
                 // Savings List
                 VStack {
-                    Text("Savings")
-                        .font(.largeTitle)
-                        .bold()
-                        .foregroundStyle(.green)
-                    
+                    if !viewModel.savingsBudget.isEmpty {
+                        Text("Savings")
+                            .font(.largeTitle)
+                            .bold()
+                            .foregroundStyle(.green)
+                    }
                     LazyVGrid (
                         columns: [
                             GridItem(.adaptive(minimum: scale, maximum: .infinity))
