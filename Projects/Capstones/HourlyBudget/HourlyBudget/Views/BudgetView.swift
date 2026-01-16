@@ -118,10 +118,15 @@ struct BudgetView: View {
                     }
                 }
             }
-            .navigationTitle("Filler Navigation Text")
+            .navigationTitle("Budget List")
             .sheet(isPresented: $addBudgetIsPresented) {
-                AddBudget_TransactionView(viewModel: viewModel)
+                NavigationStack {
+                    UpdateBudgetView(viewModel: viewModel)
+                        .navigationTitle("Update Budget")
+                        .navigationBarTitleDisplayMode(.inline) // or .large
+                }
             }
+            .presentationDragIndicator(.visible)
         }
     }
 }

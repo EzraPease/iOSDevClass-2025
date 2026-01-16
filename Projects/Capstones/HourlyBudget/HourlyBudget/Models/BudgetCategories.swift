@@ -7,8 +7,8 @@
 
 import SwiftUI
 
-enum BudgetCategories {
-    case savings
-    case expenses
-    case uncategorized
+enum BudgetCategories: String, CaseIterable {
+    case savings = "Savings"
+    case expenses = "Expenses"
+    case uncategorized = "No Category"
 }
