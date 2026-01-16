@@ -10,6 +10,7 @@ import SwiftUI
 struct BudgetView: View {
     @Environment(BudgetViewModel.self) var viewModel
     @Binding var currentView: CurrentView
+    @State private var addBudgetIsPresented: Bool = false
     
     var body: some View {
         GeometryReader { geometry in
@@ -111,13 +112,16 @@ struct BudgetView: View {
                 }
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
-                        
+                        addBudgetIsPresented = true
                     } label: {
                         Image(systemName: "plus")
                     }
                 }
             }
             .navigationTitle("Filler Navigation Text")
+            .sheet(isPresented: $addBudgetIsPresented) {
+                AddBudget_TransactionView(viewModel: viewModel)
+            }
         }
     }
 }

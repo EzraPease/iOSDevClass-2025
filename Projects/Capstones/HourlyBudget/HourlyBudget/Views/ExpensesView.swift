@@ -13,7 +13,7 @@ struct ExpensesView: View {
     
     var body: some View {
         VStack {
-            Savings_Expenses(totalAmount: viewModel.expenses, setCategory: .expenses)
+            Savings_Expenses(totalAmount: viewModel.expenses, setCategory: .expenses, viewModel: viewModel)
         }
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {

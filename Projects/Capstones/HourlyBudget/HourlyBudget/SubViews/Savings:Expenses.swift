@@ -10,6 +10,7 @@ import SwiftUI
 struct Savings_Expenses: View {
     @State var totalAmount: Double
     @State var setCategory: BudgetCategories
+    @State var viewModel: BudgetViewModel
     
     var body: some View {
         VStack {
@@ -38,7 +39,45 @@ struct Savings_Expenses: View {
                 RoundedRectangle(cornerRadius: 20)
                     .fill(.cyan)
                     .overlay {
-                        Text("Savings / Expenses")
+                        VStack {
+                            Text("Savings / Expenses")
+                                .font(.title3)
+                                .bold()
+                            ScrollView {
+                                VStack {
+                                    switch setCategory {
+                                    case .savings:
+                                        ForEach(viewModel.savingsBudget) { savings in
+                                            HStack {
+                                                Text("\(savings.categoryName):")
+                                                    .bold()
+                                                
+                                                Spacer()
+                                                
+                                                Text("\(savings.currentValue, format: .currency(code: "USD"))")
+                                            }
+                                            .padding(3)
+                                        }
+                                    case .expenses:
+                                        ForEach(viewModel.expenseBudget) { expenses in
+                                            HStack {
+                                                Text("\(expenses.categoryName):")
+                                                    .bold()
+                                                
+                                                Spacer()
+                                                
+                                                Text("\(expenses.currentValue, format: .currency(code: "USD"))")
+                                            }
+                                            .padding(3)
+                                        }
+                                    case .uncategorized:
+                                        Text("Why can you see this?")
+                                    }
+                                }
+                            }
+                            .scrollIndicators(.hidden)
+                        }
+                        .padding()
                     }
                 RoundedRectangle(cornerRadius: 20)
                     .fill(.cyan)
@@ -52,5 +91,5 @@ struct Savings_Expenses: View {
 }
 
 #Preview {
-    Savings_Expenses(totalAmount: 57281, setCategory: .savings)
+    Savings_Expenses(totalAmount: 57281, setCategory: .savings, viewModel: BudgetViewModel())
 }
