@@ -21,6 +21,31 @@ struct BudgetView: View {
             }
             
             ScrollView(.vertical) {
+                
+                // Pinned Category
+                VStack {
+                    Text("Pinned")
+                        .font(.largeTitle)
+                        .bold()
+                        .foregroundStyle(.purple)
+                    
+                    LazyVGrid (
+                        columns: [
+                            GridItem(.adaptive(minimum: scale, maximum: .infinity))
+                        ]
+                    ){ ForEach(viewModel.pinnedBudget) { budget in
+                            NavigationLink {
+                                DetailView(budgetCell: BudgetCell(scale: scale * 4 - 50, currentValue: budget.currentValue, categoryName: budget.categoryName))
+                            } label: {
+                                BudgetCell(scale: scale, currentValue: budget.currentValue, categoryName: budget.categoryName)
+                                    .foregroundStyle(.white)
+                            }
+                            .padding()
+                    }
+                }
+                .padding(.horizontal, 8)
+                }
+                
                 // Expenses List
                 VStack {
                     Text("Expenses")

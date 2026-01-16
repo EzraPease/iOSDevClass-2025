@@ -25,7 +25,13 @@ struct Details: View {
             .fill(.cyan)
             .frame(width: scale * 0.45, height: scale * 0.6)
             .overlay {
-                Text("Settings Section")
+                VStack {
+                    Text("Settings Section")
+                    Toggle(isOn: $deleteMe) {
+                        Text("Pin")
+                    }
+                }
+                .padding()
             }
     }
 }

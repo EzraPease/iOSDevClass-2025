@@ -39,11 +39,22 @@ class BudgetViewModel {
         ]
     }
     
+    // Filtered Pinned Budgets
+    var pinnedBudget: [Budget] {
+        var result: [Budget] = []
+        for pinned in budgetList {
+            if pinned.isPinned {
+                result.append(pinned)
+            }
+        }
+        return result
+    }
+    
     // Filtered Budgets Into Savings
     var savingsBudget: [Budget] {
         var result: [Budget] = []
         for saving in budgetList {
-            if saving.setCategory == .savings {
+            if saving.setCategory == .savings && !saving.isPinned {
                 result.append(saving)
             }
         }
@@ -54,7 +65,7 @@ class BudgetViewModel {
     var expenseBudget: [Budget] {
         var result: [Budget] = []
         for expense in budgetList {
-            if expense.setCategory == .expenses {
+            if expense.setCategory == .expenses && !expense.isPinned {
                 result.append(expense)
             }
         }

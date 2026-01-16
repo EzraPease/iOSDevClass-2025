@@ -28,3 +28,8 @@ struct BudgetCell: View {
 
     }
 }
+
+
+#Preview {
+    ContentView()
+}
