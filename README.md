@@ -1,3 +1,3 @@
 # iOSDevClass-2025
 
-To be fari, it did say read me
+To be fair, it did say read me
