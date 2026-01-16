@@ -23,6 +23,7 @@ struct BudgetView: View {
             ScrollView(.vertical) {
                 
                 // Pinned Category
+                // TODO: Finish setting up pinned section
                 VStack {
                     Text("Pinned")
                         .font(.largeTitle)
