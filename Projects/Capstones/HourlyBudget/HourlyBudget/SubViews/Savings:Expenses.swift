@@ -33,7 +33,7 @@ struct Savings_Expenses: View {
                     // Total Value
                     RoundedRectangle(cornerRadius: 20)
                         .fill(.cyan)
-                        .frame(height: 200)
+                        .frame(height: 80)
                         .overlay {
                             VStack {
                                 switch setCategory {

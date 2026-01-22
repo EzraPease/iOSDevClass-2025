@@ -15,5 +15,6 @@ struct Budget: Identifiable {
     var currentValue: Double
     var setCategory: BudgetCategories = .uncategorized
     var isPinned: Bool = false
+    var transactions: [Transactions] = []
 }
 
