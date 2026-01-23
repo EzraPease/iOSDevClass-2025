@@ -24,6 +24,17 @@ struct Savings_Expenses: View {
         }
     }
     
+    private var transactionsFrameSize: CGFloat {
+        switch setCategory {
+        case .savings:
+            return viewModel.savingsBudget.count <= 5 ? 200 : 350
+        case .expenses:
+            return viewModel.expenseBudget.count <= 5 ? 200 : 350
+        case .uncategorized:
+            return 200
+        }
+    }
+    
     var body: some View {
         ScrollView {
             VStack {
@@ -57,9 +68,20 @@ struct Savings_Expenses: View {
                         .frame(height: categoriesFrameSize)
                         .overlay {
                             VStack {
-                                Text("Savings / Expenses")
-                                    .font(.title3)
-                                    .bold()
+                                switch setCategory {
+                                case .savings:
+                                    Text("Savings Accounts")
+                                        .font(.title2)
+                                        .bold()
+                                case .expenses:
+                                    Text("Expense Accounts")
+                                        .font(.title2)
+                                        .bold()
+                                case .uncategorized:
+                                    Text("Amount Is Not Categorized")
+                                        .font(.title2)
+                                        .bold()
+                                }
                                 ScrollView {
                                     VStack {
                                         CategoryListView(setCategory: setCategory, viewModel: viewModel)
@@ -72,14 +94,21 @@ struct Savings_Expenses: View {
                     // Logs
                     RoundedRectangle(cornerRadius: 20)
                         .fill(.cyan)
-                        .frame(height: 200)
+                        .frame(height: transactionsFrameSize)
                         .overlay {
-                            ScrollView {
-                                VStack {
-                                    LogsListView(setCategory: setCategory, viewModel: viewModel)
+                            VStack {
+                                Text("Transactions")
+                                    .bold()
+                                    .font(.title3)
+                                
+                                ScrollView {
+                                    VStack {
+                                        LogsListView(setCategory: setCategory, viewModel: viewModel)
+                                    }
                                 }
+                                .scrollIndicators(.hidden)
                             }
-                            .scrollIndicators(.hidden)
+                            .padding()
                         }
                 }
                 .padding()
@@ -91,7 +120,7 @@ struct Savings_Expenses: View {
 private struct CategoryListView: View {
     let setCategory: BudgetCategories
     let viewModel: BudgetViewModel
-
+    
     var body: some View {
         switch setCategory {
         case .savings:
@@ -123,35 +152,37 @@ private struct CategoryListView: View {
 private struct LogsListView: View {
     let setCategory: BudgetCategories
     let viewModel: BudgetViewModel
-
+    
     var body: some View {
-        switch setCategory {
-        case .savings:
-            ForEach(viewModel.savingsBudget) { budget in
-                ForEach(budget.transactions) { transaction in
-                    HStack {
-                        Text(transaction.timeStamp.formatted(date: .abbreviated, time: .omitted))
-                            .bold()
-                        Spacer()
-                        Text(transaction.amount, format: .currency(code: "USD"))
+        VStack {
+            switch setCategory {
+            case .savings:
+                ForEach(viewModel.savingsBudget) { budget in
+                    ForEach(budget.transactions) { transaction in
+                        HStack {
+                            Text(transaction.timeStamp.formatted(date: .abbreviated, time: .omitted))
+                                .bold()
+                            Spacer()
+                            Text(transaction.amount, format: .currency(code: "USD"))
+                        }
+                        .padding(3)
                     }
-                    .padding(3)
                 }
-            }
-        case .expenses:
-            ForEach(viewModel.expenseBudget) { budget in
-                ForEach(budget.transactions) { transaction in
-                    HStack {
-                        Text(transaction.timeStamp.formatted(date: .abbreviated, time: .omitted))
-                            .bold()
-                        Spacer()
-                        Text(transaction.amount, format: .currency(code: "USD"))
+            case .expenses:
+                ForEach(viewModel.expenseBudget) { budget in
+                    ForEach(budget.transactions) { transaction in
+                        HStack {
+                            Text(transaction.timeStamp.formatted(date: .abbreviated, time: .omitted))
+                                .bold()
+                            Spacer()
+                            Text(transaction.amount, format: .currency(code: "USD"))
+                        }
+                        .padding(3)
                     }
-                    .padding(3)
                 }
+            case .uncategorized:
+                Text(viewModel.uncategorized, format: .currency(code: "USD"))
             }
-        case .uncategorized:
-            Text(viewModel.uncategorized, format: .currency(code: "USD"))
         }
     }
 }
