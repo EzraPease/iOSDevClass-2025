@@ -14,7 +14,7 @@ struct DetailView: View {
             ScrollView(.vertical) {
                 VStack(alignment: .center) {
                     if let budgetCell {
-                        Details(scale: budgetCell.scale, currentValue: budgetCell.currentValue)
+                        Details(scale: budgetCell.scale, currentValue: budgetCell.currentValue, defaultCategoryName: budgetCell.categoryName)
                     } else {
                         Text("No budget found - Try again later")
                             .font(.title2)
