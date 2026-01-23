@@ -12,21 +12,19 @@ struct Savings_Expenses: View {
     @State var totalAmount: Double
     @State var setCategory: BudgetCategories
     @State var viewModel: BudgetViewModel
-    @State private var categoriesFrameSize: CGFloat = 200
+    
+    private var categoriesFrameSize: CGFloat {
+        switch setCategory {
+        case .savings:
+            return viewModel.savingsBudget.count <= 5 ? 200 : 350
+        case .expenses:
+            return viewModel.expenseBudget.count <= 5 ? 200 : 350
+        case .uncategorized:
+            return 200
+        }
+    }
     
     var body: some View {
-        let categoriesFrameSize: CGFloat = {
-            switch setCategory {
-            case .savings:
-                return viewModel.savingsBudget.count <= 5 ? 200 : 350
-            case .expenses:
-                return viewModel.expenseBudget.count <= 5 ? 200 : 350
-            case .uncategorized:
-                // This should never run
-                return 200
-            }
-        }()
-        
         ScrollView {
             VStack {
                 Group {
@@ -64,34 +62,7 @@ struct Savings_Expenses: View {
                                     .bold()
                                 ScrollView {
                                     VStack {
-                                        switch setCategory {
-                                        case .savings:
-                                            ForEach(viewModel.savingsBudget) { savings in
-                                                HStack {
-                                                    Text("\(savings.categoryName):")
-                                                        .bold()
-                                                    
-                                                    Spacer()
-                                                    
-                                                    Text("\(savings.currentValue, format: .currency(code: "USD"))")
-                                                }
-                                                .padding(3)
-                                            }
-                                        case .expenses:
-                                            ForEach(viewModel.expenseBudget) { expenses in
-                                                HStack {
-                                                    Text("\(expenses.categoryName):")
-                                                        .bold()
-                                                    
-                                                    Spacer()
-                                                    
-                                                    Text("\(expenses.currentValue, format: .currency(code: "USD"))")
-                                                }
-                                                .padding(3)
-                                            }
-                                        case .uncategorized:
-                                            Text("Why can you see this?")
-                                        }
+                                        CategoryListView(setCategory: setCategory, viewModel: viewModel)
                                     }
                                 }
                                 .scrollIndicators(.hidden)
@@ -103,11 +74,84 @@ struct Savings_Expenses: View {
                         .fill(.cyan)
                         .frame(height: 200)
                         .overlay {
-                            Text("Transaction Logs")
+                            ScrollView {
+                                VStack {
+                                    LogsListView(setCategory: setCategory, viewModel: viewModel)
+                                }
+                            }
+                            .scrollIndicators(.hidden)
                         }
                 }
                 .padding()
             }
+        }
+    }
+}
+
+private struct CategoryListView: View {
+    let setCategory: BudgetCategories
+    let viewModel: BudgetViewModel
+
+    var body: some View {
+        switch setCategory {
+        case .savings:
+            ForEach(viewModel.savingsBudget) { savings in
+                HStack {
+                    Text("\(savings.categoryName):")
+                        .bold()
+                    Spacer()
+                    Text("\(savings.currentValue, format: .currency(code: "USD"))")
+                }
+                .padding(3)
+            }
+        case .expenses:
+            ForEach(viewModel.expenseBudget) { expenses in
+                HStack {
+                    Text("\(expenses.categoryName):")
+                        .bold()
+                    Spacer()
+                    Text("\(expenses.currentValue, format: .currency(code: "USD"))")
+                }
+                .padding(3)
+            }
+        case .uncategorized:
+            Text("Why can you see this?")
+        }
+    }
+}
+
+private struct LogsListView: View {
+    let setCategory: BudgetCategories
+    let viewModel: BudgetViewModel
+
+    var body: some View {
+        switch setCategory {
+        case .savings:
+            ForEach(viewModel.savingsBudget) { budget in
+                ForEach(budget.transactions) { transaction in
+                    HStack {
+                        Text(transaction.timeStamp.formatted(date: .abbreviated, time: .omitted))
+                            .bold()
+                        Spacer()
+                        Text(transaction.amount, format: .currency(code: "USD"))
+                    }
+                    .padding(3)
+                }
+            }
+        case .expenses:
+            ForEach(viewModel.expenseBudget) { budget in
+                ForEach(budget.transactions) { transaction in
+                    HStack {
+                        Text(transaction.timeStamp.formatted(date: .abbreviated, time: .omitted))
+                            .bold()
+                        Spacer()
+                        Text(transaction.amount, format: .currency(code: "USD"))
+                    }
+                    .padding(3)
+                }
+            }
+        case .uncategorized:
+            Text(viewModel.uncategorized, format: .currency(code: "USD"))
         }
     }
 }
