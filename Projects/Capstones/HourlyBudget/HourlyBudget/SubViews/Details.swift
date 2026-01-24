@@ -30,7 +30,7 @@ struct Details: View {
                 .frame(width: scale * 0.35, height: scale * 0.15)
                 .overlay {
                     VStack {
-                        Text(categoryName)
+                        Text(defaultCategoryName)
                             .font(.title3)
                             .bold()
                         Text(currentValue, format: .currency(code: "USD"))
@@ -47,7 +47,7 @@ struct Details: View {
                     VStack {
                         Text("Edit Mode Enabled: \(editModeEnabled)") // Temporary Text Object
                         Group {
-                            TextField("Category Name", text: $defaultCategoryName)
+                            TextField("Category Name", text: $categoryName)
                             TextField("Set Amount", text: $editedCurrentValue)
                                 .keyboardType(.decimalPad)
                         }
@@ -55,6 +55,7 @@ struct Details: View {
                         .glassEffect()
                         .padding(2)
                         .disabled(!editModeEnabled)
+                        .opacity(editModeEnabled ? 1 : 0.7)
                         
                         Spacer()
                     }
@@ -66,19 +67,24 @@ struct Details: View {
                 Button(editButtonText) {
                     if editModeEnabled {
                         normalizeToTwoDecimals()
+                        do {
+                            try save()
+                        } catch {
+                            print(error)
+                        }
                     }
-                    
                     editModeEnabled.toggle()
                 }
             }
         }
         .onAppear {
             categoryName = defaultCategoryName
+            editedCurrentValue = String(currentValue)
         }
     }
     // TODO: Fix save function so that it updates the category name and currentValue at the top
-    private mutating func save() throws {
-        guard let valueAsDouble = Double(editedCurrentValue) else { throw DetailsViewErrors.failedToSave}
+    private func save() throws {
+        guard let valueAsDouble = Double(editedCurrentValue) else { throw DetailsViewErrors.unableToSaveNewValue}
         defaultCategoryName = categoryName
         currentValue = valueAsDouble
     }

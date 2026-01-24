@@ -7,4 +7,5 @@
 
 enum DetailsViewErrors: Error {
     case failedToSave
+    case unableToSaveNewValue
 }
