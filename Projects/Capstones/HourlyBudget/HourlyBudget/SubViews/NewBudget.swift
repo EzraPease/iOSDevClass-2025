@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct NewBudget: View {
-    @State private var budgetName = ""
-    @State private var startingAmount = "0"
-    @State private var selectedCategory: BudgetCategories = .savings
+    @Binding var budgetName: String
+    @Binding var startingAmount: String
+    @Binding var selectedCategory: BudgetCategories
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -40,5 +40,9 @@ struct NewBudget: View {
 }
 
 #Preview {
-    NewBudget()
+    NewBudget(
+        budgetName: .constant("Sample Budget"),
+        startingAmount: .constant("100"),
+        selectedCategory: .constant(BudgetCategories.allCases.first ?? .savings)
+    )
 }

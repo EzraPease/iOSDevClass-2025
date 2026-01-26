@@ -6,11 +6,12 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct BudgetView: View {
     @Environment(BudgetViewModel.self) var viewModel
     @Binding var currentView: CurrentView
-    @State private var addBudgetIsPresented: Bool = false
+    @State private var editBudgetModeEnabled: Bool = false
     
     var body: some View {
         GeometryReader { geometry in
@@ -112,16 +113,16 @@ struct BudgetView: View {
                 }
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
-                        addBudgetIsPresented = true
+                        editBudgetModeEnabled = true
                     } label: {
                         Image(systemName: "plus")
                     }
                 }
             }
             .navigationTitle("Budget List")
-            .sheet(isPresented: $addBudgetIsPresented) {
+            .sheet(isPresented: $editBudgetModeEnabled) {
                 NavigationStack {
-                    UpdateBudgetView(viewModel: viewModel)
+                    AddBudgetView()
                         .navigationTitle("Update Budget")
                         .navigationBarTitleDisplayMode(.inline) // or .large
                 }

@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct DetailView: View {
+    @Environment(BudgetViewModel.self) var viewModel
     @State var budgetCell: BudgetCell?
     
     var body: some View {
@@ -35,5 +36,6 @@ struct DetailView: View {
 #Preview {
     // Scale 402 for iPhone 17 Pro
     DetailView(budgetCell: BudgetCell(scale: 720.666, currentValue: 48281, categoryName: "Example Category"))
+        .environment(BudgetViewModel())
 //    DetailView(currentView: .constant(.detailView), budgetCell: nil)
 }

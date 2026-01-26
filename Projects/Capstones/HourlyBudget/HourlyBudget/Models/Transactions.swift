@@ -11,5 +11,5 @@ struct Transactions: Identifiable {
     var id = UUID()
     
     var amount: Double
-    var timeStamp: Date
+    var timeStamp: Date = .now
 }

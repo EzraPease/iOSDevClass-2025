@@ -6,11 +6,16 @@
 //
 
 import SwiftUI
+import SwiftData
 
-struct UpdateBudgetView: View {
+struct AddBudgetView: View {
     @Environment(\.dismiss) private var dismiss
-    @State var viewModel: BudgetViewModel
+    @Environment(BudgetViewModel.self) var viewModel
     @State private var isNewCategory = false
+    
+    @State var budgetName = ""
+    @State var startingAmount = "0"
+    @State var selectedCategory: BudgetCategories = .savings
     
     var body: some View {
         NavigationStack {
@@ -19,18 +24,8 @@ struct UpdateBudgetView: View {
                     .fill(.cyan)
                     .overlay {
                         VStack {
-                            Toggle(isOn: $isNewCategory) {
-                                Text("New Budget")
-                            }
-                            .padding()
-                            .glassEffect()
-                            .padding()
-                            if isNewCategory {
-                                NewBudget()
-                            } else {
-                                ExistingBudget()
-                            }
-                            
+                            NewBudget(budgetName: $budgetName, startingAmount: $startingAmount, selectedCategory: $selectedCategory)
+
                             Spacer()
                         }
                     }
@@ -40,7 +35,10 @@ struct UpdateBudgetView: View {
                 ToolbarItem {
                     Button("Save") {
                         // TODO: Add Function
-                        dismiss()
+                        if let amountAsDouble = Double(startingAmount) {
+                            viewModel.budgetList.append(Budget(categoryName: budgetName, currentValue: amountAsDouble, setCategory: selectedCategory))
+                            dismiss()
+                        }
                     }
                 }
             }
@@ -49,5 +47,6 @@ struct UpdateBudgetView: View {
 }
 
 #Preview {
-    UpdateBudgetView(viewModel: BudgetViewModel())
+    AddBudgetView()
+        .environment(BudgetViewModel())
 }

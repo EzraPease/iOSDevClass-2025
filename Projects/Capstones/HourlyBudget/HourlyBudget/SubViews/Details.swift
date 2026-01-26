@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct Details: View {
+    @Environment(BudgetViewModel.self) var viewModel
     @State var scale: CGFloat
     @State var currentValue: Double
     @State private var editModeEnabled = false
@@ -105,4 +106,5 @@ struct Details: View {
 
 #Preview {
     Details(scale: 720.666, currentValue: 57291, defaultCategoryName: "Example Category")
+        .environment(BudgetViewModel())
 }
