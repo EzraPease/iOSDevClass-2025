@@ -39,7 +39,7 @@ struct BudgetView: View {
                         ]
                     ){ ForEach(viewModel.pinnedBudget) { budget in
                             NavigationLink {
-                                DetailView(budgetCell: BudgetCell(scale: scale * 4 - 50, currentValue: budget.currentValue, categoryName: budget.categoryName))
+                                DetailView(budget: budget, scale: scale * 4 - 50)
                             } label: {
                                 BudgetCell(scale: scale, currentValue: budget.currentValue, categoryName: budget.categoryName)
                                     .foregroundStyle(.white)
@@ -64,7 +64,7 @@ struct BudgetView: View {
                         ]
                     ){ ForEach(viewModel.expenseBudget) { budget in
                             NavigationLink {
-                                DetailView(budgetCell: BudgetCell(scale: scale * 4 - 50, currentValue: budget.currentValue, categoryName: budget.categoryName))
+                                DetailView(budget: budget, scale: scale * 4 - 50)
                             } label: {
                                 BudgetCell(scale: scale, currentValue: budget.currentValue, categoryName: budget.categoryName)
                                     .foregroundStyle(.white)
@@ -91,7 +91,7 @@ struct BudgetView: View {
                         ]
                     ){ ForEach(viewModel.savingsBudget) { budget in
                             NavigationLink {
-                                DetailView(budgetCell: BudgetCell(scale: scale * 4 - 50, currentValue: budget.currentValue, categoryName: budget.categoryName))
+                                DetailView(budget: budget, scale: scale * 4 - 50)
                             } label: {
                                 BudgetCell(scale: scale, currentValue: budget.currentValue, categoryName: budget.categoryName)
                                     .foregroundStyle(.white)

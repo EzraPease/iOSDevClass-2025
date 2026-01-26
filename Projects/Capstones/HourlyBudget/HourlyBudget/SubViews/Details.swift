@@ -14,6 +14,7 @@ struct Details: View {
     @State private var editModeEnabled = false
     @State private var editedCurrentValue = ""
     @State private var categoryName = ""
+    @State private var showDeleteConfirm = false
     
     @State var defaultCategoryName: String
     
@@ -56,7 +57,7 @@ struct Details: View {
                         .glassEffect()
                         .padding(2)
                         .disabled(!editModeEnabled)
-                        .opacity(editModeEnabled ? 1 : 0.7)
+                        .opacity(editModeEnabled ? 1 : 0.5)
                         
                         Spacer()
                     }
@@ -64,6 +65,27 @@ struct Details: View {
                 }
         }
         .toolbar {
+            if editModeEnabled {
+            ToolbarItem(placement: .topBarLeading) {
+                    Button {
+                        
+                    } label: {
+                        Button("Delete", role: .destructive) {
+                            showDeleteConfirm = true
+                        }
+                        .foregroundStyle(.red)
+                        .bold()
+                        .alert("Delete this budget?", isPresented: $showDeleteConfirm) {
+                            Button("Delete", role: .destructive) {
+                                // Perform deletion
+                            }
+                            Button("Cancel", role: .cancel) { }
+                        } message: {
+                            Text("This action cannot be undone.")
+                        }
+                    }
+                }
+            }
             ToolbarItem(placement: .topBarTrailing) {
                 Button(editButtonText) {
                     if editModeEnabled {

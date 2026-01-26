@@ -9,33 +9,28 @@ import SwiftUI
 
 struct DetailView: View {
     @Environment(BudgetViewModel.self) var viewModel
-    @State var budgetCell: BudgetCell?
+    let budget: Budget
+    let scale: CGFloat
     
     var body: some View {
-            ScrollView(.vertical) {
-                VStack(alignment: .center) {
-                    if let budgetCell {
-                        Details(scale: budgetCell.scale, currentValue: budgetCell.currentValue, defaultCategoryName: budgetCell.categoryName)
-                    } else {
-                        Text("No budget found - Try again later")
-                            .font(.title2)
-                            .bold()
-                            .foregroundStyle(.red)
-                    }
-                }
+        ScrollView(.vertical) {
+            VStack(alignment: .center) {
+                Details(
+                    scale: scale,
+                    currentValue: budget.currentValue,
+                    defaultCategoryName: budget.categoryName
+                )
             }
-            .scrollIndicators(.hidden)
-            .onAppear {
-                if let budgetCell {
-                    print(budgetCell.scale)
-                }
-            }
+        }
+        .scrollIndicators(.hidden)
     }
 }
 
 #Preview {
     // Scale 402 for iPhone 17 Pro
-    DetailView(budgetCell: BudgetCell(scale: 720.666, currentValue: 48281, categoryName: "Example Category"))
-        .environment(BudgetViewModel())
-//    DetailView(currentView: .constant(.detailView), budgetCell: nil)
+    DetailView(
+        budget: Budget(categoryName: "Example Category", currentValue: 48281, setCategory: .savings),
+        scale: 720.666
+    )
+    .environment(BudgetViewModel())
 }
