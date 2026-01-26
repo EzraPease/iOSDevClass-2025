@@ -10,13 +10,13 @@ import SwiftUI
 
 struct USARepsView: View {
     @State private var zipCode = ""
-    @State private var apitController: RepresentativeAPIController
+    @State private var apiController: RepresentativeAPIController
     @State private var repsList: [USReps]? // Storage for reps list from API
     @State private var loadingIndicatorShown = false
     
     
     init(apiController: RepresentativeAPIController) {
-        self.apitController = apiController
+        self.apiController = apiController
     }
     
     var body: some View {
@@ -27,7 +27,7 @@ struct USARepsView: View {
                 .padding()
             TextField("Search By Zip Code", text: $zipCode)
                 .padding()
-                .glassEffect()
+                .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 12))
                 .frame(width: 300, height: 30)
                 .keyboardType(.numberPad)
             HStack {
@@ -38,7 +38,7 @@ struct USARepsView: View {
                     loadingIndicatorShown = true
                     Task {
                         do {
-                            repsList = try await apitController.fetchUSARep(zip: zipCode)
+                            repsList = try await apiController.fetchUSARep(zip: zipCode)
                         } catch {
                             print(error)
                         }

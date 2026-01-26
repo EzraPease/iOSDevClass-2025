@@ -15,7 +15,6 @@ struct DogsView: View {
     @State private var imageURL: URL?
     @State private var dogName = ""
     @State private var saveDogDisabled = false
-    @State private var editIsPresented = false
     @State private var noNameErrorPresented = false
     @State private var dogNameTextField = "Dog Name..."
     
@@ -29,8 +28,6 @@ struct DogsView: View {
     }
     
     var body: some View {
-        @Bindable var viewModel = viewModel
-        
         NavigationStack {
             VStack {
                 dogImageView()
@@ -60,6 +57,7 @@ struct DogsView: View {
         .sheet(item: $selectedDog) { dog in
             NavigationStack {
                 DogDetailView(currentDog: dog)
+                    .environment(viewModel)
                     .presentationDetents([.large, .medium])
             }
         }
@@ -104,14 +102,13 @@ struct DogsView: View {
         }
         .disabled(saveDogDisabled)
         .padding(8)
-        .glassEffect()
+        .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 12))
     }
     
     func dogListView() -> some View {
-        List($viewModel.dogList) { $dog in
+        List(viewModel.dogList) { dog in
             HStack {
                 Button {
-                    editIsPresented = true
                     selectedDog = dog
                     //                        print(selectedDog)
                 } label: {
@@ -141,7 +138,6 @@ struct DogsView: View {
                 Text(dog.name)
             }
         }
-        
     }
     
     private func saveDog() {

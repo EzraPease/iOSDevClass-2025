@@ -7,6 +7,14 @@
 
 import SwiftUI
 
-protocol RepresenativeAPIControllerProtocol {
+protocol RepresentativeAPIControllerProtocol {
     func fetchUSARep(zip: String?) async throws -> [USReps]
+}
+
+
+class StubApiCall: RepresentativeAPIControllerProtocol {
+    var stubRep: [USReps] = []
+    func fetchUSARep(zip: String?) async throws -> [USReps] {
+        return stubRep
+    }
 }

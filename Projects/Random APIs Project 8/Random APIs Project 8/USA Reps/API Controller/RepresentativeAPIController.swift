@@ -8,7 +8,7 @@
 import SwiftUI
 
 
-class RepresentativeAPIController: RepresenativeAPIControllerProtocol {
+class RepresentativeAPIController: RepresentativeAPIControllerProtocol {
     func fetchUSARep(zip: String? = nil) async throws -> [USReps] {
         var components = URLComponents()
         components.scheme = "https"
