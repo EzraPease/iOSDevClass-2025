@@ -6,6 +6,8 @@
 //
 
 import SwiftUI
+import SwiftData
+
 
 enum BudgetCategories: String, CaseIterable {
     case savings = "Savings"

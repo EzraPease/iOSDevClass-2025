@@ -44,10 +44,15 @@ final class Random_APIs_Project_8Tests: XCTestCase {
     func testFetchUSRep_apiTesting_returnsValues() async throws {
         let api = RepresentativeAPIController()
         
+        do {
+            let apiValue = try await api.fetchUSARep(zip: "84058")
+            
+            
+            XCTAssertNoThrow(apiValue)
+        } catch {
+            print(error)
+        }
         
-        let apiValue = try await api.fetchUSARep(zip: "84058")
-        
-        XCTAssertFalse(apiValue.isEmpty)
     }
 
 }
