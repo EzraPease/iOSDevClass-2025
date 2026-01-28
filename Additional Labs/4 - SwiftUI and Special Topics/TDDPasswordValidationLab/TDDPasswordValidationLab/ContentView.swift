@@ -80,9 +80,9 @@ struct ContentView: View {
             viewModel.validatePassword()
             print(viewModel.passwordValidityChecks)
         }
-        .onChange(of: viewModel.password) { _, newValue in
+        .onChange(of: viewModel.password) { _, _ in
             viewModel.validatePassword()
-            print(viewModel.passwordValidityChecks)
+            print("Password Validation Checks: \(viewModel.passwordValidityChecks)")
         }
     }
 }
