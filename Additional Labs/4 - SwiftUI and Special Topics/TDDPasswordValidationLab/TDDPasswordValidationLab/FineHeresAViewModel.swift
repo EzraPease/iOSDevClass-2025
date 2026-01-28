@@ -14,14 +14,14 @@ class FineHeresAViewModelBozo {
     
     
     func validatePassword() {
-        testValidatePassword_ContainsNumber()
-        testValidatePassword_ContainsLowerCase()
-        testValidatePassword_ContainsUpperCase()
-        testValidatePassword_ContainsSpecialCharacter()
-        testValidatePassword_DoesNotContainSequence()
+        passwordValidityChecks.removeAll()
         testValidatePassword_ContainsMoreThan8Characters()
         testValidatePassword_ContainsLessThan30Characters()
-        print("Password Changed")
+        testValidatePassword_ContainsLowerCase()
+        testValidatePassword_ContainsUpperCase()
+        testValidatePassword_ContainsNumber()
+        testValidatePassword_ContainsSpecialCharacter()
+        testValidatePassword_DoesNotContainSequence()
     }
     
 
