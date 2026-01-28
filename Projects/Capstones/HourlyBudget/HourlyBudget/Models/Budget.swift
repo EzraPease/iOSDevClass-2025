@@ -14,16 +14,12 @@ class Budget: Identifiable {
     var currentValue: Double
     var setCategory: BudgetCategories
     var isPinned: Bool = false
-    
     @Relationship(inverse: \Transactions.budget) var transactions: [Transactions] = []
-//    var transactions: [Transactions] = []
     
-    init(categoryName: String, currentValue: Double, setCategory: BudgetCategories = .uncategorized, isPinned: Bool, transactions: [Transactions]) {
+    init(categoryName: String, currentValue: Double, setCategory: BudgetCategories = .uncategorized) {
         self.categoryName = categoryName
         self.currentValue = currentValue
         self.setCategory = setCategory
-        self.isPinned = isPinned
-        self.transactions = transactions
     }
 }
 
