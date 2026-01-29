@@ -72,11 +72,11 @@ class CurrentUserViewModel {
         // this is where the network call will go.
         // if you want to simulate this
         try? await Task.sleep(nanoseconds: 2_000_000_000)
-        currentUser = CurrentUser(profilePhoto: URL(string: "https://hws.dev/paul.jpg"),
-                                  backgroundCoverPhoto: URL(string: "https://picsum.photos/400/200"),
-                                  firstName: "Ezra",
+        currentUser = CurrentUser(firstName: "Ezra",
                                   lastName: "Pease",
-                                  userBio: "Insert user bio here",
+                                  userName: "Ezra Pease",
+                                  userUUID: UUID(),
+                                  bio: "Insert user bio here",
                                   techInterests: "I really like computers, computer good yes")
         
         if !userPosts.isEmpty {
