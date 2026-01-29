@@ -100,6 +100,33 @@
                                     <action selector="cycleText:" destination="BYZ-38-t0r" eventType="touchUpInside" id="WQH-ns-WKm"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zL1-x1-ExE">
+                                <rect key="frame" x="284" y="675" width="54" height="35"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="tinted" title="Red"/>
+                                <connections>
+                                    <action selector="changeBackgroundToRed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="T2B-Z7-dtu"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="beE-ce-ydp">
+                                <rect key="frame" x="153" y="675" width="88" height="35"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="tinted" title="Random"/>
+                                <connections>
+                                    <action selector="changeBackgroundToRandom:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ewZ-5A-KAi"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sUD-74-6px">
+                                <rect key="frame" x="55" y="675" width="55" height="35"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="tinted" title="Teal"/>
+                                <connections>
+                                    <action selector="changeBackgroundToTeal:" destination="BYZ-38-t0r" eventType="touchUpInside" id="FxO-YN-JMN"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemYellowColor"/>
@@ -107,6 +134,9 @@
                     <connections>
                         <outlet property="cycleTextButton" destination="Q5g-2w-lj5" id="koU-Mh-geP"/>
                         <outlet property="mainLabel" destination="Sga-Cy-Ggv" id="hM9-D1-sII"/>
+                        <outlet property="randomColorButton" destination="beE-ce-ydp" id="4eh-x3-Wpp"/>
+                        <outlet property="redColorButton" destination="zL1-x1-ExE" id="4hX-Gc-NZS"/>
+                        <outlet property="tealColorButton" destination="sUD-74-6px" id="axR-xQ-d1g"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
