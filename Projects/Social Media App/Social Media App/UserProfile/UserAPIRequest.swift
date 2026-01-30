@@ -85,12 +85,19 @@ class UserAPIRequest: UserAPICall {
         let jsonEncoder = JSONEncoder()
         
         do {
-            let data = try jsonEncoder.encode(loginInput)
-            
-            var request = URLRequest(url: URL(string: "https://www.google.com")!)
+            let url = URL(string: "https://social-media-app.ryanplitt.com/auth/login")!
+
+            var components = URLComponents()
+            components.queryItems = [
+                URLQueryItem(name: "email", value: "me@example.com"),
+                URLQueryItem(name: "password", value: "mypassword")
+            ]
+
+            var request = URLRequest(url: url)
             request.httpMethod = "POST"
-            request.httpBody = data
-            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+            request.setValue("application/x-www-form-urlencoded; charset=utf-8", forHTTPHeaderField: "Content-Type")
+            request.setValue("application/json", forHTTPHeaderField: "Accept")
+            request.httpBody = components.percentEncodedQuery?.data(using: .utf8)
             
             let session = URLSession.shared
             
