@@ -12,11 +12,11 @@ import SwiftUI
 
 
 struct CommentsView: View {
-    let post: PostViewModel
+    let post: Post
     
     var body: some View {
         List {
-            Section(header: Text("Comments (\(post.commentsList.count))").font(.headline)) {
+            Section(header: Text("Comments (\(post.numComments))").font(.headline)) {
                 ForEach(post.commentsList, id: \.self) { comment in
                     Text(comment)
                         .foregroundStyle(.secondary)
@@ -33,17 +33,5 @@ struct CommentsView: View {
 
 
 #Preview {
-    CommentsView(post: PostViewModel(
-        title: "Title 1",
-        description: "Description 1",
-        likes: 683,
-        comments: 121,
-        commentsList: [
-            "Love this!",
-            "So inspiring 🔥",
-            "Congrats!",
-            "Can you share more details?",
-            "Following for updates"
-        ]
-    ))
+    CommentsView(post: Post(postID: UUID(), title: "Example Title", body: "Example Body", authorUserName: "Example Author Name", authorUserId: UUID(), likes: 124, userLiked: true, numComments: 582, createdDate: .init(timeIntervalSinceNow: -33000)))
 }

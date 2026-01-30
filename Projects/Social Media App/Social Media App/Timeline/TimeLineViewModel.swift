@@ -9,7 +9,7 @@ import SwiftUI
 
 @Observable
 class TimeLineViewModel {
-    var timeLinePosts: [PostViewModel] = []
+    var timeLinePosts: [Post] = []
     
     
     func fetchTimeLine() async {

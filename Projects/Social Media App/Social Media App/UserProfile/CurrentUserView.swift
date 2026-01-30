@@ -9,7 +9,7 @@ import SwiftUI
 
 
 struct CurrentUserView: View {
-    @Environment(CurrentUserViewModel.self) private var viewModel
+    @State private var apiController = UserAPIRequest()
     @State private var profileTab = 0
     @State private var tabs = ["Profile", "Timeline"]
     
@@ -22,57 +22,11 @@ struct CurrentUserView: View {
                 .ignoresSafeArea()
                 VStack {
                     ZStack {
-//                        if let temporaryBackgroundPhoto = viewModel.currentUser?.backgroundCoverPhoto { // Background Photo
-//                            AsyncImage(url: temporaryBackgroundPhoto) { phase in
-//                                switch phase { // Checks image loading status and displays coresponding image depending
-//                                case .empty:
-//                                    ProgressView()
-//                                        .frame(width: 200, height: 200)
-//                                case .success(let image): // Displays if image loads correctly
-//                                    image
-//                                        .resizable()
-//                                        .ignoresSafeArea()
-//                                        .frame(maxWidth: .infinity, maxHeight: 200)
-//                                case .failure: // Default image when image fails to load
-//                                    Image(systemName: "photo")
-//                                        .resizable()
-//                                        .frame(width: 400, height: 200)
-//                                @unknown default:
-//                                    EmptyView()
-//                                }
-//                            }
-//                            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top) // pin the stack to top
-//                        } else {
                             Image(systemName: "photo")
                                 .resizable()
                                 .frame(width: 75, height: 75)
                                 .foregroundColor(.gray)
-//                        }
-//                        if let temporaryProfilePhoto = viewModel.currentUser?.profilePhoto { // Profile Photo
-//                            AsyncImage(url: temporaryProfilePhoto) { phase in
-//                                switch phase { // Checks image loading status and displays coresponding image depending
-//                                case .empty:
-//                                    ProgressView()
-//                                        .frame(width: 100, height: 100)
-//                                case .success(let image):
-//                                    image
-//                                        .resizable()
-//                                        .frame(width: 100, height: 100)
-//                                        .clipShape(Circle())
-//                                case .failure:
-//                                    Image(systemName: "photo")
-//                                        .resizable()
-//                                        .frame(width: 75, height: 75)
-//                                        .foregroundColor(.gray)
-//                                        .clipShape(Circle())
-//                                @unknown default:
-//                                    EmptyView()
-//                                }
-//                            }
-//                            .frame(maxWidth: .infinity, minHeight: 20, maxHeight: .infinity, alignment: .topLeading)
-//                            .padding()
-//                            .offset(y: 135)
-//                        } else {
+
                             Image(systemName: "photo")
                                 .resizable()
                                 .frame(width: 75, height: 75)
@@ -80,7 +34,7 @@ struct CurrentUserView: View {
                         }
                     }
                     ScrollView { // Displays user data and recent post
-                        if let currentUser = viewModel.currentUser {
+                        if let currentUser = apiController.currentUser {
                             VStack(alignment: .leading) {
                                 VStack(alignment: .leading) {
                                     HStack { // Username
@@ -109,7 +63,7 @@ struct CurrentUserView: View {
                             // Loading indicator
                             ProgressView()
                         }
-                        if let recentPost = viewModel.recentPost {
+                        if let recentPost = apiController.recentPost {
                             VStack {
                                 Text(recentPost.title)
                                     .bold()
@@ -146,8 +100,8 @@ struct CurrentUserView: View {
                     .frame(height: 420)
                 }
             .task {
-                await viewModel.fetchCurrentUser()
-                await viewModel.fetchPosts()
+                await apiController.fetchCurrentUser()
+                await apiController.fetchPosts()
             }
         }
     }

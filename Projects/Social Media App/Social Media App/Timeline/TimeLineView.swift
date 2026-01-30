@@ -12,9 +12,9 @@ struct TimeLineView: View {
 //    @Environment(TimeLineViewModel.self) private var timeLineVM
     @State private var viewModel: TimeLineViewModel
     @State private var commentsPresented: Bool
-    @State private var selectedPost: PostViewModel? = nil
+    @State private var selectedPost: Post? = nil
     
-    init(viewModel: TimeLineViewModel, commentsPresented: Bool = false, selectedPost: PostViewModel? = nil) {
+    init(viewModel: TimeLineViewModel, commentsPresented: Bool = false, selectedPost: Post? = nil) {
         self.viewModel = viewModel
         self.commentsPresented = commentsPresented
         self.selectedPost = selectedPost
@@ -32,7 +32,6 @@ struct TimeLineView: View {
                         .font(.largeTitle)
                         .bold()
                         .underline()
-                    //                .frame(maxHeight: .infinity)
                         .padding()
                     ScrollView {
                         ForEach(viewModel.timeLinePosts.indices, id: \.self) { index in
@@ -48,12 +47,9 @@ struct TimeLineView: View {
                                             image
                                                 .resizable()
                                                 .frame(maxWidth: 400, maxHeight: 400)
-                                            //                                    .scaledToFit()
                                                 .padding()
                                         case .failure:
                                             Image(systemName: "photo")
-                                            //                                        .resizable()
-                                            //                                        .scaledToFit()
                                         default:
                                             ProgressView()
                                         }
