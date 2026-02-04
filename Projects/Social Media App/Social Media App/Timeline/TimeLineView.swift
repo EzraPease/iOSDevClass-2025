@@ -9,15 +9,13 @@ import SwiftUI
 
 
 struct TimeLineView: View {
-//    @Environment(TimeLineViewModel.self) private var timeLineVM
     @State private var viewModel: TimeLineViewModel
     @State private var commentsPresented: Bool
     @State private var selectedPost: Post? = nil
     
-    init(viewModel: TimeLineViewModel, commentsPresented: Bool = false, selectedPost: Post? = nil) {
+    init(viewModel: TimeLineViewModel, commentsPresented: Bool = false) {
         self.viewModel = viewModel
         self.commentsPresented = commentsPresented
-        self.selectedPost = selectedPost
     }
     
     var body: some View {
@@ -34,43 +32,42 @@ struct TimeLineView: View {
                         .underline()
                         .padding()
                     ScrollView {
-                        ForEach(viewModel.timeLinePosts.indices, id: \.self) { index in
-                            let post = viewModel.timeLinePosts[index]
+                        ForEach(viewModel.timeLinePosts, id: \.id) { post in
                             VStack {
                                 Text(post.title)
                                     .font(.title2)
                                     .bold()
-                                if let image = post.image {
-                                    AsyncImage(url: image) { phase in
-                                        switch phase {
-                                        case .success(let image):
-                                            image
-                                                .resizable()
-                                                .frame(maxWidth: 400, maxHeight: 400)
-                                                .padding()
-                                        case .failure:
-                                            Image(systemName: "photo")
-                                        default:
-                                            ProgressView()
-                                        }
-                                    }
-                                }
-                                Text(post.description)
+//                                if let image = post.image {
+//                                    AsyncImage(url: image) { phase in
+//                                        switch phase {
+//                                        case .success(let image):
+//                                            image
+//                                                .resizable()
+//                                                .frame(maxWidth: 400, maxHeight: 400)
+//                                                .padding()
+//                                        case .failure:
+//                                            Image(systemName: "photo")
+//                                        default:
+//                                            ProgressView()
+//                                        }
+//                                    }
+//                                }
+                                Text(post.body)
                                 HStack {
                                     HStack {
                                         Text("\(post.likes)")
                                         Image(systemName: "hand.thumbsup")
                                     }
                                     .padding()
-                                    Button {
-                                        selectedPost = post
-                                        commentsPresented = true
-                                    } label: {
-                                        Text("\(post.commentsList.count)")
-                                        Image(systemName: "message")
-                                    }
-                                    .foregroundStyle(.black)
-                                    .padding()
+//                                    Button {
+//                                        selectedPost = post
+//                                        commentsPresented = true
+//                                    } label: {
+//                                        Text("\(post.commentsList.count)")
+//                                        Image(systemName: "message")
+//                                    }
+//                                    .foregroundStyle(.black)
+//                                    .padding()
                                 }
                                 Spacer()
                             }

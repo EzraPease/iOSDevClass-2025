@@ -16,17 +16,17 @@ struct CommentsView: View {
     
     var body: some View {
         List {
-            Section(header: Text("Comments (\(post.numComments))").font(.headline)) {
-                ForEach(post.commentsList, id: \.self) { comment in
-                    Text(comment)
-                        .foregroundStyle(.secondary)
-                        .padding(.vertical, 6)
-                }
-                if post.commentsList.isEmpty {
-                    Text("No comments yet.")
-                        .foregroundStyle(.tertiary)
-                }
-            }
+//            Section(header: Text("Comments (\(post.numComments))").font(.headline)) {
+//                ForEach(post.commentsList, id: \.self) { comment in
+//                    Text(comment)
+//                        .foregroundStyle(.secondary)
+//                        .padding(.vertical, 6)
+//                }
+//                if post.commentsList.isEmpty {
+//                    Text("No comments yet.")
+//                        .foregroundStyle(.tertiary)
+//                }
+//            }
         }
     }
 }

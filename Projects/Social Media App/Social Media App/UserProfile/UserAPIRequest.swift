@@ -89,8 +89,8 @@ class UserAPIRequest: UserAPICall {
 
             var components = URLComponents()
             components.queryItems = [
-                URLQueryItem(name: "email", value: "me@example.com"),
-                URLQueryItem(name: "password", value: "mypassword")
+                URLQueryItem(name: "email", value: email),
+                URLQueryItem(name: "password", value: password)
             ]
 
             var request = URLRequest(url: url)

@@ -8,7 +8,9 @@
 import Foundation
 
 
-struct Post: Codable {
+struct Post: Codable, Identifiable {
+    var id = UUID()
+    
     var postID: UUID
     var title: String
     var body: String

@@ -68,29 +68,29 @@ struct CurrentUserView: View {
                                 Text(recentPost.title)
                                     .bold()
                                     .font(.headline)
-                                if let recentPostImage = recentPost.image {
-                                    AsyncImage(url: recentPostImage) { image in
-                                        image
-                                            .image?
-                                            .resizable()
-                                            .scaledToFit()
-                                            .frame(maxWidth: 400, maxHeight: 400)
-                                            .padding()
-                                    }
-                                }
-                                HStack { // Likes and Comments
-                                    HStack {
-                                        Text("\(recentPost.likes)")
-                                        Image(systemName: "hand.thumbsup")
-                                    }
-                                    .padding()
-                                    HStack {
-                                        Text("\(recentPost.comments)")
-                                        Image(systemName: "message")
-                                    }
-                                    .padding()
-                                }
-                                Text(recentPost.description)
+//                                if let recentPostImage = recentPost.image {
+//                                    AsyncImage(url: recentPostImage) { image in
+//                                        image
+//                                            .image?
+//                                            .resizable()
+//                                            .scaledToFit()
+//                                            .frame(maxWidth: 400, maxHeight: 400)
+//                                            .padding()
+//                                    }
+//                                }
+//                                HStack { // Likes and Comments
+//                                    HStack {
+//                                        Text("\(recentPost.likes)")
+//                                        Image(systemName: "hand.thumbsup")
+//                                    }
+//                                    .padding()
+//                                    HStack {
+//                                        Text("\(recentPost.comments)")
+//                                        Image(systemName: "message")
+//                                    }
+//                                    .padding()
+//                                }
+                                Text(recentPost.body)
                             }
                         } else { // Displays when nothing else has loaded
                             Text("Nothing here yet...")
@@ -101,7 +101,6 @@ struct CurrentUserView: View {
                 }
             .task {
                 await apiController.fetchCurrentUser()
-                await apiController.fetchPosts()
             }
         }
     }

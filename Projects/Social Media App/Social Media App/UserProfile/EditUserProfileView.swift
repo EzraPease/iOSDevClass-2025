@@ -10,7 +10,7 @@ import SwiftUI
 
 struct EditUserProfileView: View {
     @Environment(\.dismiss) private var dismiss
-    @Environment(CurrentUserViewModel.self) private var viewModel: CurrentUserViewModel
+    @Environment(UserAPIRequest.self) private var viewModel
     @State private var firstName = ""
     @State private var lastName = ""
     @State private var userBio = ""
@@ -44,5 +44,5 @@ struct EditUserProfileView: View {
 
 
 #Preview {
-    EditUserProfileView().environment(CurrentUserViewModel(postService: MockPostService()))
+    EditUserProfileView()
 }
