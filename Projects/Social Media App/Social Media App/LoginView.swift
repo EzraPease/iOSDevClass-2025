@@ -50,6 +50,7 @@ struct LoginView: View {
                 .background(Color.accentColor, in: RoundedRectangle(cornerRadius: 12))
                 .foregroundColor(.white)
                 .padding(.top, 12)
+                .opacity(isLoading || email.isEmpty || password.isEmpty ? 0.5 : 1)
                 
                 Spacer()
             }
