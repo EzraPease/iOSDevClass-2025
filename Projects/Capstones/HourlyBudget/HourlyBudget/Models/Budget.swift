@@ -9,17 +9,23 @@ import Foundation
 import SwiftData
 
 @Model
-class Budget: Identifiable {
+class Budget {
     var categoryName: String
     var currentValue: Double
     var setCategory: BudgetCategories
     var isPinned: Bool = false
     @Relationship(inverse: \Transactions.budget) var transactions: [Transactions] = []
     
-    init(categoryName: String, currentValue: Double, setCategory: BudgetCategories = .uncategorized) {
+    init(
+        categoryName: String,
+        currentValue: Double,
+        setCategory: BudgetCategories = .uncategorized,
+        transactions: [Transactions] = []
+    ) {
         self.categoryName = categoryName
         self.currentValue = currentValue
         self.setCategory = setCategory
+        self.transactions = transactions
     }
 }
 

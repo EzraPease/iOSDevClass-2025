@@ -13,7 +13,7 @@ struct HourlyBudgetApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .modelContainer(for: [Budget.self])
         }
+        .modelContainer(for: [Budget.self])
     }
 }
