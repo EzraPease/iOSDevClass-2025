@@ -44,5 +44,5 @@ struct EditUserProfileView: View {
 
 
 #Preview {
-    EditUserProfileView()
+    EditUserProfileView().environment(UserAPIRequest())
 }

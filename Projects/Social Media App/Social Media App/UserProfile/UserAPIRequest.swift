@@ -13,15 +13,20 @@ protocol UserAPICall {
 
 @Observable
 class UserAPIRequest: UserAPICall {
-    var currentUser: CurrentUser?
-    var recentPost: Post?
-    var userPosts: [Post]
-    var userLoggedIn = false
+    // Base configuration
+    private let baseURL = URL(string: "https://social-media-app.ryanplitt.com")!
     
-    init(currentUser: CurrentUser? = nil, recentPost: Post? = nil, userPosts: [Post] = []) {
-        self.currentUser = currentUser
-        self.recentPost = recentPost
-        self.userPosts = userPosts
+    var currentUser: CurrentUser? = nil
+    var recentPost: Post? = nil
+    var userPosts: [Post] = []
+    var userLoggedIn = false
+    var userSecret: UUID? = nil
+    var loggedInEmail: String? = nil
+    
+    enum APIError: Error {
+        case notLoggedIn
+        case invalidURL
+        case badResponse(statusCode: Int)
     }
     
     // have the state to display, like this current user (point up)
@@ -47,9 +52,9 @@ class UserAPIRequest: UserAPICall {
 //     GET
     func getAPIRequest() async throws {
         do {
-        let request = URLRequest(url: URL(string: "https://social-media-app.ryanplitt.com")!)
+            let request = URLRequest(url: baseURL)
         
-        let session = URLSession.shared
+            let session = URLSession.shared
         
             let task = try await session.data(for: request)
         } catch {
@@ -81,11 +86,8 @@ class UserAPIRequest: UserAPICall {
         case systemError
     }
     func login(email: String, password: String) async throws -> LoginResponse {
-        let loginInput = LoginInput(email: email, password: password)
-        let jsonEncoder = JSONEncoder()
-        
         do {
-            let url = URL(string: "https://social-media-app.ryanplitt.com/auth/login")!
+            let url = baseURL.appendingPathComponent("auth/login")
 
             var components = URLComponents()
             components.queryItems = [
@@ -110,6 +112,21 @@ class UserAPIRequest: UserAPICall {
                         LoginResponse.self,
                         from: responseData
                     )
+                    
+                    // Persist login state and userSecret for future API calls
+                    userLoggedIn = true
+                    userSecret = response.secret
+                    loggedInEmail = response.email
+                    currentUser = CurrentUser(
+                        firstName: response.firstName,
+                        lastName: response.lastName,
+                        userName: response.userName,
+                        userUUID: response.userUUID,
+                        bio: nil,
+                        techInterests: nil,
+                        posts: []
+                    )
+                    
                     return response
                 } else {
                     print("error status: \(httpResponse.statusCode)")
@@ -123,5 +140,121 @@ class UserAPIRequest: UserAPICall {
             print("error: \(error)")
             throw error
         }
+    }
+    
+    // MARK: - Authenticated request helpers
+    
+    /// Builds a URL for a path under the API base URL.
+    private func makeURL(path: String, queryItems: [URLQueryItem]? = nil) throws -> URL {
+        guard var components = URLComponents(url: baseURL.appendingPathComponent(path), resolvingAgainstBaseURL: false) else {
+            throw APIError.invalidURL
+        }
+        components.queryItems = queryItems
+        guard let url = components.url else {
+            throw APIError.invalidURL
+        }
+        return url
+    }
+    
+    /// Builds a URLRequest, automatically attaching the `userSecret` when `requiresAuth` is true.
+    private func makeRequest(
+        path: String,
+        method: String,
+        requiresAuth: Bool = true,
+        queryItems: [URLQueryItem]? = nil,
+        body: Data? = nil,
+        contentType: String? = nil
+    ) throws -> URLRequest {
+        let url = try makeURL(path: path, queryItems: queryItems)
+        var request = URLRequest(url: url)
+        request.httpMethod = method
+        
+        if let contentType {
+            request.setValue(contentType, forHTTPHeaderField: "Content-Type")
+        }
+        
+        if requiresAuth {
+            guard let userSecret else {
+                throw APIError.notLoggedIn
+            }
+            // Adjust header name/format here if your backend expects something different.
+            request.setValue("Bearer \(userSecret.uuidString)", forHTTPHeaderField: "Authorization")
+        }
+        
+        request.httpBody = body
+        return request
+    }
+    
+    /// Generic helper to perform an authenticated request and decode the response.
+    func performRequest<T: Decodable>(
+        _ type: T.Type,
+        path: String,
+        method: String = "GET",
+        requiresAuth: Bool = true,
+        queryItems: [URLQueryItem]? = nil,
+        body: Data? = nil,
+        contentType: String? = "application/json"
+    ) async throws -> T {
+        let request = try makeRequest(
+            path: path,
+            method: method,
+            requiresAuth: requiresAuth,
+            queryItems: queryItems,
+            body: body,
+            contentType: contentType
+        )
+        
+        let (data, response) = try await URLSession.shared.data(for: request)
+        
+        guard let httpResponse = response as? HTTPURLResponse else {
+            throw APIError.badResponse(statusCode: -1)
+        }
+        
+        guard 200..<300 ~= httpResponse.statusCode else {
+            print("API error status: \(httpResponse.statusCode)")
+            throw APIError.badResponse(statusCode: httpResponse.statusCode)
+        }
+        
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
+        return try decoder.decode(T.self, from: data)
+    }
+    
+    /// Convenience wrapper for simple GETs after login.
+    func authedGet<T: Decodable>(
+        _ type: T.Type,
+        path: String,
+        queryItems: [URLQueryItem]? = nil
+    ) async throws -> T {
+        try await performRequest(
+            type,
+            path: path,
+            method: "GET",
+            requiresAuth: true,
+            queryItems: queryItems,
+            body: nil,
+            contentType: nil
+        )
+    }
+    
+    /// Convenience wrapper for simple POSTs after login.
+    func authedPost<T: Decodable, Body: Encodable>(
+        _ type: T.Type,
+        path: String,
+        bodyObject: Body
+    ) async throws -> T {
+        let encoder = JSONEncoder()
+        encoder.dateEncodingStrategy = .iso8601
+        let bodyData = try encoder.encode(bodyObject)
+        
+        return try await performRequest(
+            type,
+            path: path,
+            method: "POST",
+            requiresAuth: true,
+            queryItems: nil,
+            body: bodyData,
+            contentType: "application/json"
+        )
     }
 }

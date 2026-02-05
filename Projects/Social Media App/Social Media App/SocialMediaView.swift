@@ -9,8 +9,7 @@ import SwiftUI
 
 
 struct SocialMediaView: View {
-    @State private var apiController = UserAPIRequest()
-//    @State private var timeLineVM = TimeLineViewModel()
+    @Environment(UserAPIRequest.self) private var apiController
     @State var newPostPresented = false
     @State var editUserPresented = false
     
@@ -50,6 +49,7 @@ struct SocialMediaView: View {
             .sheet(isPresented: $editUserPresented) {
                 NavigationStack {
                     EditUserProfileView()
+                        .environment(apiController)
                         .presentationDetents([.medium])
                         .presentationDragIndicator(.visible)
                 }

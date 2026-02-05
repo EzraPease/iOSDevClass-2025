@@ -9,7 +9,7 @@ import SwiftUI
 
 
 struct CurrentUserView: View {
-    @State private var apiController = UserAPIRequest()
+    @Environment(UserAPIRequest.self) private var apiController
     @State private var profileTab = 0
     @State private var tabs = ["Profile", "Timeline"]
     
