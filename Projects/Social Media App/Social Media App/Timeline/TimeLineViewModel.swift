@@ -6,15 +6,26 @@
 //
 
 import SwiftUI
+import Observation
 
 @Observable
 class TimeLineViewModel {
     var timeLinePosts: [Post] = []
+    private let apiController: UserAPIRequest
     
+    init(apiController: UserAPIRequest) {
+        self.apiController = apiController
+    }
     
     func fetchTimeLine() async {
-        try? await Task.sleep(nanoseconds: 1 * 1_000_000_000)
-        timeLinePosts = []
+        do {
+            let posts = try await apiController.fetchTimelinePosts()
+            await MainActor.run {
+                self.timeLinePosts = posts
+            }
+        } catch {
+            print("Error fetching timeline: \(error)")
+        }
     }
     
     func fetchCurrentUserPosts() async {
@@ -22,5 +33,14 @@ class TimeLineViewModel {
 //        for post in posts.userPosts {
 //            timeLinePosts.append(post)
 //        }
+    }
+
+    func delete(post: Post) async {
+        do {
+            try await apiController.deletePost(postID: post.postID)
+            await fetchTimeLine()
+        } catch {
+            print("Error deleting post: \(error)")
+        }
     }
 }

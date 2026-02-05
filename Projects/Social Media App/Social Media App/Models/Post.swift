@@ -7,17 +7,18 @@
 
 import Foundation
 
-
+/// Matches `PostResponseDTO` from the API.
 struct Post: Codable, Identifiable {
-    var id = UUID()
+    /// Use `postID` as the stable `Identifiable` key.
+    var id: UUID { postID }
     
-    var postID: UUID
-    var title: String
-    var body: String
-    var authorUserName: String
-    var authorUserId: UUID
-    var likes: Int
-    var userLiked: Bool
-    var numComments: Int
-    var createdDate: Date
+    let postID: UUID
+    let title: String
+    let body: String
+    let authorUserName: String
+    let authorUserId: UUID
+    let likes: Int
+    let userLiked: Bool
+    let numComments: Int
+    let createdDate: Date
 }

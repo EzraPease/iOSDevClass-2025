@@ -13,7 +13,7 @@ struct Social_Media_AppApp: App {
     
     var body: some Scene {
         WindowGroup {
-            SocialMediaView()
+            RootView()
                 .environment(userAPIRequest)
         }
     }

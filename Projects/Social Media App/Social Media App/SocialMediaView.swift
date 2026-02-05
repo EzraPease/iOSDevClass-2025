@@ -21,8 +21,7 @@ struct SocialMediaView: View {
                         Label("Profile", systemImage: "person.crop.circle")
                     }
                 
-                TimeLineView(viewModel: TimeLineViewModel())
-//                    .environment(timeLineVM)
+                TimeLineView(viewModel: TimeLineViewModel(apiController: apiController))
                     .tabItem {
                         Label("Timeline", systemImage: "person.3.fill")
                     }

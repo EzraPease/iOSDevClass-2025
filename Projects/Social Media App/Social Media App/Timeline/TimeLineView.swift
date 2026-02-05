@@ -10,6 +10,7 @@ import SwiftUI
 
 struct TimeLineView: View {
     @State private var viewModel: TimeLineViewModel
+    @Environment(UserAPIRequest.self) private var apiController
     @State private var commentsPresented: Bool
     @State private var selectedPost: Post? = nil
     
@@ -30,7 +31,7 @@ struct TimeLineView: View {
                         .font(.largeTitle)
                         .bold()
                         .underline()
-                        .padding()
+                        .padding(.top)
                     ScrollView {
                         ForEach(viewModel.timeLinePosts, id: \.id) { post in
                             VStack {
@@ -53,22 +54,27 @@ struct TimeLineView: View {
 //                                    }
 //                                }
                                 Text(post.body)
+                                    .padding(.top, 4)
                                 HStack {
                                     HStack {
                                         Text("\(post.likes)")
                                         Image(systemName: "hand.thumbsup")
                                     }
-                                    .padding()
-//                                    Button {
-//                                        selectedPost = post
-//                                        commentsPresented = true
-//                                    } label: {
-//                                        Text("\(post.commentsList.count)")
-//                                        Image(systemName: "message")
-//                                    }
-//                                    .foregroundStyle(.black)
-//                                    .padding()
+                                    Spacer()
+                                    HStack {
+                                        Text("\(post.numComments)")
+                                        Image(systemName: "message")
+                                    }
                                 }
+                                .padding(.vertical, 4)
+                                
+                                HStack {
+                                    Text(post.authorUserName)
+                                    Spacer()
+                                    Text(post.createdDate.formatted(date: .abbreviated, time: .shortened))
+                                }
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
                                 Spacer()
                             }
                             .background(LinearGradient(colors: [.teal, .teal, .indigo],
@@ -77,6 +83,18 @@ struct TimeLineView: View {
                                         in: RoundedRectangle(cornerRadius: 20))
                             .shadow(radius: 7)
                             .padding(20)
+                            .contextMenu {
+                                if let currentUser = apiController.currentUser,
+                                   currentUser.userUUID == post.authorUserId {
+                                    Button(role: .destructive) {
+                                        Task {
+                                            await viewModel.delete(post: post)
+                                        }
+                                    } label: {
+                                        Label("Delete Post", systemImage: "trash")
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -102,5 +120,7 @@ struct TimeLineView: View {
 }
 
 #Preview {
-    TimeLineView(viewModel: TimeLineViewModel())
+    let api = UserAPIRequest()
+    TimeLineView(viewModel: TimeLineViewModel(apiController: api))
+        .environment(api)
 }

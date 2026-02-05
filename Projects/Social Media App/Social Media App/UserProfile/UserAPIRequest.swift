@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Observation
 
 protocol UserAPICall {
     func fetchCurrentUser() async
@@ -29,34 +30,54 @@ class UserAPIRequest: UserAPICall {
         case badResponse(statusCode: Int)
     }
     
-    // have the state to display, like this current user (point up)
-    
-    // make a function that fetches the data that you want to display. Then set the variable
-    
     func fetchCurrentUser() async {
-        // this is where the network call will go.
-        // if you want to simulate this
-        try? await Task.sleep(nanoseconds: 2_000_000_000)
-        currentUser = CurrentUser(firstName: "Ezra",
-                                  lastName: "Pease",
-                                  userName: "Ezra Pease",
-                                  userUUID: UUID(),
-                                  bio: "Insert user bio here",
-                                  techInterests: "I really like computers, computer good yes")
+        // Fetch the latest profile for the logged in user from `/user/:userID`
+        guard let secret = userSecret,
+              let userId = currentUser?.userUUID else {
+            return
+        }
         
-        if !userPosts.isEmpty {
-            recentPost = userPosts.last
+        struct Body: Codable {
+            let userSecret: UUID
+        }
+        
+        let encoder = JSONEncoder()
+        encoder.dateEncodingStrategy = .iso8601
+        
+        do {
+            let body = Body(userSecret: secret)
+            let data = try encoder.encode(body)
+            let path = "user/\(userId.uuidString)"
+            
+            let profile: CurrentUser = try await performRequest(
+                CurrentUser.self,
+                path: path,
+                method: "GET",
+                requiresAuth: false,
+                queryItems: nil,
+                body: data,
+                contentType: "application/json"
+            )
+            
+            currentUser = profile
+            userPosts = profile.posts
+            recentPost = profile.posts.last
+        } catch {
+            print("Error fetching current user profile: \(error)")
         }
     }
     
 //     GET
     func getAPIRequest() async throws {
         do {
-            let request = URLRequest(url: baseURL)
+            // Simple connectivity test to `/auth/test`
+            let url = baseURL.appendingPathComponent("auth/test")
+            var request = URLRequest(url: url)
+            request.httpMethod = "GET"
         
             let session = URLSession.shared
         
-            let task = try await session.data(for: request)
+            _ = try await session.data(for: request)
         } catch {
             print("uh oh, there was a problem: \(error)")
             throw error
@@ -88,18 +109,15 @@ class UserAPIRequest: UserAPICall {
     func login(email: String, password: String) async throws -> LoginResponse {
         do {
             let url = baseURL.appendingPathComponent("auth/login")
-
-            var components = URLComponents()
-            components.queryItems = [
-                URLQueryItem(name: "email", value: email),
-                URLQueryItem(name: "password", value: password)
-            ]
-
+            
             var request = URLRequest(url: url)
             request.httpMethod = "POST"
-            request.setValue("application/x-www-form-urlencoded; charset=utf-8", forHTTPHeaderField: "Content-Type")
+            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
             request.setValue("application/json", forHTTPHeaderField: "Accept")
-            request.httpBody = components.percentEncodedQuery?.data(using: .utf8)
+            
+            let encoder = JSONEncoder()
+            let body = LoginInput(email: email, password: password)
+            request.httpBody = try encoder.encode(body)
             
             let session = URLSession.shared
             
@@ -156,7 +174,7 @@ class UserAPIRequest: UserAPICall {
         return url
     }
     
-    /// Builds a URLRequest, automatically attaching the `userSecret` when `requiresAuth` is true.
+    /// Builds a URLRequest for JSON APIs.
     private func makeRequest(
         path: String,
         method: String,
@@ -172,15 +190,7 @@ class UserAPIRequest: UserAPICall {
         if let contentType {
             request.setValue(contentType, forHTTPHeaderField: "Content-Type")
         }
-        
-        if requiresAuth {
-            guard let userSecret else {
-                throw APIError.notLoggedIn
-            }
-            // Adjust header name/format here if your backend expects something different.
-            request.setValue("Bearer \(userSecret.uuidString)", forHTTPHeaderField: "Authorization")
-        }
-        
+
         request.httpBody = body
         return request
     }
@@ -251,10 +261,171 @@ class UserAPIRequest: UserAPICall {
             type,
             path: path,
             method: "POST",
-            requiresAuth: true,
+            requiresAuth: false,
             queryItems: nil,
             body: bodyData,
             contentType: "application/json"
         )
+    }
+
+    // MARK: - Social Media User Routes
+    
+    func updateProfile(userName: String, bio: String?, techInterests: String?) async throws {
+        guard let secret = userSecret else { throw APIError.notLoggedIn }
+        
+        struct ProfileBody: Codable {
+            struct Profile: Codable {
+                let userName: String
+                let bio: String?
+                let techInterests: String?
+            }
+            let userSecret: UUID
+            let profile: Profile
+        }
+        
+        let body = ProfileBody(
+            userSecret: secret,
+            profile: .init(userName: userName,
+                           bio: bio,
+                           techInterests: techInterests)
+        )
+        
+        let updated: CurrentUser = try await authedPost(
+            CurrentUser.self,
+            path: "user/update-profile",
+            bodyObject: body
+        )
+        
+        currentUser = updated
+        userPosts = updated.posts
+        recentPost = updated.posts.last
+    }
+    
+    // MARK: - Social Media Post Routes
+    
+    func fetchTimelinePosts(page: Int? = nil) async throws -> [Post] {
+        guard let secret = userSecret else { throw APIError.notLoggedIn }
+        
+        struct Body: Codable {
+            let userSecret: UUID
+        }
+        
+        let body = Body(userSecret: secret)
+        
+        let path: String
+        if let page {
+            path = "posts/\(page)"
+        } else {
+            path = "posts"
+        }
+        
+        let posts: [Post] = try await performRequest(
+            [Post].self,
+            path: path,
+            method: "GET",
+            requiresAuth: false,
+            queryItems: nil,
+            body: try JSONEncoder().encode(body),
+            contentType: "application/json"
+        )
+        
+        return posts
+    }
+    
+    func createPost(title: String, bodyText: String) async throws -> Post {
+        guard let secret = userSecret else { throw APIError.notLoggedIn }
+        
+        struct CreatePostBody: Codable {
+            struct PostPayload: Codable {
+                let title: String
+                let body: String
+            }
+            let userSecret: UUID
+            let post: PostPayload
+        }
+        
+        let body = CreatePostBody(
+            userSecret: secret,
+            post: .init(title: title, body: bodyText)
+        )
+        
+        let encoder = JSONEncoder()
+        encoder.dateEncodingStrategy = .iso8601
+        let data = try encoder.encode(body)
+        
+        let post: Post = try await performRequest(
+            Post.self,
+            path: "post",
+            method: "POST",
+            requiresAuth: false,
+            queryItems: nil,
+            body: data,
+            contentType: "application/json"
+        )
+        
+        return post
+    }
+    
+    func updatePost(postID: UUID, title: String, bodyText: String) async throws -> Post {
+        guard let secret = userSecret else { throw APIError.notLoggedIn }
+        
+        struct EditPostBody: Codable {
+            struct PostPayload: Codable {
+                let title: String
+                let body: String
+            }
+            let userSecret: UUID
+            let post: PostPayload
+        }
+        
+        let body = EditPostBody(
+            userSecret: secret,
+            post: .init(title: title, body: bodyText)
+        )
+        
+        let encoder = JSONEncoder()
+        encoder.dateEncodingStrategy = .iso8601
+        let data = try encoder.encode(body)
+        
+        let path = "post/edit/\(postID.uuidString)"
+        
+        let post: Post = try await performRequest(
+            Post.self,
+            path: path,
+            method: "POST",
+            requiresAuth: false,
+            queryItems: nil,
+            body: data,
+            contentType: "application/json"
+        )
+        
+        return post
+    }
+    
+    func deletePost(postID: UUID) async throws {
+        guard let secret = userSecret else { throw APIError.notLoggedIn }
+        
+        struct DeleteBody: Codable {
+            let userSecret: UUID
+        }
+        
+        let encoder = JSONEncoder()
+        encoder.dateEncodingStrategy = .iso8601
+        let body = try encoder.encode(DeleteBody(userSecret: secret))
+        
+        let path = "post/\(postID.uuidString)"
+        let request = try makeRequest(
+            path: path,
+            method: "DELETE",
+            requiresAuth: false,
+            queryItems: nil,
+            body: body,
+            contentType: "application/json"
+        )
+        
+        let (_, response) = try await URLSession.shared.data(for: request)
+        if let httpResponse = response as? HTTPURLResponse, !(200..<300).contains(httpResponse.statusCode) {
+            throw APIError.badResponse(statusCode: httpResponse.statusCode)
+        }
     }
 }

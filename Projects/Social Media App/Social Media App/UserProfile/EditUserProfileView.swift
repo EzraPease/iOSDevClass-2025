@@ -30,13 +30,36 @@ struct EditUserProfileView: View {
         .navigationTitle("Edit Profile")
         .navigationBarTitleDisplayMode(.inline)
         Button("Save") {
-            print("Save Button Pressed")
-            dismiss()
+            Task {
+                await saveProfile()
+            }
         }
         .padding()
         .glassEffect()
         .task {
             await viewModel.fetchCurrentUser()
+            if let currentUser = viewModel.currentUser {
+                firstName = currentUser.firstName
+                lastName = currentUser.lastName
+                userBio = currentUser.bio ?? ""
+                userTechInterests = currentUser.techInterests ?? ""
+            }
+        }
+    }
+    
+    private func saveProfile() async {
+        do {
+            let fullUserName = "\(firstName) \(lastName)"
+            try await viewModel.updateProfile(
+                userName: fullUserName,
+                bio: userBio.isEmpty ? nil : userBio,
+                techInterests: userTechInterests.isEmpty ? nil : userTechInterests
+            )
+            await MainActor.run {
+                dismiss()
+            }
+        } catch {
+            print("Error updating profile: \(error)")
         }
     }
 }
