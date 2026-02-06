@@ -113,7 +113,7 @@ class UserAPIRequest: UserAPICall {
             var request = URLRequest(url: url)
             request.httpMethod = "POST"
             request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-            request.setValue("application/json", forHTTPHeaderField: "Accept")
+//            request.setValue("Bearer \(userSecret)", forHTTPHeaderField: "Authorization")
             
             let encoder = JSONEncoder()
             let body = LoginInput(email: email, password: password)
