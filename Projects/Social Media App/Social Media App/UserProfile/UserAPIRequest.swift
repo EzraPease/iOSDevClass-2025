@@ -53,9 +53,9 @@ class UserAPIRequest: UserAPICall {
                 CurrentUser.self,
                 path: path,
                 method: "GET",
-                requiresAuth: false,
+                requiresAuth: true,
                 queryItems: nil,
-                body: data,
+                body: nil,
                 contentType: "application/json"
             )
             
@@ -189,9 +189,19 @@ class UserAPIRequest: UserAPICall {
         let url = try makeURL(path: path, queryItems: queryItems)
         var request = URLRequest(url: url)
         request.httpMethod = method
-        
+
         if let contentType {
             request.setValue(contentType, forHTTPHeaderField: "Content-Type")
+        }
+
+        // Add bearer token if required
+        if requiresAuth {
+            guard let secret = userSecret else {
+                throw APIError.notLoggedIn
+            }
+            // If your API expects UUID as string, this is fine:
+            request.setValue("Bearer \(secret.uuidString)", forHTTPHeaderField: "Authorization")
+            // If your API returns a non-UUID token string, store it as String and send that directly.
         }
 
         request.httpBody = body
@@ -306,6 +316,7 @@ class UserAPIRequest: UserAPICall {
     
     // MARK: - Social Media Post Routes
     
+    // MARK: Fetch Timeline
     func fetchTimelinePosts(page: Int? = nil) async throws -> [Post] {
         guard let secret = userSecret else { throw APIError.notLoggedIn }
         
@@ -326,9 +337,9 @@ class UserAPIRequest: UserAPICall {
             [Post].self,
             path: path,
             method: "GET",
-            requiresAuth: false,
+            requiresAuth: true,
             queryItems: nil,
-            body: try JSONEncoder().encode(body),
+//            body: try JSONEncoder().encode(body),
             contentType: "application/json"
         )
         
@@ -361,7 +372,7 @@ class UserAPIRequest: UserAPICall {
             Post.self,
             path: "post",
             method: "POST",
-            requiresAuth: false,
+            requiresAuth: true,
             queryItems: nil,
             body: data,
             contentType: "application/json"

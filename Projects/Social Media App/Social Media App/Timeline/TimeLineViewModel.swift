@@ -19,21 +19,13 @@ class TimeLineViewModel {
     
     func fetchTimeLine() async {
         do {
-            let posts = try await apiController.fetchTimelinePosts()
-            await MainActor.run {
-                self.timeLinePosts = posts
-            }
+            timeLinePosts = try await apiController.fetchTimelinePosts()
         } catch {
             print("Error fetching timeline: \(error)")
         }
+        print(timeLinePosts)
     }
     
-    func fetchCurrentUserPosts() async {
-//        let posts = UserAPIRequest(postService: MockPostService())
-//        for post in posts.userPosts {
-//            timeLinePosts.append(post)
-//        }
-    }
 
     func delete(post: Post) async {
         do {

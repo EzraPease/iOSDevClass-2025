@@ -38,21 +38,6 @@ struct TimeLineView: View {
                                 Text(post.title)
                                     .font(.title2)
                                     .bold()
-//                                if let image = post.image {
-//                                    AsyncImage(url: image) { phase in
-//                                        switch phase {
-//                                        case .success(let image):
-//                                            image
-//                                                .resizable()
-//                                                .frame(maxWidth: 400, maxHeight: 400)
-//                                                .padding()
-//                                        case .failure:
-//                                            Image(systemName: "photo")
-//                                        default:
-//                                            ProgressView()
-//                                        }
-//                                    }
-//                                }
                                 Text(post.body)
                                     .padding(.top, 4)
                                 HStack {
@@ -102,7 +87,6 @@ struct TimeLineView: View {
         }
         .task {
             await viewModel.fetchTimeLine()
-            await viewModel.fetchCurrentUserPosts()
             print("\(viewModel.timeLinePosts.count) posts loaded")
             viewModel.timeLinePosts.shuffle()
         }

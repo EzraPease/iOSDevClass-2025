@@ -57,54 +57,56 @@ struct CurrentUserView: View {
                         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
                         .padding()
                         
-                        if !currentUser.posts.isEmpty {
+                        if !apiController.userPosts.isEmpty {
                             VStack(alignment: .leading, spacing: 16) {
                                 Text("Your Posts")
                                     .font(.headline)
                                     .padding(.horizontal)
                                 
-                                ForEach(currentUser.posts, id: \.postID) { post in
-                                    VStack(alignment: .leading, spacing: 8) {
-                                        Text(post.title)
-                                            .font(.headline)
-                                        Text(post.body)
-                                        HStack {
+                                ForEach(apiController.userPosts, id: \.postID) { post in
+                                    if post.authorUserId == apiController.currentUser?.userUUID {
+                                        VStack(alignment: .leading, spacing: 8) {
+                                            Text(post.title)
+                                                .font(.headline)
+                                            Text(post.body)
                                             HStack {
-                                                Text("\(post.likes)")
-                                                Image(systemName: "hand.thumbsup")
+                                                HStack {
+                                                    Text("\(post.likes)")
+                                                    Image(systemName: "hand.thumbsup")
+                                                }
+                                                Spacer()
+                                                HStack {
+                                                    Text("\(post.numComments)")
+                                                    Image(systemName: "message")
+                                                }
                                             }
-                                            Spacer()
+                                            .font(.subheadline)
+                                            
                                             HStack {
-                                                Text("\(post.numComments)")
-                                                Image(systemName: "message")
+                                                Text(post.createdDate.formatted(date: .abbreviated, time: .shortened))
+                                            }
+                                            .font(.caption)
+                                            .foregroundStyle(.secondary)
+                                        }
+                                        .padding()
+                                        .background(.thinMaterial, in: RoundedRectangle(cornerRadius: 16))
+                                        .contextMenu {
+                                            Button {
+                                                editingPost = post
+                                                isEditingPresented = true
+                                            } label: {
+                                                Label("Edit Post", systemImage: "pencil")
+                                            }
+                                            Button(role: .destructive) {
+                                                Task {
+                                                    await delete(post: post)
+                                                }
+                                            } label: {
+                                                Label("Delete Post", systemImage: "trash")
                                             }
                                         }
-                                        .font(.subheadline)
-                                        
-                                        HStack {
-                                            Text(post.createdDate.formatted(date: .abbreviated, time: .shortened))
-                                        }
-                                        .font(.caption)
-                                        .foregroundStyle(.secondary)
+                                        .padding(.horizontal)
                                     }
-                                    .padding()
-                                    .background(.thinMaterial, in: RoundedRectangle(cornerRadius: 16))
-                                    .contextMenu {
-                                        Button {
-                                            editingPost = post
-                                            isEditingPresented = true
-                                        } label: {
-                                            Label("Edit Post", systemImage: "pencil")
-                                        }
-                                        Button(role: .destructive) {
-                                            Task {
-                                                await delete(post: post)
-                                            }
-                                        } label: {
-                                            Label("Delete Post", systemImage: "trash")
-                                        }
-                                    }
-                                    .padding(.horizontal)
                                 }
                             }
                         }
@@ -116,7 +118,12 @@ struct CurrentUserView: View {
                 .frame(height: 420)
             }
             .task {
-                await apiController.fetchCurrentUser()
+                do {
+                    apiController.userPosts = try await apiController.fetchTimelinePosts()
+                    print(apiController.userPosts)
+                } catch {
+                    print(error)
+                }
             }
             .sheet(isPresented: $isEditingPresented) {
                 if let editingPost {
