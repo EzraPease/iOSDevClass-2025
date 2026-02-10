@@ -9,6 +9,7 @@ import SwiftUI
 
 
 struct EditUserProfileView: View {
+    // TODO: Fix Editing the user profile to change the right data in the API
     @Environment(\.dismiss) private var dismiss
     @Environment(UserAPIRequest.self) private var apiController
     @State private var firstName = ""
