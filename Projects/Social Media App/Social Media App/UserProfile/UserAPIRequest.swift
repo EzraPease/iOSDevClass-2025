@@ -106,6 +106,7 @@ class UserAPIRequest: UserAPICall {
         case badResponse
         case systemError
     }
+    // MARK: Login
     func login(email: String, password: String) async throws -> LoginResponse {
         do {
             let url = baseURL.appendingPathComponent("auth/login")
@@ -113,7 +114,6 @@ class UserAPIRequest: UserAPICall {
             var request = URLRequest(url: url)
             request.httpMethod = "POST"
             request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-//            request.setValue("Bearer \(userSecret)", forHTTPHeaderField: "Authorization")
             
             let encoder = JSONEncoder()
             let body = LoginInput(email: email, password: password)
@@ -144,6 +144,9 @@ class UserAPIRequest: UserAPICall {
                         techInterests: nil,
                         posts: []
                     )
+                    if let secret = userSecret {
+                        print("USER SECRET: \(secret)")
+                    }
                     
                     return response
                 } else {
@@ -332,6 +335,7 @@ class UserAPIRequest: UserAPICall {
         return posts
     }
     
+    // MARK: Create Post
     func createPost(title: String, bodyText: String) async throws -> Post {
         guard let secret = userSecret else { throw APIError.notLoggedIn }
         

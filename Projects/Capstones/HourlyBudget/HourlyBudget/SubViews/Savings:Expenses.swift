@@ -39,8 +39,8 @@ struct Savings_Expenses: View {
         ScrollView {
             VStack {
                 Group {
-                    // Total Value
-                    RoundedRectangle(cornerRadius: 20)
+                    // MARK: Total Value
+                    RoundedRectangle(cornerRadius: 35)
                         .fill(.cyan)
                         .frame(height: 80)
                         .overlay {
@@ -62,7 +62,7 @@ struct Savings_Expenses: View {
                                 Text(totalAmount, format: .currency(code: "USD"))
                             }
                         }
-                    // Categories
+                    // MARK: Categories
                     RoundedRectangle(cornerRadius: 20)
                         .fill(.cyan)
                         .frame(height: categoriesFrameSize)
@@ -91,7 +91,7 @@ struct Savings_Expenses: View {
                             }
                             .padding()
                         }
-                    // Logs
+                    // MARK: Logs
                     RoundedRectangle(cornerRadius: 20)
                         .fill(.cyan)
                         .frame(height: transactionsFrameSize)
@@ -116,7 +116,7 @@ struct Savings_Expenses: View {
         }
     }
 }
-
+// MARK: Category View
 private struct CategoryListView: View {
     let setCategory: BudgetCategories
     let viewModel: BudgetViewModel
@@ -149,6 +149,7 @@ private struct CategoryListView: View {
     }
 }
 
+// MARK: Logs View
 private struct LogsListView: View {
     let setCategory: BudgetCategories
     let viewModel: BudgetViewModel

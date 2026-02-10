@@ -23,9 +23,6 @@ struct NewPostViewModel: View {
                     TextField("Title", text: $titleText)
                     TextField("Description", text: $descriptionText)
                 }
-                Section {
-                    TextField("Image URL", text: $imageURL)
-                }
             }
         .navigationTitle("New Post")
         .navigationBarTitleDisplayMode(.inline)
@@ -36,6 +33,7 @@ struct NewPostViewModel: View {
         }
         .padding()
         .glassEffect()
+        .padding()
     }
     
     private func submitPost() async {

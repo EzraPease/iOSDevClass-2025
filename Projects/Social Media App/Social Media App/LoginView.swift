@@ -3,8 +3,8 @@ import SwiftUI
 struct LoginView: View {
     @Environment(UserAPIRequest.self) private var apiController
     
-    @State private var email: String = ""
-    @State private var password: String = ""
+    @State private var email: String = "pieezra@gmail.com"
+    @State private var password: String = "goVjof-guwvu4-wirwax"
     @State private var isLoading: Bool = false
     @State private var errorMessage: String?
     

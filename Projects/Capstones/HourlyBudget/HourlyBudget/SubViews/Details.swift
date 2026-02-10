@@ -13,10 +13,10 @@ struct Details: View {
     @State var currentValue: Double
     @State private var editModeEnabled = false
     @State private var editedCurrentValue = ""
+    @State var defaultCategoryName: String
     @State private var categoryName = ""
     @State private var showDeleteConfirm = false
-    
-    @State var defaultCategoryName: String
+    @State private var unableToSave = false
     
     private var editButtonText: String {
         if !editModeEnabled {
@@ -47,6 +47,12 @@ struct Details: View {
                 .frame(width: scale * 0.45, height: scale * 0.6)
                 .overlay {
                     VStack {
+                        if unableToSave {
+                            Text("Uh Oh! Something went wrong, please try again.")
+                                .italic()
+                                .foregroundStyle(.red)
+                                .padding()
+                        }
                         Text("Edit Mode Enabled: \(editModeEnabled)") // Temporary Text Object
                         Group {
                             TextField("Category Name", text: $categoryName)
@@ -94,6 +100,9 @@ struct Details: View {
                             try save()
                         } catch {
                             print(error)
+                            showUnableToSaveError()
+                            categoryName = defaultCategoryName
+                            editedCurrentValue = String(currentValue)
                         }
                     }
                     editModeEnabled.toggle()
@@ -105,11 +114,20 @@ struct Details: View {
             editedCurrentValue = String(currentValue)
         }
     }
+    // MARK: Functions
     // TODO: Fix save function so that it updates the category name and currentValue at the top
     private func save() throws {
         guard let valueAsDouble = Double(editedCurrentValue) else { throw DetailsViewErrors.unableToSaveNewValue}
         defaultCategoryName = categoryName
         currentValue = valueAsDouble
+    }
+    
+    private func showUnableToSaveError() {
+        unableToSave = true
+        Task {
+            try? await Task.sleep(for: .seconds(5))
+            unableToSave = false
+        }
     }
     
     private func normalizeToTwoDecimals() {
