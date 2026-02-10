@@ -10,7 +10,6 @@ import SwiftUI
 struct CurrentUserView: View {
     @Environment(UserAPIRequest.self) private var apiController
     @State private var editingPost: Post? = nil
-    @State private var isEditingPresented: Bool = false
     
     var body: some View {
         ZStack {
@@ -93,7 +92,7 @@ struct CurrentUserView: View {
                                         .contextMenu {
                                             Button {
                                                 editingPost = post
-                                                isEditingPresented = true
+                                                print("\nEditing Post: \(editingPost)\n")
                                             } label: {
                                                 Label("Edit Post", systemImage: "pencil")
                                             }
@@ -125,11 +124,9 @@ struct CurrentUserView: View {
                     print(error)
                 }
             }
-            .sheet(isPresented: $isEditingPresented) {
-                if let editingPost {
-                    EditPostView(post: editingPost)
-                        .presentationDetents([.medium])
-                }
+            .sheet(item: $editingPost) { post in
+                EditPostView(post: post)
+                    .presentationDetents([.medium])
             }
         }
     }
@@ -137,7 +134,7 @@ struct CurrentUserView: View {
     private func delete(post: Post) async {
         do {
             try await apiController.deletePost(postID: post.postID)
-            await apiController.fetchCurrentUser()
+            apiController.userPosts = try await apiController.fetchTimelinePosts()
         } catch {
             print("Error deleting user post: \(error)")
         }

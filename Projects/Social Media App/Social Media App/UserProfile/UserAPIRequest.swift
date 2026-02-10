@@ -408,7 +408,7 @@ class UserAPIRequest: UserAPICall {
             Post.self,
             path: path,
             method: "POST",
-            requiresAuth: false,
+            requiresAuth: true,
             queryItems: nil,
             body: data,
             contentType: "application/json"
@@ -432,7 +432,7 @@ class UserAPIRequest: UserAPICall {
         let request = try makeRequest(
             path: path,
             method: "DELETE",
-            requiresAuth: false,
+            requiresAuth: true,
             queryItems: nil,
             body: body,
             contentType: "application/json"

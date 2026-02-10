@@ -4,7 +4,7 @@ struct EditPostView: View {
     @Environment(UserAPIRequest.self) private var apiController
     @Environment(\.dismiss) private var dismiss
     
-    let post: Post
+    var post: Post
     
     @State private var titleText: String = ""
     @State private var bodyText: String = ""
@@ -58,6 +58,7 @@ struct EditPostView: View {
                 title: titleText,
                 bodyText: bodyText
             )
+            apiController.userPosts = try await apiController.fetchTimelinePosts()
             await MainActor.run {
                 dismiss()
             }
