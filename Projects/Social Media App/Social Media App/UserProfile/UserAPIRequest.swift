@@ -274,7 +274,7 @@ class UserAPIRequest: UserAPICall {
             type,
             path: path,
             method: "POST",
-            requiresAuth: false,
+            requiresAuth: true,
             queryItems: nil,
             body: bodyData,
             contentType: "application/json"
@@ -282,7 +282,6 @@ class UserAPIRequest: UserAPICall {
     }
 
     // MARK: - Social Media User Routes
-    
     func updateProfile(userName: String, bio: String?, techInterests: String?) async throws {
         guard let secret = userSecret else { throw APIError.notLoggedIn }
         

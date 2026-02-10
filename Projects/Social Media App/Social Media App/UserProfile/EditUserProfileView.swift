@@ -10,7 +10,7 @@ import SwiftUI
 
 struct EditUserProfileView: View {
     @Environment(\.dismiss) private var dismiss
-    @Environment(UserAPIRequest.self) private var viewModel
+    @Environment(UserAPIRequest.self) private var apiController
     @State private var firstName = ""
     @State private var lastName = ""
     @State private var userBio = ""
@@ -37,8 +37,8 @@ struct EditUserProfileView: View {
         .padding()
         .glassEffect()
         .task {
-            await viewModel.fetchCurrentUser()
-            if let currentUser = viewModel.currentUser {
+            await apiController.fetchCurrentUser()
+            if let currentUser = apiController.currentUser {
                 firstName = currentUser.firstName
                 lastName = currentUser.lastName
                 userBio = currentUser.bio ?? ""
@@ -50,11 +50,12 @@ struct EditUserProfileView: View {
     private func saveProfile() async {
         do {
             let fullUserName = "\(firstName) \(lastName)"
-            try await viewModel.updateProfile(
+            try await apiController.updateProfile(
                 userName: fullUserName,
-                bio: userBio.isEmpty ? nil : userBio,
-                techInterests: userTechInterests.isEmpty ? nil : userTechInterests
+                bio: userBio,
+                techInterests: userTechInterests
             )
+            await apiController.fetchCurrentUser()
             await MainActor.run {
                 dismiss()
             }
