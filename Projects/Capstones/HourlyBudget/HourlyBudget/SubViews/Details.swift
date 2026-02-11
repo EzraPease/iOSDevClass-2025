@@ -10,13 +10,13 @@ import SwiftUI
 struct Details: View {
     @Environment(BudgetViewModel.self) var viewModel
     @State var scale: CGFloat
-    @State var currentValue: Double
+    @State var budget: Budget
+    @State private var titleCategoryName = ""
+    @State private var titleCurrentValue = ""
+//    @State private var stringCurrentValue = ""
     @State private var editModeEnabled = false
-    @State private var editedCurrentValue = ""
-    @State var defaultCategoryName: String
-    @State private var categoryName = ""
     @State private var showDeleteConfirm = false
-    @State private var unableToSave = false
+    @State private var showUnableToSaveText = false
     
     private var editButtonText: String {
         if !editModeEnabled {
@@ -32,10 +32,10 @@ struct Details: View {
                 .frame(width: scale * 0.35, height: scale * 0.15)
                 .overlay {
                     VStack {
-                        Text(defaultCategoryName)
+                        Text(budget.categoryName)
                             .font(.title3)
                             .bold()
-                        Text(currentValue, format: .currency(code: "USD"))
+                        Text(budget.currentValue, format: .currency(code: "USD"))
                             .italic()
                     }
                 }
@@ -47,7 +47,7 @@ struct Details: View {
                 .frame(width: scale * 0.45, height: scale * 0.6)
                 .overlay {
                     VStack {
-                        if unableToSave {
+                        if showUnableToSaveText {
                             Text("Uh Oh! Something went wrong, please try again.")
                                 .italic()
                                 .foregroundStyle(.red)
@@ -55,8 +55,8 @@ struct Details: View {
                         }
                         Text("Edit Mode Enabled: \(editModeEnabled)") // Temporary Text Object
                         Group {
-                            TextField("Category Name", text: $categoryName)
-                            TextField("Set Amount", text: $editedCurrentValue)
+                            TextField("Category Name", text: $budget.categoryName)
+                            TextField("Set Amount", text: $titleCurrentValue)
                                 .keyboardType(.decimalPad)
                         }
                         .padding()
@@ -99,10 +99,9 @@ struct Details: View {
                         do {
                             try save()
                         } catch {
-                            print(error)
-                            showUnableToSaveError()
-                            categoryName = defaultCategoryName
-                            editedCurrentValue = String(currentValue)
+                            showUnableToSaveError(error: error)
+                            titleCategoryName = budget.categoryName
+                            titleCurrentValue = String(budget.currentValue)
                         }
                     }
                     editModeEnabled.toggle()
@@ -110,23 +109,24 @@ struct Details: View {
             }
         }
         .onAppear {
-            categoryName = defaultCategoryName
-            editedCurrentValue = String(currentValue)
+            titleCategoryName = budget.categoryName
+            titleCurrentValue = String(budget.currentValue)
         }
     }
-    // MARK: Functions
+    // MARK: - Functions
     // TODO: Fix save function so that it updates the category name and currentValue at the top
     private func save() throws {
-        guard let valueAsDouble = Double(editedCurrentValue) else { throw DetailsViewErrors.unableToSaveNewValue}
-        defaultCategoryName = categoryName
-        currentValue = valueAsDouble
+        guard let valueAsDouble = Double(titleCurrentValue) else { throw DetailsViewErrors.unableToSaveNewValue("ERROR: Was unable to convert \(titleCurrentValue) to a Double") }
+        budget.categoryName = titleCategoryName
+        budget.currentValue = valueAsDouble
     }
     
-    private func showUnableToSaveError() {
-        unableToSave = true
+    private func showUnableToSaveError(error: Error) {
+        print(error)
+        showUnableToSaveText = true
         Task {
             try? await Task.sleep(for: .seconds(5))
-            unableToSave = false
+            showUnableToSaveText = false
         }
     }
     
@@ -138,13 +138,13 @@ struct Details: View {
         formatter.minimumFractionDigits = 0
 
         // Replace the locale separator with a dot for parsing if needed
-        if let number = formatter.number(from: editedCurrentValue) {
-            editedCurrentValue = formatter.string(from: number) ?? editedCurrentValue
+        if let number = formatter.number(from: titleCurrentValue) {
+            titleCurrentValue = formatter.string(from: number) ?? titleCurrentValue
         }
     }
 }
 
 #Preview {
-    Details(scale: 720.666, currentValue: 57291, defaultCategoryName: "Example Category")
+    Details(scale: 720.666, budget: Budget(categoryName: "Example Category", currentValue: 471203.48))
         .environment(BudgetViewModel())
 }

@@ -9,17 +9,13 @@ import SwiftUI
 
 struct DetailView: View {
     @Environment(BudgetViewModel.self) var viewModel
-    let budget: Budget
+    var budget: Budget
     let scale: CGFloat
     
     var body: some View {
         ScrollView(.vertical) {
             VStack(alignment: .center) {
-                Details(
-                    scale: scale,
-                    currentValue: budget.currentValue,
-                    defaultCategoryName: budget.categoryName
-                )
+                Details(scale: scale, budget: budget)
             }
         }
         .scrollIndicators(.hidden)
