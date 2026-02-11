@@ -33,12 +33,19 @@ struct CurrentUserView: View {
                     if let currentUser = apiController.currentUser {
                         VStack(alignment: .leading) {
                             VStack(alignment: .leading) {
-                                HStack { // Name
-                                    Text(currentUser.firstName)
-                                    Text(currentUser.lastName)
+                                HStack { // User Name
+                                    Text(currentUser.userName)
+                                    
                                 }
                                 .font(.title)
                                 .bold()
+                                HStack { // First and Last Name
+                                    Text(currentUser.firstName)
+                                    Text(currentUser.lastName)
+                                }
+                                .font(.caption)
+                                .foregroundStyle(.gray)
+                                .italic()
                                 
                                 if let userBio = currentUser.bio {
                                     Text(userBio) // User Bio

@@ -12,19 +12,19 @@ struct EditUserProfileView: View {
     // TODO: Fix Editing the user profile to change the right data in the API
     @Environment(\.dismiss) private var dismiss
     @Environment(UserAPIRequest.self) private var apiController
-    @State private var firstName = ""
-    @State private var lastName = ""
+    @State private var userName = ""
     @State private var userBio = ""
     @State private var userTechInterests = ""
     
     var body: some View {
         List {
-            Section {
-                TextField("First Name", text: $firstName)
-                TextField("Last Name", text: $lastName)
+            Section("UserName") {
+                TextField("UserName", text: $userName)
             }
-            Section {
+            Section("Bio") {
                 TextField("Bio", text: $userBio)
+            }
+            Section("Tech Interests") {
                 TextField("Tech Interests", text: $userTechInterests)
             }
         }
@@ -40,8 +40,7 @@ struct EditUserProfileView: View {
         .task {
             await apiController.fetchCurrentUser()
             if let currentUser = apiController.currentUser {
-                firstName = currentUser.firstName
-                lastName = currentUser.lastName
+                userName = currentUser.userName
                 userBio = currentUser.bio ?? ""
                 userTechInterests = currentUser.techInterests ?? ""
             }
@@ -50,9 +49,8 @@ struct EditUserProfileView: View {
     
     private func saveProfile() async {
         do {
-            let fullUserName = "\(firstName) \(lastName)"
             try await apiController.updateProfile(
-                userName: fullUserName,
+                userName: userName,
                 bio: userBio,
                 techInterests: userTechInterests
             )

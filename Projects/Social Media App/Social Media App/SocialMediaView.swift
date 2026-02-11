@@ -40,7 +40,6 @@ struct SocialMediaView: View {
                     Button {
                         editUserPresented = true
                     } label: {
-                        //                        Image(systemName: "person.crop.circle.badge.plus")
                         Text("Edit Profile")
                     }
                 }
@@ -49,7 +48,7 @@ struct SocialMediaView: View {
                 NavigationStack {
                     EditUserProfileView()
                         .environment(apiController)
-                        .presentationDetents([.medium])
+                        .presentationDetents([.height(550)])
                         .presentationDragIndicator(.visible)
                 }
             }
@@ -66,4 +65,5 @@ struct SocialMediaView: View {
 
 #Preview {
     SocialMediaView()
+        .environment(UserAPIRequest())
 }
