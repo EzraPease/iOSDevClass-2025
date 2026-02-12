@@ -9,3 +9,8 @@ enum DetailsViewErrors: Error {
     case failedToSave
     case unableToSaveNewValue(String)
 }
+
+enum NewBudgetErrors: Error {
+    case incompleteData
+    case invalidValue
+}

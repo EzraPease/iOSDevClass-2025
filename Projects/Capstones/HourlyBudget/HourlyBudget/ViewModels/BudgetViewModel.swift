@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Observation
+import SwiftData
 
 @Observable
 class BudgetViewModel {
@@ -48,70 +49,50 @@ class BudgetViewModel {
             Budget(categoryName: "To Be Budgeted", currentValue: 97927, setCategory: .uncategorized)
         ]
     }
-    
+    // MARK: - Persitence Methods
     // Filtered Pinned Budgets
     var pinnedBudget: [Budget] {
-        var result: [Budget] = []
-        for pinned in budgetList {
-            if pinned.isPinned {
-                result.append(pinned)
-            }
-        }
-        return result
+        budgetList.filter { $0.isPinned }
     }
     
     // Filtered Budgets Into Savings
     var savingsBudget: [Budget] {
-        var result: [Budget] = []
-        for saving in budgetList {
-            if saving.setCategory == .savings && !saving.isPinned {
-                result.append(saving)
-            }
-        }
-        return result
+        budgetList.filter { $0.setCategory == .savings && !$0.isPinned }
     }
     
     // Filtered Budgets Into Expenses
     var expenseBudget: [Budget] {
-        var result: [Budget] = []
-        for expense in budgetList {
-            if expense.setCategory == .expenses && !expense.isPinned {
-                result.append(expense)
-            }
-        }
-        return result
+        budgetList.filter { $0.setCategory == .expenses && !$0.isPinned }
     }
     
     // Total Expenses
     var expenses: Double {
-        var result: Double = 0.0
-        for budgetAmount in budgetList {
-            if budgetAmount.setCategory == .expenses {
-                result += budgetAmount.currentValue
-            }
-        }
-        return result
+        budgetList.filter { $0.setCategory == .expenses }.reduce(0) { $0 + $1.currentValue }
     }
     
     // Total Savings
     var savings: Double {
-        var result: Double = 0.0
-        for budgetAmount in budgetList {
-            if budgetAmount.setCategory == .savings {
-                result += budgetAmount.currentValue
-            }
-        }
-        return result
+        budgetList.filter { $0.setCategory == .savings }.reduce(0) { $0 + $1.currentValue }
     }
     
     // Total Left Uncategorized
     var uncategorized: Double {
-        var result: Double = 0.0
-        for budgetAmount in budgetList {
-            if budgetAmount.setCategory == .uncategorized {
-                result += budgetAmount.currentValue
-            }
-        }
-        return result
+        budgetList.filter { $0.setCategory == .uncategorized }.reduce(0) { $0 + $1.currentValue }
+    }
+    
+    // MARK: - Functions
+    func pin(_ budget: Budget, context: ModelContext) {
+        budget.isPinned = true
+        try? context.save()
+    }
+
+    func delete(_ budget: Budget, context: ModelContext) {
+        context.delete(budget)
+        try? context.save()
+    }
+    
+    func save(_ budget: Budget, context: ModelContext) {
+        context.insert(budget)
+        try? context.save()
     }
 }

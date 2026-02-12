@@ -11,7 +11,7 @@ import SwiftData
 struct AddBudgetView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(BudgetViewModel.self) var viewModel
-    @State private var isNewCategory = false
+    @Environment(\.modelContext) private var context
     
     @State var budgetName = ""
     @State var startingAmount = "0"
@@ -35,13 +35,26 @@ struct AddBudgetView: View {
                 ToolbarItem {
                     Button("Save") {
                         // TODO: Add Function
-                        if let amountAsDouble = Double(startingAmount) {
-                            viewModel.budgetList.append(Budget(categoryName: budgetName, currentValue: amountAsDouble, setCategory: selectedCategory))
-                            dismiss()
+                        do {
+                            try saveNewBudget()
+                        } catch {
+                            print("ERROR - \(error): Failed to save new budget")
                         }
                     }
                 }
             }
+        }
+    }
+    
+    // MARK: - Functions
+    func saveNewBudget() throws {
+        if let amountAsDouble = Double(startingAmount) {
+            guard !budgetName.isEmpty else { throw NewBudgetErrors.incompleteData }
+            let budget = Budget(categoryName: budgetName, currentValue: amountAsDouble, setCategory: selectedCategory)
+                 viewModel.save(budget, context: context)
+            dismiss()
+        } else {
+            throw NewBudgetErrors.invalidValue
         }
     }
 }

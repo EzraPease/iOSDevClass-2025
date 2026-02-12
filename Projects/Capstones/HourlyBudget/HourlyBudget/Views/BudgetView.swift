@@ -12,6 +12,12 @@ struct BudgetView: View {
     @Environment(BudgetViewModel.self) var viewModel
     @Binding var currentView: CurrentView
     @State private var editBudgetModeEnabled: Bool = false
+    // TODO: Figure out how to set up a filtering query for the savings and expenses budgets
+    @Query(filter: #Predicate<Budget> { budget in
+        budget.setCategory == .savings
+    }, sort: \Budget.categoryName) private var savingBudgets: [Budget]
+    @Query(filter: #Predicate<Budget> { $0.isPinned }, sort: \.categoryName) private var pinnedBudgets: [Budget]
+
     
     var body: some View {
         GeometryReader { geometry in
@@ -114,6 +120,7 @@ struct BudgetView: View {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
                         editBudgetModeEnabled = true
+                        print(savingBudgets)
                     } label: {
                         Image(systemName: "plus")
                     }
@@ -123,7 +130,7 @@ struct BudgetView: View {
             .sheet(isPresented: $editBudgetModeEnabled) {
                 NavigationStack {
                     AddBudgetView()
-                        .navigationTitle("Update Budget")
+                        .navigationTitle("New Budget")
                         .navigationBarTitleDisplayMode(.inline) // or .large
                 }
             }

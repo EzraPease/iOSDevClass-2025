@@ -14,7 +14,7 @@ class Budget {
     var currentValue: Double
     var setCategory: BudgetCategories
     var isPinned: Bool = false
-    @Relationship(inverse: \Transactions.budget) var transactions: [Transactions] = []
+    @Relationship(deleteRule: .cascade, inverse: \Transactions.budget) var transactions: [Transactions] = []
     
     init(
         categoryName: String,
