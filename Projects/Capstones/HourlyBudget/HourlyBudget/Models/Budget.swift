@@ -12,9 +12,13 @@ import SwiftData
 class Budget {
     var categoryName: String
     var currentValue: Double
-    var setCategory: BudgetCategories
+    var setCategory: BudgetCategories {
+        get { BudgetCategories(rawValue: _setCategory)! }
+        set { _setCategory = newValue.rawValue }
+    }
     var isPinned: Bool = false
     @Relationship(deleteRule: .cascade, inverse: \Transactions.budget) var transactions: [Transactions] = []
+    var _setCategory: String
     
     init(
         categoryName: String,
@@ -24,7 +28,7 @@ class Budget {
     ) {
         self.categoryName = categoryName
         self.currentValue = currentValue
-        self.setCategory = setCategory
+        self._setCategory = setCategory.rawValue
         self.transactions = transactions
     }
 }

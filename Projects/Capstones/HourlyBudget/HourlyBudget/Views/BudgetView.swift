@@ -12,11 +12,24 @@ struct BudgetView: View {
     @Environment(BudgetViewModel.self) var viewModel
     @Binding var currentView: CurrentView
     @State private var editBudgetModeEnabled: Bool = false
-    // TODO: Figure out how to set up a filtering query for the savings and expenses budgets
-    @Query(filter: #Predicate<Budget> { budget in
-        budget.setCategory == .savings
-    }, sort: \Budget.categoryName) private var savingBudgets: [Budget]
+    
+    @Query private var savingsBudgets: [Budget]
+    @Query private var expensesBudgets: [Budget]
     @Query(filter: #Predicate<Budget> { $0.isPinned }, sort: \.categoryName) private var pinnedBudgets: [Budget]
+    
+    let savingsCategory = BudgetCategories.savings.rawValue
+    let expensesCategory = BudgetCategories.expenses.rawValue
+    
+    
+    init(currentView: Binding<CurrentView>) {
+        self._currentView = currentView
+        _savingsBudgets = Query(filter: #Predicate<Budget> { budget in
+            budget._setCategory == savingsCategory
+        }, sort: \Budget.categoryName)
+        _expensesBudgets = Query(filter: #Predicate<Budget> { budget in
+            budget._setCategory == expensesCategory
+        }, sort: \Budget.categoryName)
+    }
 
     
     var body: some View {
@@ -30,10 +43,10 @@ struct BudgetView: View {
             
             ScrollView(.vertical) {
                 
-                // Pinned Category
+                // MARK: - Pinned List
                 // TODO: Finish setting up pinned section
                 VStack {
-                    if !viewModel.pinnedBudget.isEmpty {
+                    if !pinnedBudgets.isEmpty {
                         Text("Pinned")
                             .font(.largeTitle)
                             .bold()
@@ -56,9 +69,9 @@ struct BudgetView: View {
                 .padding(.horizontal, 8)
                 }
                 
-                // Expenses List
+                // MARK: - Expenses List
                 VStack {
-                    if !viewModel.expenseBudget.isEmpty {
+                    if !expensesBudgets.isEmpty {
                         Text("Expenses")
                             .font(.largeTitle)
                             .bold()
@@ -68,7 +81,7 @@ struct BudgetView: View {
                         columns: [
                             GridItem(.adaptive(minimum: scale, maximum: .infinity))
                         ]
-                    ){ ForEach(viewModel.expenseBudget) { budget in
+                    ){ ForEach(expensesBudgets) { budget in
                             NavigationLink {
                                 DetailView(budget: budget, scale: scale * 4 - 50)
                             } label: {
@@ -83,9 +96,9 @@ struct BudgetView: View {
                 
                 Spacer(minLength: 80)
                 
-                // Savings List
+                // MARK: - Savings List
                 VStack {
-                    if !viewModel.savingsBudget.isEmpty {
+                    if !savingsBudgets.isEmpty {
                         Text("Savings")
                             .font(.largeTitle)
                             .bold()
@@ -95,7 +108,7 @@ struct BudgetView: View {
                         columns: [
                             GridItem(.adaptive(minimum: scale, maximum: .infinity))
                         ]
-                    ){ ForEach(viewModel.savingsBudget) { budget in
+                    ){ ForEach(savingsBudgets) { budget in
                             NavigationLink {
                                 DetailView(budget: budget, scale: scale * 4 - 50)
                             } label: {
@@ -120,7 +133,8 @@ struct BudgetView: View {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
                         editBudgetModeEnabled = true
-                        print(savingBudgets)
+                        print("Savings Budgets: \(savingsBudgets)")
+                        print("Expenses Budgets: \(expensesBudgets)")
                     } label: {
                         Image(systemName: "plus")
                     }

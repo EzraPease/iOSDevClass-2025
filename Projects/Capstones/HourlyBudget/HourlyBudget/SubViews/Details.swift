@@ -6,9 +6,11 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct Details: View {
     @Environment(BudgetViewModel.self) var viewModel
+    @Environment(\.modelContext) private var context
     @State var scale: CGFloat
     @State var budget: Budget
     @State private var titleCategoryName = ""
@@ -83,7 +85,7 @@ struct Details: View {
                         .bold()
                         .alert("Delete this budget?", isPresented: $showDeleteConfirm) {
                             Button("Delete", role: .destructive) {
-                                // Perform deletion
+                                viewModel.delete(budget, context: context)
                             }
                             Button("Cancel", role: .cancel) { }
                         } message: {

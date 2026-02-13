@@ -6,12 +6,15 @@
 //
 
 import SwiftUI
+import SwiftData
 
 // This view is the subview for both SavingsView and ExpensesView
 struct Savings_Expenses: View {
+    @Environment(\.modelContext) private var context
+    
     @State var totalAmount: Double
     @State var setCategory: BudgetCategories
-    @State var viewModel: BudgetViewModel
+    @State var budget: [Budget]
     
     private var categoriesFrameSize: CGFloat {
         switch setCategory {

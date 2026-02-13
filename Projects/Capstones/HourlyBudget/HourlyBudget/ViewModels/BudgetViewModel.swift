@@ -11,6 +11,7 @@ import SwiftData
 
 @Observable
 class BudgetViewModel {
+    // Mock Value
     var budgetList: [Budget]
     
     init() {
@@ -51,19 +52,19 @@ class BudgetViewModel {
     }
     // MARK: - Persitence Methods
     // Filtered Pinned Budgets
-    var pinnedBudget: [Budget] {
-        budgetList.filter { $0.isPinned }
-    }
-    
-    // Filtered Budgets Into Savings
-    var savingsBudget: [Budget] {
-        budgetList.filter { $0.setCategory == .savings && !$0.isPinned }
-    }
-    
-    // Filtered Budgets Into Expenses
-    var expenseBudget: [Budget] {
-        budgetList.filter { $0.setCategory == .expenses && !$0.isPinned }
-    }
+//    var pinnedBudget: [Budget] {
+//        budgetList.filter { $0.isPinned }
+//    }
+//    
+//    // Filtered Budgets Into Savings
+//    var savingsBudget: [Budget] {
+//        budgetList.filter { $0.setCategory == .savings && !$0.isPinned }
+//    }
+//    
+//    // Filtered Budgets Into Expenses
+//    var expenseBudget: [Budget] {
+//        budgetList.filter { $0.setCategory == .expenses && !$0.isPinned }
+//    }
     
     // Total Expenses
     var expenses: Double {
