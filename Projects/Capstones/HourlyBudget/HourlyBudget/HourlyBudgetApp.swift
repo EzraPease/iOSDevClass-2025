@@ -14,6 +14,6 @@ struct HourlyBudgetApp: App {
         WindowGroup {
             ContentView()
         }
-        .modelContainer(for: [Budget.self, Transactions.self])
+        .modelContainer(for: [Budget.self, Transactions.self], inMemory: true)
     }
 }

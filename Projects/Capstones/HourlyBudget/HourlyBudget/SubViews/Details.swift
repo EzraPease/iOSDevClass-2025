@@ -11,6 +11,8 @@ import SwiftData
 struct Details: View {
     @Environment(BudgetViewModel.self) var viewModel
     @Environment(\.modelContext) private var context
+    @Environment(\.dismiss) private var dismiss
+    
     @State var scale: CGFloat
     @State var budget: Budget
     @State private var titleCategoryName = ""
@@ -86,6 +88,7 @@ struct Details: View {
                         .alert("Delete this budget?", isPresented: $showDeleteConfirm) {
                             Button("Delete", role: .destructive) {
                                 viewModel.delete(budget, context: context)
+                                dismiss()
                             }
                             Button("Cancel", role: .cancel) { }
                         } message: {
@@ -118,9 +121,13 @@ struct Details: View {
     // MARK: - Functions
     // TODO: Fix save function so that it updates the category name and currentValue at the top
     private func save() throws {
-        guard let valueAsDouble = Double(titleCurrentValue) else { throw DetailsViewErrors.unableToSaveNewValue("ERROR: Was unable to convert \(titleCurrentValue) to a Double") }
-        budget.categoryName = titleCategoryName
-        budget.currentValue = valueAsDouble
+        if let value = try? Decimal(titleCurrentValue, format: .currency(code: "USD")) {
+            let valueAsDouble = NSDecimalNumber(decimal: value).doubleValue
+            budget.categoryName = titleCategoryName
+            budget.currentValue = valueAsDouble
+        } else {
+            throw DetailsViewErrors.unableToSaveNewValue("ERROR: Was unable to convert \(titleCurrentValue) to a Double")
+        }
     }
     
     private func showUnableToSaveError(error: Error) {
