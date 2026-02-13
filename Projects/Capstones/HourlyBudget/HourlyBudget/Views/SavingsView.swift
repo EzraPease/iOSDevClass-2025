@@ -26,6 +26,7 @@ struct SavingsView: View {
     
     var body: some View {
         VStack {
+            // TODO: Fix totalAmount to sow the amount from SwiftData in this view and ExpensesView
             Savings_Expenses(totalAmount: viewModel.savings, setCategory: .savings)
         }
         .toolbar {
