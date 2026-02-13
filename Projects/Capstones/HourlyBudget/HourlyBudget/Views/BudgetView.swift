@@ -56,11 +56,11 @@ struct BudgetView: View {
                         columns: [
                             GridItem(.adaptive(minimum: scale, maximum: .infinity))
                         ]
-                    ){ ForEach(viewModel.pinnedBudget) { budget in
+                    ){ ForEach(pinnedBudgets) { budget in
                             NavigationLink {
                                 DetailView(budget: budget, scale: scale * 4 - 50)
                             } label: {
-                                BudgetCell(scale: scale, currentValue: budget.currentValue, categoryName: budget.categoryName)
+                                BudgetCell(scale: scale, budget: budget)
                                     .foregroundStyle(.white)
                             }
                             .padding()
@@ -85,7 +85,7 @@ struct BudgetView: View {
                             NavigationLink {
                                 DetailView(budget: budget, scale: scale * 4 - 50)
                             } label: {
-                                BudgetCell(scale: scale, currentValue: budget.currentValue, categoryName: budget.categoryName)
+                                BudgetCell(scale: scale, budget: budget)
                                     .foregroundStyle(.white)
                             }
                             .padding()
@@ -112,7 +112,7 @@ struct BudgetView: View {
                             NavigationLink {
                                 DetailView(budget: budget, scale: scale * 4 - 50)
                             } label: {
-                                BudgetCell(scale: scale, currentValue: budget.currentValue, categoryName: budget.categoryName)
+                                BudgetCell(scale: scale, budget: budget)
                                     .foregroundStyle(.white)
                             }
                             .padding()

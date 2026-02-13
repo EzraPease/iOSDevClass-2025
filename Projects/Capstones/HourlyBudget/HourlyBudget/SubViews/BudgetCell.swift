@@ -9,8 +9,7 @@ import SwiftUI
 
 struct BudgetCell: View {
     @State var scale: CGFloat
-    @State var currentValue: Double
-    @State var categoryName: String
+    @State var budget: Budget
     
     var body: some View {
         RoundedRectangle(cornerRadius: 21)
@@ -18,10 +17,10 @@ struct BudgetCell: View {
             .frame(width: scale, height: scale)
             .overlay {
                 VStack {
-                    Text(categoryName)
+                    Text(budget.categoryName)
                         .font(.title3)
                         .bold()
-                    Text(currentValue, format: .currency(code: "USD"))
+                    Text(budget.currentValue, format: .currency(code: "USD"))
                     Image(systemName: "photo")
                 }
             }

@@ -8,20 +8,42 @@
 import SwiftUI
 import SwiftData
 
+
+
 // This view is the subview for both SavingsView and ExpensesView
 struct Savings_Expenses: View {
     @Environment(\.modelContext) private var context
+    @Environment(BudgetViewModel.self) private var viewModel
     
     @State var totalAmount: Double
     @State var setCategory: BudgetCategories
-    @State var budget: [Budget]
+    
+    @Query private var savingsBudgets: [Budget]
+    @Query private var expensesBudgets: [Budget]
+    @Query(filter: #Predicate<Budget> { $0.isPinned }, sort: \.categoryName) private var pinnedBudgets: [Budget]
+
+    let savingsCategory = BudgetCategories.savings.rawValue
+    let expensesCategory = BudgetCategories.expenses.rawValue
+
+
+    init(totalAmount: Double, setCategory: BudgetCategories) {
+        _totalAmount = State(initialValue: totalAmount)
+        _setCategory = State(initialValue: setCategory)
+        _savingsBudgets = Query(filter: #Predicate<Budget> { budget in
+            budget._setCategory == savingsCategory
+        }, sort: \Budget.categoryName)
+        _expensesBudgets = Query(filter: #Predicate<Budget> { budget in
+            budget._setCategory == expensesCategory
+        }, sort: \Budget.categoryName)
+    }
+
     
     private var categoriesFrameSize: CGFloat {
         switch setCategory {
         case .savings:
-            return viewModel.savingsBudget.count <= 5 ? 200 : 350
+            return savingsBudgets.count <= 5 ? 200 : 350
         case .expenses:
-            return viewModel.expenseBudget.count <= 5 ? 200 : 350
+            return expensesBudgets.count <= 5 ? 200 : 350
         case .uncategorized:
             return 200
         }
@@ -30,9 +52,9 @@ struct Savings_Expenses: View {
     private var transactionsFrameSize: CGFloat {
         switch setCategory {
         case .savings:
-            return viewModel.savingsBudget.count <= 5 ? 200 : 350
+            return savingsBudgets.count <= 5 ? 200 : 350
         case .expenses:
-            return viewModel.expenseBudget.count <= 5 ? 200 : 350
+            return expensesBudgets.count <= 5 ? 200 : 350
         case .uncategorized:
             return 200
         }
@@ -41,7 +63,7 @@ struct Savings_Expenses: View {
     var body: some View {
         ScrollView {
             VStack {
-                Group {
+                VStack(spacing: 0) {
                     // MARK: Total Value
                     RoundedRectangle(cornerRadius: 35)
                         .fill(.cyan)
@@ -87,7 +109,7 @@ struct Savings_Expenses: View {
                                 }
                                 ScrollView {
                                     VStack {
-                                        CategoryListView(setCategory: setCategory, viewModel: viewModel)
+                                        CategoryListView(setCategory: setCategory)
                                     }
                                 }
                                 .scrollIndicators(.hidden)
@@ -106,7 +128,7 @@ struct Savings_Expenses: View {
                                 
                                 ScrollView {
                                     VStack {
-                                        LogsListView(setCategory: setCategory, viewModel: viewModel)
+                                        LogsListView(setCategory: setCategory)
                                     }
                                 }
                                 .scrollIndicators(.hidden)
@@ -121,28 +143,48 @@ struct Savings_Expenses: View {
 }
 // MARK: Category View
 private struct CategoryListView: View {
-    let setCategory: BudgetCategories
-    let viewModel: BudgetViewModel
+    @Environment(BudgetViewModel.self) private var viewModel
+    
+    @Query private var savingsBudgets: [Budget]
+    @Query private var expensesBudgets: [Budget]
+    @Query(filter: #Predicate<Budget> { $0.isPinned }, sort: \.categoryName) private var pinnedBudgets: [Budget]
+
+    @State var setCategory: BudgetCategories
+    
+    let savingsCategory = BudgetCategories.savings.rawValue
+    let expensesCategory = BudgetCategories.expenses.rawValue
+
+
+    init(setCategory: BudgetCategories) {
+        _setCategory = State(initialValue: setCategory)
+        _savingsBudgets = Query(filter: #Predicate<Budget> { budget in
+            budget._setCategory == savingsCategory
+        }, sort: \Budget.categoryName)
+        _expensesBudgets = Query(filter: #Predicate<Budget> { budget in
+            budget._setCategory == expensesCategory
+        }, sort: \Budget.categoryName)
+    }
+    
     
     var body: some View {
         switch setCategory {
         case .savings:
-            ForEach(viewModel.savingsBudget) { savings in
+            ForEach(savingsBudgets) { budget in
                 HStack {
-                    Text("\(savings.categoryName):")
+                    Text("\(budget.categoryName):")
                         .bold()
                     Spacer()
-                    Text("\(savings.currentValue, format: .currency(code: "USD"))")
+                    Text("\(budget.currentValue, format: .currency(code: "USD"))")
                 }
                 .padding(3)
             }
         case .expenses:
-            ForEach(viewModel.expenseBudget) { expenses in
+            ForEach(expensesBudgets) { budget in
                 HStack {
-                    Text("\(expenses.categoryName):")
+                    Text("\(budget.categoryName):")
                         .bold()
                     Spacer()
-                    Text("\(expenses.currentValue, format: .currency(code: "USD"))")
+                    Text("\(budget.currentValue, format: .currency(code: "USD"))")
                 }
                 .padding(3)
             }
@@ -154,14 +196,33 @@ private struct CategoryListView: View {
 
 // MARK: Logs View
 private struct LogsListView: View {
-    let setCategory: BudgetCategories
-    let viewModel: BudgetViewModel
+    @Environment(BudgetViewModel.self) private var viewModel
+    
+    @Query private var savingsBudgets: [Budget]
+    @Query private var expensesBudgets: [Budget]
+    @Query(filter: #Predicate<Budget> { $0.isPinned }, sort: \.categoryName) private var pinnedBudgets: [Budget]
+
+    let savingsCategory = BudgetCategories.savings.rawValue
+    let expensesCategory = BudgetCategories.expenses.rawValue
+    @State var setCategory: BudgetCategories
+
+
+    init(setCategory: BudgetCategories) {
+        _setCategory = State(initialValue: setCategory)
+        _savingsBudgets = Query(filter: #Predicate<Budget> { budget in
+            budget._setCategory == savingsCategory
+        }, sort: \Budget.categoryName)
+        _expensesBudgets = Query(filter: #Predicate<Budget> { budget in
+            budget._setCategory == expensesCategory
+        }, sort: \Budget.categoryName)
+    }
+    
     
     var body: some View {
         VStack {
             switch setCategory {
             case .savings:
-                ForEach(viewModel.savingsBudget) { budget in
+                ForEach(savingsBudgets) { budget in
                     ForEach(budget.transactions) { transaction in
                         HStack {
                             Text(transaction.timeStamp.formatted(date: .abbreviated, time: .omitted))
@@ -173,7 +234,7 @@ private struct LogsListView: View {
                     }
                 }
             case .expenses:
-                ForEach(viewModel.expenseBudget) { budget in
+                ForEach(expensesBudgets) { budget in
                     ForEach(budget.transactions) { transaction in
                         HStack {
                             Text(transaction.timeStamp.formatted(date: .abbreviated, time: .omitted))
@@ -192,5 +253,5 @@ private struct LogsListView: View {
 }
 
 #Preview {
-    Savings_Expenses(totalAmount: 57281, setCategory: .savings, viewModel: BudgetViewModel())
+    Savings_Expenses(totalAmount: 14513241, setCategory: .savings)
 }
