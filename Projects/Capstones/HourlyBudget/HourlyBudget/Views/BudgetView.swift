@@ -30,7 +30,7 @@ struct BudgetView: View {
             budget._setCategory == expensesCategory
         }, sort: \Budget.categoryName)
     }
-
+    
     
     var body: some View {
         GeometryReader { geometry in
@@ -42,21 +42,30 @@ struct BudgetView: View {
             }
             
             ScrollView(.vertical) {
-                
-                // MARK: - Pinned List
-                // TODO: Finish setting up pinned section
-                VStack {
-                    if !pinnedBudgets.isEmpty {
-                        Text("Pinned")
-                            .font(.largeTitle)
-                            .bold()
-                            .foregroundStyle(.purple)
+                if pinnedBudgets.isEmpty && savingsBudgets.isEmpty && expensesBudgets.isEmpty {
+                    HStack {
+                        Spacer()
+                        
+                        EmptyView()
+                        
+                        Spacer()
                     }
-                    LazyVGrid (
-                        columns: [
-                            GridItem(.adaptive(minimum: scale, maximum: .infinity))
-                        ]
-                    ){ ForEach(pinnedBudgets) { budget in
+                } else {
+                    
+                    // MARK: - Pinned List
+                    // TODO: Finish setting up pinned section
+                    VStack {
+                        if !pinnedBudgets.isEmpty {
+                            Text("Pinned")
+                                .font(.largeTitle)
+                                .bold()
+                                .foregroundStyle(.purple)
+                        }
+                        LazyVGrid (
+                            columns: [
+                                GridItem(.adaptive(minimum: scale, maximum: .infinity))
+                            ]
+                        ){ ForEach(pinnedBudgets) { budget in
                             NavigationLink {
                                 DetailView(budget: budget, scale: scale * 4 - 50)
                             } label: {
@@ -64,24 +73,24 @@ struct BudgetView: View {
                                     .foregroundStyle(.white)
                             }
                             .padding()
+                        }
+                        }
+                        .padding(.horizontal, 8)
                     }
-                }
-                .padding(.horizontal, 8)
-                }
-                
-                // MARK: - Expenses List
-                VStack {
-                    if !expensesBudgets.isEmpty {
-                        Text("Expenses")
-                            .font(.largeTitle)
-                            .bold()
-                            .foregroundStyle(.red)
-                    }
-                    LazyVGrid (
-                        columns: [
-                            GridItem(.adaptive(minimum: scale, maximum: .infinity))
-                        ]
-                    ){ ForEach(expensesBudgets) { budget in
+                    
+                    // MARK: - Expenses List
+                    VStack {
+                        if !expensesBudgets.isEmpty {
+                            Text("Expenses")
+                                .font(.largeTitle)
+                                .bold()
+                                .foregroundStyle(.red)
+                        }
+                        LazyVGrid (
+                            columns: [
+                                GridItem(.adaptive(minimum: scale, maximum: .infinity))
+                            ]
+                        ){ ForEach(expensesBudgets) { budget in
                             NavigationLink {
                                 DetailView(budget: budget, scale: scale * 4 - 50)
                             } label: {
@@ -89,26 +98,26 @@ struct BudgetView: View {
                                     .foregroundStyle(.white)
                             }
                             .padding()
+                        }
+                        }
+                        .padding(.horizontal, 8)
                     }
-                }
-                .padding(.horizontal, 8)
-                }
-                
-                Spacer(minLength: 80)
-                
-                // MARK: - Savings List
-                VStack {
-                    if !savingsBudgets.isEmpty {
-                        Text("Savings")
-                            .font(.largeTitle)
-                            .bold()
-                            .foregroundStyle(.green)
-                    }
-                    LazyVGrid (
-                        columns: [
-                            GridItem(.adaptive(minimum: scale, maximum: .infinity))
-                        ]
-                    ){ ForEach(savingsBudgets) { budget in
+                    
+                    Spacer(minLength: 80)
+                    
+                    // MARK: - Savings List
+                    VStack {
+                        if !savingsBudgets.isEmpty {
+                            Text("Savings")
+                                .font(.largeTitle)
+                                .bold()
+                                .foregroundStyle(.green)
+                        }
+                        LazyVGrid (
+                            columns: [
+                                GridItem(.adaptive(minimum: scale, maximum: .infinity))
+                            ]
+                        ){ ForEach(savingsBudgets) { budget in
                             NavigationLink {
                                 DetailView(budget: budget, scale: scale * 4 - 50)
                             } label: {
@@ -116,9 +125,10 @@ struct BudgetView: View {
                                     .foregroundStyle(.white)
                             }
                             .padding()
+                        }
+                        }
+                        .padding(.horizontal, 8)
                     }
-                }
-                .padding(.horizontal, 8)
                 }
             }
             .scrollIndicators(.hidden)
@@ -150,6 +160,20 @@ struct BudgetView: View {
             }
             .presentationDragIndicator(.visible)
         }
+    }
+}
+
+// MARK: - Empty View
+private struct EmptyView: View {
+    var body: some View {
+        VStack(alignment: .center) {
+                Text("Nothing here Yet")
+                Text("Click + to start budgeting!")
+        }
+        .font(.title2)
+        .bold()
+        .italic()
+        .padding()
     }
 }
 

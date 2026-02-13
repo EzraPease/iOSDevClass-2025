@@ -63,7 +63,7 @@ struct Savings_Expenses: View {
     var body: some View {
         ScrollView {
             VStack {
-                VStack(spacing: 0) {
+                VStack(spacing: 25) {
                     // MARK: Total Value
                     RoundedRectangle(cornerRadius: 35)
                         .fill(.cyan)

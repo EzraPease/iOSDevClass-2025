@@ -11,7 +11,7 @@ import SwiftData
 
 @Observable
 class BudgetViewModel {
-    // Mock Value
+    // MARK: - Mock Data
     var budgetList: [Budget]
     
     init() {
