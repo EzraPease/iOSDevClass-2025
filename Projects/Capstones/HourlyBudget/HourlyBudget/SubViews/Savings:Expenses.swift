@@ -254,4 +254,5 @@ private struct LogsListView: View {
 
 #Preview {
     Savings_Expenses(totalAmount: 14513241, setCategory: .savings)
+        .environment(BudgetViewModel())
 }

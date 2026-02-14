@@ -15,6 +15,9 @@ struct SavingsView: View {
     @Query private var savingsBudgets: [Budget]
     
     let savingsCategory = BudgetCategories.savings.rawValue
+    private var totalSavings: Double {
+        savingsBudgets.reduce(0) { $0 + $1.currentValue }
+    }
     
     init(currentView: Binding<CurrentView>) {
         self._currentView = currentView
@@ -27,7 +30,7 @@ struct SavingsView: View {
     var body: some View {
         VStack {
             // TODO: Fix totalAmount to sow the amount from SwiftData in this view and ExpensesView
-            Savings_Expenses(totalAmount: viewModel.savings, setCategory: .savings)
+            Savings_Expenses(totalAmount: totalSavings, setCategory: .savings)
         }
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {

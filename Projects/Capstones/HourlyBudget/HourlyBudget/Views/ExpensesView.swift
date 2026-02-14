@@ -6,14 +6,30 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct ExpensesView: View {
     @Environment(BudgetViewModel.self) var viewModel
     @Binding var currentView: CurrentView
     
+    @Query private var expensesBudgets: [Budget]
+    
+    let expensesCategory = BudgetCategories.expenses.rawValue
+    private var totalExpenses: Double {
+        expensesBudgets.reduce(0) { $0 + $1.currentValue }
+    }
+
+
+    init(currentView: Binding<CurrentView>) {
+        _currentView = currentView
+        _expensesBudgets = Query(filter: #Predicate<Budget> { budget in
+            budget._setCategory == expensesCategory
+        }, sort: \Budget.categoryName)
+    }
+    
     var body: some View {
         VStack {
-            Savings_Expenses(totalAmount: viewModel.expenses, setCategory: .expenses)
+            Savings_Expenses(totalAmount: totalExpenses, setCategory: .expenses)
         }
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {

@@ -11,7 +11,7 @@ import SwiftData
 struct BudgetView: View {
     @Environment(BudgetViewModel.self) var viewModel
     @Binding var currentView: CurrentView
-    @State private var editBudgetModeEnabled: Bool = false
+    @State private var addBudgetEnabled: Bool = false
     
     @Query private var savingsBudgets: [Budget]
     @Query private var expensesBudgets: [Budget]
@@ -142,23 +142,22 @@ struct BudgetView: View {
                 }
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
-                        editBudgetModeEnabled = true
-                        print("Savings Budgets: \(savingsBudgets)")
-                        print("Expenses Budgets: \(expensesBudgets)")
+                        addBudgetEnabled = true
                     } label: {
                         Image(systemName: "plus")
                     }
                 }
             }
             .navigationTitle("Budget List")
-            .sheet(isPresented: $editBudgetModeEnabled) {
+            .sheet(isPresented: $addBudgetEnabled) {
                 NavigationStack {
                     AddBudgetView()
                         .navigationTitle("New Budget")
                         .navigationBarTitleDisplayMode(.inline) // or .large
                 }
+                .presentationDetents([.height(475), .large])
+                .presentationDragIndicator(.visible)
             }
-            .presentationDragIndicator(.visible)
         }
     }
 }

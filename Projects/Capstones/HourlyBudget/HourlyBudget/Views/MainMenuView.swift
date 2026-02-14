@@ -6,10 +6,32 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct MainMenuView: View {
     @Environment(BudgetViewModel.self) var viewModel
     @Binding var currentView: CurrentView
+    
+    @Query private var expensesBudgets: [Budget]
+    @Query private var savingsBudgets: [Budget]
+    
+    let savingsCategory = BudgetCategories.savings.rawValue
+    let expensesCategory = BudgetCategories.expenses.rawValue
+    
+    private var totalExpenses: Double {
+        expensesBudgets.reduce(0) { $0 + $1.currentValue }
+    }
+    private var totalSavings: Double {
+        savingsBudgets.reduce(0) { $0 + $1.currentValue }
+    }
+
+
+    init(currentView: Binding<CurrentView>) {
+        _currentView = currentView
+        _expensesBudgets = Query(filter: #Predicate<Budget> { budget in
+            budget._setCategory == expensesCategory
+        }, sort: \Budget.categoryName)
+    }
     
     var body: some View {
             VStack(spacing: 80) {
@@ -22,7 +44,7 @@ struct MainMenuView: View {
                         } label: {
                             VStack {
                                 Text("View Savings")
-                                Text(viewModel.savings, format: .currency(code: "USD"))
+                                Text(totalSavings, format: .currency(code: "USD"))
                                     .italic()
                             }
                             .foregroundStyle(.green)
@@ -32,7 +54,7 @@ struct MainMenuView: View {
                         } label: {
                             VStack {
                                 Text("View Expenses")
-                                Text(viewModel.expenses, format: .currency(code: "USD"))
+                                Text(totalExpenses, format: .currency(code: "USD"))
                                     .italic()
                             }
                             .foregroundStyle(.red)

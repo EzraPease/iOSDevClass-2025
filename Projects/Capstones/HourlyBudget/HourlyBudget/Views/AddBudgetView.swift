@@ -34,7 +34,6 @@ struct AddBudgetView: View {
             .toolbar {
                 ToolbarItem {
                     Button("Save") {
-                        // TODO: Add Function
                         do {
                             try saveNewBudget()
                         } catch {
