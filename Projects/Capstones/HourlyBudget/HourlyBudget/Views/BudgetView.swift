@@ -125,7 +125,19 @@ struct BudgetView: View {
                                     .foregroundStyle(.white)
                             }
                             .padding()
-                        }
+                            .contextMenu {
+                                Button {
+                                    // TODO: Add Edit Logic
+                                } label: {
+                                    Label("Edit", systemImage: "pencil")
+                                }
+                                Button(role: .destructive) {
+                                    // TODO: Add Delete Logic
+                                } label: {
+                                    Label("Delete", systemImage: "trash")
+                                    }
+                                }
+                            }
                         }
                         .padding(.horizontal, 8)
                     }
