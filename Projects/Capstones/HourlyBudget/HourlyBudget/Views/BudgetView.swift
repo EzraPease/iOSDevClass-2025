@@ -126,6 +126,7 @@ struct BudgetView: View {
                             }
                             .padding()
                             .contextMenu {
+                                // TODO: Add the logic to the expenses and pinned sections after completed
                                 Button {
                                     // TODO: Add Edit Logic
                                 } label: {
