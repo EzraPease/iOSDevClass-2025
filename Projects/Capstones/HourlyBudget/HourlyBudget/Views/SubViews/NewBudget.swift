@@ -20,7 +20,7 @@ struct NewBudget: View {
                 }
                 Section("Starting Amount") {
                     TextField("Starting amount...", text: $startingAmount)
-                        .keyboardType(.numberPad)
+                        .keyboardType(.decimalPad)
                 }
                 Section("Choose a Category") {
                     Picker("Category", selection: $selectedCategory) {

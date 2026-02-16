@@ -12,6 +12,7 @@ struct BudgetView: View {
     @Environment(BudgetViewModel.self) var viewModel
     @Binding var currentView: CurrentView
     @State private var addBudgetEnabled: Bool = false
+    @State private var editBudgetViewShown = false
     
     @Query private var savingsBudgets: [Budget]
     @Query private var expensesBudgets: [Budget]
@@ -129,6 +130,7 @@ struct BudgetView: View {
                                 // TODO: Add the logic to the expenses and pinned sections after completed
                                 Button {
                                     // TODO: Add Edit Logic
+                                    editBudgetViewShown = true
                                 } label: {
                                     Label("Edit", systemImage: "pencil")
                                 }
@@ -169,6 +171,15 @@ struct BudgetView: View {
                         .navigationBarTitleDisplayMode(.inline) // or .large
                 }
                 .presentationDetents([.height(475), .large])
+                .presentationDragIndicator(.visible)
+            }
+            .sheet(isPresented: $editBudgetViewShown) {
+                NavigationStack {
+                    EditView()
+                        .navigationTitle("Edit Details")
+                        .navigationBarTitleDisplayMode(.inline)
+                }
+                .presentationDetents([.medium])
                 .presentationDragIndicator(.visible)
             }
         }

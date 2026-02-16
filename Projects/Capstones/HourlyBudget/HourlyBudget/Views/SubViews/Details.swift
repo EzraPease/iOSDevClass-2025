@@ -17,7 +17,6 @@ struct Details: View {
     @State var budget: Budget
     @State private var titleCategoryName = ""
     @State private var titleCurrentValue = ""
-//    @State private var stringCurrentValue = ""
     @State private var editModeEnabled = false
     @State private var showDeleteConfirm = false
     @State private var showUnableToSaveText = false
