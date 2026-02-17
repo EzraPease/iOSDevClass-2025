@@ -15,12 +15,12 @@ struct EditView: View {
         
         VStack {
         // TODO: Set up the category name and value to work correctly
-            TextField("Budget Name", text: $budget.categoryName)
-            TextField("Budget Amount", text: $value)
+            TextField("Budget Name", text: $budgetName)
+            TextField("Budget Amount", text: $budgetValue)
         }
     }
 }
 
 #Preview {
-    EditView(budgetName: "Example Budget", budgetValue: 1841.48)
+    EditView(budgetName: "Example Budget", budgetValue: "1841.48")
 }
