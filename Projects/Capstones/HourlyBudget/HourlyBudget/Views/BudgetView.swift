@@ -175,9 +175,9 @@ struct BudgetView: View {
                 .presentationDetents([.height(475), .large])
                 .presentationDragIndicator(.visible)
             }
-            .sheet(isPresented: $editBudgetViewShown) {
+            .sheet(item: $selectedBudget) { budget in
                 NavigationStack {
-                    EditView(budget: selectedBudget)
+                    EditView(budgetName: budget.categoryName, budgetValue: String(format: "%.2f", budget.currentValue))
                         .navigationTitle("Edit Details")
                         .navigationBarTitleDisplayMode(.inline)
                 }

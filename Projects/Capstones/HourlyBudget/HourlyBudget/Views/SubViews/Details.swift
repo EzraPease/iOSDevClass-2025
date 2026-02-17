@@ -124,6 +124,7 @@ struct Details: View {
             let valueAsDouble = NSDecimalNumber(decimal: value).doubleValue
             budget.categoryName = titleCategoryName
             budget.currentValue = valueAsDouble
+            try context.save()
         } else {
             throw DetailsViewErrors.unableToSaveNewValue("ERROR: Was unable to convert \(titleCurrentValue) to a Double")
         }

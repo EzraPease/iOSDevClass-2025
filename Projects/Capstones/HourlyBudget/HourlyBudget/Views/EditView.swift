@@ -6,18 +6,36 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct EditView: View {
+    @Environment(\.dismiss) private var dismiss
+    @Environment(\.modelContext) private var context
     @State var budgetName: String
     @State var budgetValue: String
     
     var body: some View {
-        
-        VStack {
-        // TODO: Set up the category name and value to work correctly
-            TextField("Budget Name", text: $budgetName)
-            TextField("Budget Amount", text: $budgetValue)
+        List {
+            Section("Budget Name") {
+                TextField("Budget Name", text: $budgetName)
+            }
+            Section("Budget Amount") {
+                TextField("Budget Amount", text: $budgetValue)
+            }
         }
+        .padding()
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button("Save") {
+                    save()
+                }
+            }
+        }
+    }
+    // TODO: Fix save funcion
+    private func save() {
+        try? context.save()
+        dismiss()
     }
 }
 
