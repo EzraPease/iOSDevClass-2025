@@ -8,18 +8,19 @@
 import SwiftUI
 
 struct EditView: View {
-//    @State var budget: Budget
+    @State var budgetName: String
+    @State var budgetValue: String
     
     var body: some View {
+        
         VStack {
         // TODO: Set up the category name and value to work correctly
-//            TextField(budget.categoryName)
-//            TextField(budget.currentValue)
+            TextField("Budget Name", text: $budget.categoryName)
+            TextField("Budget Amount", text: $value)
         }
     }
 }
 
 #Preview {
-//    EditView(budget: Budget(categoryName: "Example Category", currentValue: 471812.48))
-    EditView()
+    EditView(budgetName: "Example Budget", budgetValue: 1841.48)
 }

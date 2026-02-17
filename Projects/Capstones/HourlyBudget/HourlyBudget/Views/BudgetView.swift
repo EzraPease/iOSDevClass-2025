@@ -13,6 +13,7 @@ struct BudgetView: View {
     @Binding var currentView: CurrentView
     @State private var addBudgetEnabled: Bool = false
     @State private var editBudgetViewShown = false
+    @State private var selectedBudget: Budget? = nil
     
     @Query private var savingsBudgets: [Budget]
     @Query private var expensesBudgets: [Budget]
@@ -131,6 +132,7 @@ struct BudgetView: View {
                                 Button {
                                     // TODO: Add Edit Logic
                                     editBudgetViewShown = true
+                                    selectedBudget = budget
                                 } label: {
                                     Label("Edit", systemImage: "pencil")
                                 }
@@ -175,7 +177,7 @@ struct BudgetView: View {
             }
             .sheet(isPresented: $editBudgetViewShown) {
                 NavigationStack {
-                    EditView()
+                    EditView(budget: selectedBudget)
                         .navigationTitle("Edit Details")
                         .navigationBarTitleDisplayMode(.inline)
                 }

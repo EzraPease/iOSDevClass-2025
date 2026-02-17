@@ -65,76 +65,76 @@ struct Savings_Expenses: View {
             VStack {
                 VStack(spacing: 25) {
                     // MARK: Total Value
-                    RoundedRectangle(cornerRadius: 35)
-                        .fill(.cyan)
-                        .frame(height: 80)
-                        .overlay {
-                            VStack {
-                                switch setCategory {
-                                case .savings:
-                                    Text("Total Savings:")
-                                        .font(.title2)
-                                        .bold()
-                                case .expenses:
-                                    Text("Total Expenses:")
-                                        .font(.title2)
-                                        .bold()
-                                case .uncategorized:
-                                    Text("Amount Is Not Categorized")
-                                        .font(.title2)
-                                        .bold()
-                                }
-                                Text(totalAmount, format: .currency(code: "USD"))
-                            }
+                    VStack {
+                        switch setCategory {
+                        case .savings:
+                            Text("Total Savings:")
+                                .font(.title2)
+                                .bold()
+                        case .expenses:
+                            Text("Total Expenses:")
+                                .font(.title2)
+                                .bold()
+                        case .uncategorized:
+                            Text("Amount Is Not Categorized")
+                                .font(.title2)
+                                .bold()
                         }
+                        Text(totalAmount, format: .currency(code: "USD"))
+                    }
+                    .frame(height: 80)
+                    .background {
+                        RoundedRectangle(cornerRadius: 35)
+                            .fill(.cyan)
+                    }
                     // MARK: Categories
-                    RoundedRectangle(cornerRadius: 20)
-                        .fill(.cyan)
-                        .frame(height: categoriesFrameSize)
-                        .overlay {
-                            VStack {
-                                switch setCategory {
-                                case .savings:
-                                    Text("Savings Accounts")
-                                        .font(.title2)
-                                        .bold()
-                                case .expenses:
-                                    Text("Expense Accounts")
-                                        .font(.title2)
-                                        .bold()
-                                case .uncategorized:
-                                    Text("Amount Is Not Categorized")
-                                        .font(.title2)
-                                        .bold()
-                                }
-                                ScrollView {
-                                    VStack {
-                                        CategoryListView(setCategory: setCategory)
-                                    }
-                                }
-                                .scrollIndicators(.hidden)
-                            }
-                            .padding()
+                    VStack {
+                        switch setCategory {
+                        case .savings:
+                            Text("Savings Accounts")
+                                .font(.title2)
+                                .bold()
+                        case .expenses:
+                            Text("Expense Accounts")
+                                .font(.title2)
+                                .bold()
+                        case .uncategorized:
+                            Text("Amount Is Not Categorized")
+                                .font(.title2)
+                                .bold()
                         }
+                        ScrollView {
+                            VStack {
+                                CategoryListView(setCategory: setCategory)
+                            }
+                        }
+                        .scrollIndicators(.hidden)
+                    }
+                    .padding()
+                    .frame(height: categoriesFrameSize)
+                    .background {
+                        RoundedRectangle(cornerRadius: 20)
+                            .fill(.cyan)
+                    }
                     // MARK: Logs
-                    RoundedRectangle(cornerRadius: 20)
-                        .fill(.cyan)
-                        .frame(height: transactionsFrameSize)
-                        .overlay {
+                    VStack {
+                        Text("Transactions")
+                            .bold()
+                            .font(.title3)
+                        
+                        ScrollView {
                             VStack {
-                                Text("Transactions")
-                                    .bold()
-                                    .font(.title3)
-                                
-                                ScrollView {
-                                    VStack {
-                                        LogsListView(setCategory: setCategory)
-                                    }
-                                }
-                                .scrollIndicators(.hidden)
+                                LogsListView(setCategory: setCategory)
                             }
-                            .padding()
                         }
+                        .scrollIndicators(.hidden)
+                    }
+                    .padding()
+                    .frame(height: transactionsFrameSize)
+                    .background {
+                        RoundedRectangle(cornerRadius: 20)
+                            .fill(.cyan)
+                    }
                 }
                 .padding()
             }

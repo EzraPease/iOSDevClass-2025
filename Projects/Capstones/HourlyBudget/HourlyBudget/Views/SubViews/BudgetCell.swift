@@ -12,19 +12,18 @@ struct BudgetCell: View {
     @State var budget: Budget
     
     var body: some View {
-        RoundedRectangle(cornerRadius: 21)
-            .fill(.cyan)
-            .frame(width: scale, height: scale)
-            .overlay {
-                VStack {
-                    Text(budget.categoryName)
-                        .font(.title3)
-                        .bold()
-                    Text(budget.currentValue, format: .currency(code: "USD"))
-                    Image(systemName: "photo")
-                }
-            }
-
+        VStack {
+            Text(budget.categoryName)
+                .font(.title3)
+                .bold()
+            Text(budget.currentValue, format: .currency(code: "USD"))
+            Image(systemName: "photo")
+        }
+        .frame(width: scale, height: scale)
+        .background {
+            RoundedRectangle(cornerRadius: 21)
+                .fill(.cyan)
+        }
     }
 }
 

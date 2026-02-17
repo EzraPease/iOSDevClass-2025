@@ -20,15 +20,15 @@ struct AddBudgetView: View {
     var body: some View {
         NavigationStack {
             VStack {
-                RoundedRectangle(cornerRadius: 20)
-                    .fill(.cyan)
-                    .overlay {
-                        VStack {
-                            NewBudget(budgetName: $budgetName, startingAmount: $startingAmount, selectedCategory: $selectedCategory)
+                VStack {
+                    NewBudget(budgetName: $budgetName, startingAmount: $startingAmount, selectedCategory: $selectedCategory)
 
-                            Spacer()
-                        }
-                    }
+                    Spacer()
+                }
+                .background {
+                    RoundedRectangle(cornerRadius: 20)
+                        .fill(.cyan)
+                }
             }
             .padding()
             .toolbar {

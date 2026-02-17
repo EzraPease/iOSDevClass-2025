@@ -30,48 +30,48 @@ struct Details: View {
     
     var body: some View {
         VStack {
-            RoundedRectangle(cornerRadius: 10)
-                .fill(.cyan)
-                .frame(width: scale * 0.35, height: scale * 0.15)
-                .overlay {
-                    VStack {
-                        Text(budget.categoryName)
-                            .font(.title3)
-                            .bold()
-                        Text(budget.currentValue, format: .currency(code: "USD"))
-                            .italic()
-                    }
-                }
+            VStack {
+                Text(budget.categoryName)
+                    .font(.title3)
+                    .bold()
+                Text(budget.currentValue, format: .currency(code: "USD"))
+                    .italic()
+            }
+            .frame(width: scale * 0.35, height: scale * 0.15)
+            .background {
+                RoundedRectangle(cornerRadius: 10)
+                    .fill(.cyan)
+            }
             
             Spacer(minLength: scale * 0.3)
             
-            RoundedRectangle(cornerRadius: 15)
-                .fill(.cyan)
-                .frame(width: scale * 0.45, height: scale * 0.6)
-                .overlay {
-                    VStack {
-                        if showUnableToSaveText {
-                            Text("Uh Oh! Something went wrong, please try again.")
-                                .italic()
-                                .foregroundStyle(.red)
-                                .padding()
-                        }
-                        Text("Edit Mode Enabled: \(editModeEnabled)") // Temporary Text Object
-                        Group {
-                            TextField("Category Name", text: $budget.categoryName)
-                            TextField("Set Amount", text: $titleCurrentValue)
-                                .keyboardType(.decimalPad)
-                        }
+            VStack {
+                if showUnableToSaveText {
+                    Text("Uh Oh! Something went wrong, please try again.")
+                        .italic()
+                        .foregroundStyle(.red)
                         .padding()
-                        .glassEffect()
-                        .padding(2)
-                        .disabled(!editModeEnabled)
-                        .opacity(editModeEnabled ? 1 : 0.5)
-                        
-                        Spacer()
-                    }
-                    .padding()
                 }
+                Text("Edit Mode Enabled: \(editModeEnabled)") // Temporary Text Object
+                Group {
+                    TextField("Category Name", text: $budget.categoryName)
+                    TextField("Set Amount", text: $titleCurrentValue)
+                        .keyboardType(.decimalPad)
+                }
+                .padding()
+                .glassEffect()
+                .padding(2)
+                .disabled(!editModeEnabled)
+                .opacity(editModeEnabled ? 1 : 0.5)
+                
+                Spacer()
+            }
+            .padding()
+            .frame(width: scale * 0.45, height: scale * 0.6)
+            .background {
+                RoundedRectangle(cornerRadius: 15)
+                    .fill(.cyan)
+            }
         }
         .toolbar {
             if editModeEnabled {
