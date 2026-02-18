@@ -11,16 +11,16 @@ import SwiftData
 struct EditView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var context
-    @State var budgetName: String
-    @State var budgetValue: String
+    @Bindable var budget: Budget
     
     var body: some View {
         List {
             Section("Budget Name") {
-                TextField("Budget Name", text: $budgetName)
+                TextField("Budget Name", text: $budget.categoryName)
             }
             Section("Budget Amount") {
-                TextField("Budget Amount", text: $budgetValue)
+                TextField("Budget Amount", value: $budget.currentValue, format: .currency(code: "USD"))
+                    .keyboardType(.decimalPad)
             }
         }
         .padding()
@@ -40,5 +40,5 @@ struct EditView: View {
 }
 
 #Preview {
-    EditView(budgetName: "Example Budget", budgetValue: "1841.48")
+    EditView(budget: Budget(categoryName: "Example Category", currentValue: 37141.415))
 }

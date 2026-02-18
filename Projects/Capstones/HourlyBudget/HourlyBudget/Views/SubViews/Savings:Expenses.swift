@@ -17,6 +17,7 @@ struct Savings_Expenses: View {
     
     @State var totalAmount: Double
     @State var setCategory: BudgetCategories
+    @State private var addBudgetEnabled = false
     
     @Query private var savingsBudgets: [Budget]
     @Query private var expensesBudgets: [Budget]
@@ -35,29 +36,6 @@ struct Savings_Expenses: View {
         _expensesBudgets = Query(filter: #Predicate<Budget> { budget in
             budget._setCategory == expensesCategory
         }, sort: \Budget.categoryName)
-    }
-
-    
-    private var categoriesFrameSize: CGFloat {
-        switch setCategory {
-        case .savings:
-            return savingsBudgets.count <= 5 ? 200 : 350
-        case .expenses:
-            return expensesBudgets.count <= 5 ? 200 : 350
-        case .uncategorized:
-            return 200
-        }
-    }
-    
-    private var transactionsFrameSize: CGFloat {
-        switch setCategory {
-        case .savings:
-            return savingsBudgets.count <= 5 ? 200 : 350
-        case .expenses:
-            return expensesBudgets.count <= 5 ? 200 : 350
-        case .uncategorized:
-            return 200
-        }
     }
     
     var body: some View {
@@ -82,10 +60,11 @@ struct Savings_Expenses: View {
                         }
                         Text(totalAmount, format: .currency(code: "USD"))
                     }
-                    .frame(height: 80)
+                    .padding()
+                    .frame(maxWidth: 225, maxHeight: 100)
                     .background {
                         RoundedRectangle(cornerRadius: 35)
-                            .fill(.cyan)
+                            .fill(.cyan.gradient)
                     }
                     // MARK: Categories
                     VStack {
@@ -111,12 +90,12 @@ struct Savings_Expenses: View {
                         .scrollIndicators(.hidden)
                     }
                     .padding()
-                    .frame(height: categoriesFrameSize)
+                    .frame(maxWidth: 350, maxHeight: 350)
                     .background {
                         RoundedRectangle(cornerRadius: 20)
-                            .fill(.cyan)
+                            .fill(.cyan.gradient)
                     }
-                    // MARK: Logs
+                    // MARK: Transactions
                     VStack {
                         Text("Transactions")
                             .bold()
@@ -130,14 +109,33 @@ struct Savings_Expenses: View {
                         .scrollIndicators(.hidden)
                     }
                     .padding()
-                    .frame(height: transactionsFrameSize)
+                    .frame(maxWidth: 350, maxHeight: 350)
                     .background {
                         RoundedRectangle(cornerRadius: 20)
-                            .fill(.cyan)
+                            .fill(.cyan.gradient)
                     }
                 }
                 .padding()
             }
+        }
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button {
+                    addBudgetEnabled = true
+                } label: {
+                    Image(systemName: "plus")
+                }
+            }
+        }
+        .navigationTitle("Budget List")
+        .sheet(isPresented: $addBudgetEnabled) {
+            NavigationStack {
+                AddBudgetView()
+                    .navigationTitle("New Budget")
+                    .navigationBarTitleDisplayMode(.inline) // or .large
+            }
+            .presentationDetents([.height(475), .large])
+            .presentationDragIndicator(.visible)
         }
     }
 }
@@ -169,24 +167,38 @@ private struct CategoryListView: View {
     var body: some View {
         switch setCategory {
         case .savings:
-            ForEach(savingsBudgets) { budget in
-                HStack {
-                    Text("\(budget.categoryName):")
-                        .bold()
-                    Spacer()
-                    Text("\(budget.currentValue, format: .currency(code: "USD"))")
+            if savingsBudgets.isEmpty {
+                EmptyView()
+            } else {
+                ForEach(savingsBudgets) { budget in
+                    HStack {
+                        Text("\(budget.categoryName):")
+                            .bold()
+                        Spacer()
+                        Text("\(budget.currentValue, format: .currency(code: "USD"))")
+                    }
+                    .padding(3)
                 }
-                .padding(3)
+                .frame(height: 65)
+                .padding(.horizontal)
+                .background {
+                    RoundedRectangle(cornerRadius: 10)
+                        .fill(.red.gradient)
+                }
             }
         case .expenses:
-            ForEach(expensesBudgets) { budget in
-                HStack {
-                    Text("\(budget.categoryName):")
-                        .bold()
-                    Spacer()
-                    Text("\(budget.currentValue, format: .currency(code: "USD"))")
+            if expensesBudgets.isEmpty {
+                EmptyView()
+            } else {
+                ForEach(expensesBudgets) { budget in
+                    HStack {
+                        Text("\(budget.categoryName):")
+                            .bold()
+                        Spacer()
+                        Text("\(budget.currentValue, format: .currency(code: "USD"))")
+                    }
+                    .padding(3)
                 }
-                .padding(3)
             }
         case .uncategorized:
             Text("Why can you see this?")
@@ -222,32 +234,52 @@ private struct LogsListView: View {
         VStack {
             switch setCategory {
             case .savings:
-                ForEach(savingsBudgets) { budget in
-                    ForEach(budget.transactions) { transaction in
-                        HStack {
-                            Text(transaction.timeStamp.formatted(date: .abbreviated, time: .omitted))
-                                .bold()
-                            Spacer()
-                            Text(transaction.amount, format: .currency(code: "USD"))
+                if savingsBudgets.isEmpty {
+                    EmptyView()
+                } else {
+                    ForEach(savingsBudgets) { budget in
+                        ForEach(budget.transactions) { transaction in
+                            HStack {
+                                Text(transaction.timeStamp.formatted(date: .abbreviated, time: .omitted))
+                                    .bold()
+                                Spacer()
+                                Text(transaction.amount, format: .currency(code: "USD"))
+                            }
+                            .padding(3)
                         }
-                        .padding(3)
                     }
                 }
             case .expenses:
-                ForEach(expensesBudgets) { budget in
-                    ForEach(budget.transactions) { transaction in
-                        HStack {
-                            Text(transaction.timeStamp.formatted(date: .abbreviated, time: .omitted))
-                                .bold()
-                            Spacer()
-                            Text(transaction.amount, format: .currency(code: "USD"))
+                if expensesBudgets.isEmpty {
+                    EmptyView()
+                } else {
+                    ForEach(expensesBudgets) { budget in
+                        ForEach(budget.transactions) { transaction in
+                            HStack {
+                                Text(transaction.timeStamp.formatted(date: .abbreviated, time: .omitted))
+                                    .bold()
+                                Spacer()
+                                Text(transaction.amount, format: .currency(code: "USD"))
+                            }
+                            .padding(3)
                         }
-                        .padding(3)
                     }
                 }
             case .uncategorized:
                 Text(viewModel.uncategorized, format: .currency(code: "USD"))
             }
+        }
+    }
+}
+
+// MARK: - Empty View
+private struct EmptyView: View {
+    var body: some View {
+        VStack {
+            Text("Nothing Here Yet")
+                .bold()
+                .italic()
+                .font(.subheadline)
         }
     }
 }

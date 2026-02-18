@@ -14,14 +14,14 @@ struct AddBudgetView: View {
     @Environment(\.modelContext) private var context
     
     @State var budgetName = ""
-    @State var startingAmount = "0"
+    @State var value: Double = 0.00
     @State var selectedCategory: BudgetCategories = .savings
     
     var body: some View {
         NavigationStack {
             VStack {
                 VStack {
-                    NewBudget(budgetName: $budgetName, startingAmount: $startingAmount, selectedCategory: $selectedCategory)
+                    NewBudget(budgetName: $budgetName, startingAmount: $value, selectedCategory: $selectedCategory)
 
                     Spacer()
                 }
@@ -47,14 +47,10 @@ struct AddBudgetView: View {
     
     // MARK: - Functions
     func saveNewBudget() throws {
-        if let amountAsDouble = Double(startingAmount) {
             guard !budgetName.isEmpty else { throw NewBudgetErrors.incompleteData }
-            let budget = Budget(categoryName: budgetName, currentValue: amountAsDouble, setCategory: selectedCategory)
+            let budget = Budget(categoryName: budgetName, currentValue: value, setCategory: selectedCategory)
                  viewModel.save(budget, context: context)
             dismiss()
-        } else {
-            throw NewBudgetErrors.invalidValue
-        }
     }
 }
 

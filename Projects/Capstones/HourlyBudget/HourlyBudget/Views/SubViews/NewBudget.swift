@@ -9,7 +9,7 @@ import SwiftUI
 
 struct NewBudget: View {
     @Binding var budgetName: String
-    @Binding var startingAmount: String
+    @Binding var startingAmount: Double
     @Binding var selectedCategory: BudgetCategories
     
     var body: some View {
@@ -19,7 +19,7 @@ struct NewBudget: View {
                     TextField("Budget name...", text: $budgetName)
                 }
                 Section("Starting Amount") {
-                    TextField("Starting amount...", text: $startingAmount)
+                    TextField("Starting amount...", value: $startingAmount, format: .currency(code: "USD"))
                         .keyboardType(.decimalPad)
                 }
                 Section("Choose a Category") {
@@ -42,7 +42,7 @@ struct NewBudget: View {
 #Preview {
     NewBudget(
         budgetName: .constant("Sample Budget"),
-        startingAmount: .constant("100"),
+        startingAmount: .constant(100),
         selectedCategory: .constant(BudgetCategories.allCases.first ?? .savings)
     )
 }

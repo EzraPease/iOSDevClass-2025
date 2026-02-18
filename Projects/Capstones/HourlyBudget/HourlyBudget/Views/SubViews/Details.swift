@@ -52,7 +52,6 @@ struct Details: View {
                         .foregroundStyle(.red)
                         .padding()
                 }
-                Text("Edit Mode Enabled: \(editModeEnabled)") // Temporary Text Object
                 Group {
                     TextField("Category Name", text: $budget.categoryName)
                     TextField("Set Amount", text: $titleCurrentValue)
