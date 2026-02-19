@@ -15,7 +15,6 @@ struct Savings_Expenses: View {
     @Environment(\.modelContext) private var context
     @Environment(BudgetViewModel.self) private var viewModel
     
-    @State var totalAmount: Double
     @State var setCategory: BudgetCategories
     @State private var addBudgetEnabled = false
     
@@ -25,10 +24,17 @@ struct Savings_Expenses: View {
 
     let savingsCategory = BudgetCategories.savings.rawValue
     let expensesCategory = BudgetCategories.expenses.rawValue
+    
+    private var totalAmount: Double {
+            switch setCategory {
+            case .savings:  return savingsBudgets.reduce(0) { $0 + $1.currentValue }
+            case .expenses: return expensesBudgets.reduce(0) { $0 + $1.currentValue }
+            case .uncategorized: return 0
+            }
+        }
 
 
-    init(totalAmount: Double, setCategory: BudgetCategories) {
-        _totalAmount = State(initialValue: totalAmount)
+    init(setCategory: BudgetCategories) {
         _setCategory = State(initialValue: setCategory)
         _savingsBudgets = Query(filter: #Predicate<Budget> { budget in
             budget._setCategory == savingsCategory
@@ -49,22 +55,26 @@ struct Savings_Expenses: View {
                             Text("Total Savings:")
                                 .font(.title2)
                                 .bold()
+                                .foregroundStyle(Color("Text"))
                         case .expenses:
                             Text("Total Expenses:")
                                 .font(.title2)
                                 .bold()
+                                .foregroundStyle(Color("Text"))
                         case .uncategorized:
                             Text("Amount Is Not Categorized")
                                 .font(.title2)
                                 .bold()
+                                .foregroundStyle(Color("Text"))
                         }
                         Text(totalAmount, format: .currency(code: "USD"))
+                            .foregroundStyle(Color("Text"))
                     }
                     .padding()
                     .frame(maxWidth: 225, maxHeight: 100)
                     .background {
                         RoundedRectangle(cornerRadius: 35)
-                            .fill(.cyan.gradient)
+                            .fill(setCategory == .savings ? Color("PrimaryAccent") : Color("SecondaryAccent"))
                     }
                     // MARK: Categories
                     VStack {
@@ -73,14 +83,17 @@ struct Savings_Expenses: View {
                             Text("Savings Accounts")
                                 .font(.title2)
                                 .bold()
+                                .foregroundStyle(Color("Text"))
                         case .expenses:
                             Text("Expense Accounts")
                                 .font(.title2)
                                 .bold()
+                                .foregroundStyle(Color("Text"))
                         case .uncategorized:
                             Text("Amount Is Not Categorized")
                                 .font(.title2)
                                 .bold()
+                                .foregroundStyle(Color("Text"))
                         }
                         ScrollView {
                             VStack {
@@ -93,13 +106,14 @@ struct Savings_Expenses: View {
                     .frame(maxWidth: 350, maxHeight: 350)
                     .background {
                         RoundedRectangle(cornerRadius: 20)
-                            .fill(.cyan.gradient)
+                            .fill(.white)
                     }
                     // MARK: Transactions
                     VStack {
                         Text("Transactions")
                             .bold()
                             .font(.title3)
+                            .foregroundStyle(Color("Text"))
                         
                         ScrollView {
                             VStack {
@@ -112,7 +126,7 @@ struct Savings_Expenses: View {
                     .frame(maxWidth: 350, maxHeight: 350)
                     .background {
                         RoundedRectangle(cornerRadius: 20)
-                            .fill(.cyan.gradient)
+                            .fill(.white)
                     }
                 }
                 .padding()
@@ -125,12 +139,13 @@ struct Savings_Expenses: View {
                 } label: {
                     Image(systemName: "plus")
                 }
+                .tint(Color("PrimaryAccent"))
             }
         }
         .navigationTitle("Budget List")
         .sheet(isPresented: $addBudgetEnabled) {
             NavigationStack {
-                AddBudgetView()
+                AddBudgetView(selectedCategory: setCategory)
                     .navigationTitle("New Budget")
                     .navigationBarTitleDisplayMode(.inline) // or .large
             }
@@ -174,8 +189,10 @@ private struct CategoryListView: View {
                     HStack {
                         Text("\(budget.categoryName):")
                             .bold()
+                            .foregroundStyle(Color("Text"))
                         Spacer()
                         Text("\(budget.currentValue, format: .currency(code: "USD"))")
+                            .foregroundStyle(Color("Text"))
                     }
                     .padding(3)
                 }
@@ -183,7 +200,7 @@ private struct CategoryListView: View {
                 .padding(.horizontal)
                 .background {
                     RoundedRectangle(cornerRadius: 10)
-                        .fill(.red.gradient)
+                        .fill(Color("PrimaryAccent").opacity(0.5))
                 }
             }
         case .expenses:
@@ -194,10 +211,18 @@ private struct CategoryListView: View {
                     HStack {
                         Text("\(budget.categoryName):")
                             .bold()
+                            .foregroundStyle(Color("Text"))
                         Spacer()
                         Text("\(budget.currentValue, format: .currency(code: "USD"))")
+                            .foregroundStyle(Color("Text"))
                     }
                     .padding(3)
+                }
+                .frame(height: 65)
+                .padding(.horizontal)
+                .background {
+                    RoundedRectangle(cornerRadius: 10)
+                        .fill(Color("SecondaryAccent").opacity(0.5))
                 }
             }
         case .uncategorized:
@@ -242,8 +267,10 @@ private struct LogsListView: View {
                             HStack {
                                 Text(transaction.timeStamp.formatted(date: .abbreviated, time: .omitted))
                                     .bold()
+                                    .foregroundStyle(Color("NeutralState"))
                                 Spacer()
                                 Text(transaction.amount, format: .currency(code: "USD"))
+                                    .foregroundStyle(Color("Text"))
                             }
                             .padding(3)
                         }
@@ -258,8 +285,10 @@ private struct LogsListView: View {
                             HStack {
                                 Text(transaction.timeStamp.formatted(date: .abbreviated, time: .omitted))
                                     .bold()
+                                    .foregroundStyle(Color("NeutralState"))
                                 Spacer()
                                 Text(transaction.amount, format: .currency(code: "USD"))
+                                    .foregroundStyle(Color("Text"))
                             }
                             .padding(3)
                         }
@@ -280,11 +309,12 @@ private struct EmptyView: View {
                 .bold()
                 .italic()
                 .font(.subheadline)
+                            .foregroundStyle(Color("Text"))
         }
     }
 }
 
 #Preview {
-    Savings_Expenses(totalAmount: 14513241, setCategory: .savings)
+    Savings_Expenses(setCategory: .savings)
         .environment(BudgetViewModel())
 }

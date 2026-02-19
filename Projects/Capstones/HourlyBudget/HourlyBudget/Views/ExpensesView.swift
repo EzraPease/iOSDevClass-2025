@@ -29,7 +29,7 @@ struct ExpensesView: View {
     
     var body: some View {
         VStack {
-            Savings_Expenses(totalAmount: totalExpenses, setCategory: .expenses)
+            Savings_Expenses(setCategory: .expenses)
         }
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {

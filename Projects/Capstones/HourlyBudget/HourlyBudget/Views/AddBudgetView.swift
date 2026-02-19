@@ -27,7 +27,7 @@ struct AddBudgetView: View {
                 }
                 .background {
                     RoundedRectangle(cornerRadius: 20)
-                        .fill(.cyan)
+                        .fill(.white)
                 }
             }
             .padding()
@@ -40,6 +40,7 @@ struct AddBudgetView: View {
                             print("ERROR - \(error): Failed to save new budget")
                         }
                     }
+                    .tint(Color("PrimaryAccent"))
                 }
             }
         }

@@ -30,7 +30,7 @@ struct SavingsView: View {
     var body: some View {
         VStack {
             // TODO: Fix totalAmount to sow the amount from SwiftData in this view and ExpensesView
-            Savings_Expenses(totalAmount: totalSavings, setCategory: .savings)
+            Savings_Expenses(setCategory: .savings)
         }
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {

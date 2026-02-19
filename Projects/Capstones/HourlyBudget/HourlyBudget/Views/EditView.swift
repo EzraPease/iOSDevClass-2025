@@ -29,6 +29,7 @@ struct EditView: View {
                 Button("Save") {
                     save()
                 }
+                .tint(Color("PrimaryAccent"))
             }
         }
     }

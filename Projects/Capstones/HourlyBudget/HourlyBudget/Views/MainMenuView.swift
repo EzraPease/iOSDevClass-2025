@@ -28,6 +28,9 @@ struct MainMenuView: View {
 
     init(currentView: Binding<CurrentView>) {
         _currentView = currentView
+        _savingsBudgets = Query(filter: #Predicate<Budget> { budget in
+            budget._setCategory == savingsCategory
+        }, sort: \Budget.categoryName)
         _expensesBudgets = Query(filter: #Predicate<Budget> { budget in
             budget._setCategory == expensesCategory
         }, sort: \Budget.categoryName)
@@ -47,7 +50,7 @@ struct MainMenuView: View {
                                 Text(totalSavings, format: .currency(code: "USD"))
                                     .italic()
                             }
-                            .foregroundStyle(.green)
+                            .foregroundStyle(Color("Text"))
                         }
                         Button {
                             currentView = .expenses
@@ -57,7 +60,7 @@ struct MainMenuView: View {
                                 Text(totalExpenses, format: .currency(code: "USD"))
                                     .italic()
                             }
-                            .foregroundStyle(.red)
+                            .foregroundStyle(Color("Text"))
                         }
                     }
                     .frame(width: 170)
@@ -65,6 +68,7 @@ struct MainMenuView: View {
                     Button("View Budget") {
                         currentView = .budgetOverview
                     }
+                    .tint(Color("PrimaryAccent"))
                 }
                 .padding()
                 .glassEffect()

@@ -13,15 +13,20 @@ struct ContentView: View {
     
     var body: some View {
         NavigationStack {
-            switch currentView {
-            case .mainMenu:
-                MainMenuView(currentView: $currentView)
-            case .budgetOverview:
-                BudgetView(currentView: $currentView)
-            case .savings:
-                SavingsView(currentView: $currentView)
-            case .expenses:
-                ExpensesView(currentView: $currentView)
+            ZStack {
+                Color("Background")
+                    .ignoresSafeArea()
+                
+                switch currentView {
+                case .mainMenu:
+                    MainMenuView(currentView: $currentView)
+                case .budgetOverview:
+                    BudgetView(currentView: $currentView)
+                case .savings:
+                    SavingsView(currentView: $currentView)
+                case .expenses:
+                    ExpensesView(currentView: $currentView)
+                }
             }
         }
         .environment(viewModel)
