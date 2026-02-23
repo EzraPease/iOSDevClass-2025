@@ -15,6 +15,7 @@ struct UsersView: View {
     @Query(sort: \User.orderIndex) private var userLists: [User]
     
     @State private var addUserShown = false
+    @State private var selectionAmount = 0
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -30,7 +31,7 @@ struct UsersView: View {
                 }
                 .onMove(perform: move)
             }
-            .listStyle(.inset)
+            .listStyle(.automatic)
             .scrollContentBackground(.hidden)
         }
         .navigationTitle("People")
@@ -44,11 +45,14 @@ struct UsersView: View {
             }
             ToolbarItem(placement: .topBarLeading) {
                 Menu {
-                    Button("Change Selection Amount") {
-                        viewModel.changeSelectionAmount(userList: userLists)
+                    Stepper(value: $selectionAmount, in: 1...userLists.count, step: 1) {
+                        Text("Selection Amount \(selectionAmount)")
                     }
                     Button("Select Random People") {
-                        
+                        viewModel.selectRandomPeople(userList: userLists, selectionAmount: selectionAmount)
+                    }
+                    Button("Unselect All") {
+                        viewModel.deselectAllPeople(userList: userLists)
                     }
                 } label: {
                     Image(systemName: "ellipsis.circle")

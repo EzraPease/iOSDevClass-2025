@@ -12,27 +12,24 @@ import SwiftData
 @Observable
 class AppViewModel {
     
-//    var usersList: [User] = [
-//        User(username: "Bob"),
-//        User(username: "Ezra"),
-//        User(username: "Tiffany")
-//    ]
-    var selectionAmount = 0
-    
-    func changeSelectionAmount(userList: [User]) {
-        selectionAmount = Int.random(in: 1...userList.count)
-    }
-    
-    // TODO: Finish setting up randomize selection
-    func selectRandomPeople(userList: [User]) {
-        let totalSelected = 0
-        
+    func deselectAllPeople(userList: [User]) {
         for user in userList {
             user.selected = false
         }
+    }
+    
+    func selectRandomPeople(userList: [User], selectionAmount: Int) {
+        var totalSelected = 0
         
+        deselectAllPeople(userList: userList)
         
-        
+        while totalSelected < selectionAmount {
+            if let user = userList.randomElement() {
+                user.selected = true
+                totalSelected += 1
+            }
+        }
+        print("Selections Randomized")
     }
     
     func addUser(user: User, context: ModelContext) {
