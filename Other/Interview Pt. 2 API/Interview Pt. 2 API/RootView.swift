@@ -8,10 +8,13 @@
 import SwiftUI
 
 struct RootView: View {
+    @State private var viewModel = RandomUserViewModel()
+    
     var body: some View {
         NavigationStack {
            RandomUserView()
         }
+        .environment(viewModel)
     }
 }
 

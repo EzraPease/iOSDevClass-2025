@@ -8,13 +8,16 @@
 import SwiftUI
 
 struct RandomUserView: View {
+    @Environment(RandomUserViewModel.self) private var viewModel
+    
     @State private var apiRequest = API()
     @State var users: APIResponse?
     
     var body: some View {
         VStack {
             if let users {
-                Text("\(users.results.first!.name.first)")
+                // TODO: Set up subview
+                RandomUserCell(users: users)
             }
         }
         .task {
