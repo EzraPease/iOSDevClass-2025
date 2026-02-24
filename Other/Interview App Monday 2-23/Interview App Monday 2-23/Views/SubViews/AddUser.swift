@@ -16,11 +16,11 @@ struct AddUser: View {
     @Query private var userLists: [User]
     
     @State private var username = ""
-    @State private var emptyUsernameError = false
+    @State private var showEmptyUsernameError = false
     
     var body: some View {
         VStack {
-            if emptyUsernameError {
+            if showEmptyUsernameError {
                 Text("Please input a name")
                     .foregroundStyle(.red)
             }
@@ -35,10 +35,10 @@ struct AddUser: View {
             ToolbarItem(placement: .topBarTrailing) {
                 Button("Save") {
                     if username.isEmpty {
-                        emptyUsernameError = true
+                        showEmptyUsernameError = true
                         Task {
                             try? await Task.sleep(for: .seconds(5))
-                            emptyUsernameError = false
+                            showEmptyUsernameError = false
                         }
                     } else {
                         viewModel.addUser(user: User(username: username, orderIndex: userLists.count), context: context)

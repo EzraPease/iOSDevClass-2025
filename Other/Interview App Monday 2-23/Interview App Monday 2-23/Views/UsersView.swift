@@ -45,12 +45,13 @@ struct UsersView: View {
             }
             ToolbarItem(placement: .topBarLeading) {
                 Menu {
-                    Stepper(value: $selectionAmount, in: 1...userLists.count, step: 1) {
+                    Stepper(value: $selectionAmount, in: 0...userLists.count, step: 1) {
                         Text("Selection Amount \(selectionAmount)")
                     }
                     Button("Select Random People") {
                         viewModel.selectRandomPeople(userList: userLists, selectionAmount: selectionAmount)
                     }
+                    .disabled(selectionAmount == 0)
                     Button("Unselect All") {
                         viewModel.deselectAllPeople(userList: userLists)
                     }
@@ -85,6 +86,5 @@ struct UsersView: View {
 }
 
 #Preview {
-    UsersView()
-        .environment(AppViewModel())
+    ContentView()
 }

@@ -24,7 +24,7 @@ class AppViewModel {
         deselectAllPeople(userList: userList)
         
         while totalSelected < selectionAmount {
-            if let user = userList.randomElement() {
+            if let user = userList.randomElement(), !user.selected {
                 user.selected = true
                 totalSelected += 1
             }

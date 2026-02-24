@@ -13,7 +13,7 @@ struct UserCell: View {
     var body: some View {
             HStack {
                 Image(systemName: user.selected ? "checkmark.diamond.fill" : "diamond")
-                    .foregroundStyle(user.selected ? .green : .red)
+                    .background(user.selected ? .green : .red)
                     .padding(.horizontal, 3)
                 Text("Name:")
                     .bold()
