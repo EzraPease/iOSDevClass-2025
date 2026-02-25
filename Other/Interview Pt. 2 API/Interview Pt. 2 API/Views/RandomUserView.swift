@@ -22,6 +22,7 @@ struct RandomUserView: View {
                     ProgressView()
             }
         }
+        .navigationTitle("Users")
         .task {
             await loadData()
         }

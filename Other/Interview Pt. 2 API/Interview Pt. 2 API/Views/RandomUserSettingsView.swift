@@ -15,19 +15,29 @@ struct RandomUserSettingsView: View {
         @Bindable var apiRequest = apiRequest
         @Bindable var viewModel = viewModel
         
-        VStack {
-            Stepper(value: $apiRequest.userAmount, in: 1...5000) {
-                Text("User Amount: \(apiRequest.userAmount)")
+        ScrollView {
+            VStack {
+                Stepper(value: $apiRequest.userAmount, in: 1...5000) {
+                    Text("User Amount: \(apiRequest.userAmount)")
+                }
+                .padding()
+                
+                Toggle("Location Info", isOn: $viewModel.showLocation)
+                    .padding()
+                
+                Toggle("Contact Info", isOn: $viewModel.showContact)
+                    .padding()
+                
+                Toggle("Date of Birth & Age", isOn: $viewModel.showDobAndAge)
+                    .padding()
             }
-            .padding()
             .background {
                 RoundedRectangle(cornerRadius: 10)
                     .fill(.mint.gradient)
             }
-            
-            Toggle("Title Info", isOn: $viewModel.showTitle)
+            .padding()
+            .navigationTitle("Settings")
         }
-        .padding()
     }
 }
 

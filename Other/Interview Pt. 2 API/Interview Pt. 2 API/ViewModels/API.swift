@@ -8,7 +8,7 @@ import Foundation
 
 @Observable
 class API {
-    var userAmount = 3
+    var userAmount = 1
     
     func fetchUsers() async throws -> APIResponse {
         guard let url = URL(string: "https://randomuser.me/api/?results=\(userAmount)") else { throw URLError(.badURL) }

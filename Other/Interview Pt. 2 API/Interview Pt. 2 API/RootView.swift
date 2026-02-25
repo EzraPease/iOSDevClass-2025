@@ -12,16 +12,19 @@ struct RootView: View {
     @State private var api = API()
     
     var body: some View {
-        NavigationStack {
-            TabView {
+        TabView {
+            NavigationStack {
                 RandomUserSettingsView()
-                    .tabItem {
-                        Label("Settings", systemImage: "gear")
-                    }
+            }
+            .tabItem {
+                Label("Settings", systemImage: "gear")
+            }
+
+            NavigationStack {
                 RandomUserView()
-                    .tabItem {
-                        Label("Users", systemImage: "person.3.fill")
-                    }
+            }
+            .tabItem {
+                Label("Users", systemImage: "person.3.fill")
             }
         }
         .environment(viewModel)
