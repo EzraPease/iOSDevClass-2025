@@ -9,12 +9,23 @@ import SwiftUI
 
 struct RootView: View {
     @State private var viewModel = RandomUserViewModel()
+    @State private var api = API()
     
     var body: some View {
         NavigationStack {
-           RandomUserView()
+            TabView {
+                RandomUserSettingsView()
+                    .tabItem {
+                        Label("Settings", systemImage: "gear")
+                    }
+                RandomUserView()
+                    .tabItem {
+                        Label("Users", systemImage: "person.3.fill")
+                    }
+            }
         }
         .environment(viewModel)
+        .environment(api)
     }
 }
 

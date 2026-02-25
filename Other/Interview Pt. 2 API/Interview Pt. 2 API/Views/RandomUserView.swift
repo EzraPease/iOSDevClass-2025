@@ -9,8 +9,8 @@ import SwiftUI
 
 struct RandomUserView: View {
     @Environment(RandomUserViewModel.self) private var viewModel
+    @Environment(API.self) private var apiRequest
     
-    @State private var apiRequest = API()
     @State var users: APIResponse?
     
     var body: some View {

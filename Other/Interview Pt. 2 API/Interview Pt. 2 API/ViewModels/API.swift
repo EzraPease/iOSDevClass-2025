@@ -6,10 +6,12 @@
 //
 import Foundation
 
+@Observable
 class API {
+    var userAmount = 3
     
     func fetchUsers() async throws -> APIResponse {
-        guard let url = URL(string: "https://randomuser.me/api/?format=PrettyJSON") else { throw URLError(.badURL) }
+        guard let url = URL(string: "https://randomuser.me/api/?results=\(userAmount)") else { throw URLError(.badURL) }
         
         let (data, response) = try await URLSession.shared.data(from: url)
         

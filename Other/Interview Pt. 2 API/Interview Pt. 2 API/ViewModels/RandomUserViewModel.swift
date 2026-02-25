@@ -21,8 +21,7 @@ class RandomUserViewModel {
     var showSha256 = false
     
     // --- Dates (DOB & Registered) ---
-    var showDobDate = false
-    var showDobAge = false
+    var showDobAndAge = true
     var showRegisteredDate = false
     var showRegisteredAge = false
     
@@ -31,7 +30,5 @@ class RandomUserViewModel {
     var showIdValue = false
     
     // --- Visuals ---
-    var showLargePicture = false
-    var showMediumPicture = false
-    var showNationality = false
+    var showLargePicture = true
 }
