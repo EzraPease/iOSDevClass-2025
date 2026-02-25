@@ -18,6 +18,8 @@ struct RandomUserView: View {
             if let users {
                 // TODO: Set up subview
                 RandomUserCell(users: users)
+            } else {
+                    ProgressView()
             }
         }
         .task {
@@ -38,6 +40,7 @@ struct RandomUserView: View {
     
     func loadData() async  {
         do {
+            users = nil
             users = try await apiRequest.fetchUsers()
             print(users as Any)
         } catch {

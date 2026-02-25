@@ -107,7 +107,7 @@ struct RegisteredDetails: Codable {
 
 struct IDDetails: Codable {
     var name: String
-    var value: String
+    var value: String?
 }
 
 struct PictureDetails: Codable {

@@ -1,42 +1,37 @@
-//
-//  RandomUserViewModel.swift
-//  Interview Pt. 2 API
-//
-//  Created by Ezra Pease on 2/24/26.
-//
-
 import Foundation
 
 @Observable
 class RandomUserViewModel {
     // --- Identity ---
-    var showGender = false
-    var showName = true // Required
-    var showTitle = false
+    var showTitle = true
     
-    // --- Physical/Address ---
-    var showStreet = false
-    var showCity = false
-    var showState = false
-    var showCountry = false
-    var showPostcode = false
-    var showCoordinates = false
-    var showTimezone = false
+    // --- Location ---
+    var showLocation = true
     
     // --- Contact ---
-    var showEmail = false
-    var showPhone = false
-    var showCell = false
+    var showContact = true
     
-    // --- Account Details ---
-    var showBirthday = false
-    var showAge = false
-    var showRegisteredDate = false
+    // --- Login ---
+    var showUuid = false
     var showUsername = false
     var showPassword = false
+    var showSalt = false
+    var showMd5 = false
+    var showSha1 = false
+    var showSha256 = false
+    
+    // --- Dates (DOB & Registered) ---
+    var showDobDate = false
+    var showDobAge = false
+    var showRegisteredDate = false
+    var showRegisteredAge = false
+    
+    // --- ID ---
+    var showIdName = false
+    var showIdValue = false
     
     // --- Visuals ---
     var showLargePicture = false
-    var showThumbnail = true // Requires 1 pictures for assigment
+    var showMediumPicture = false
     var showNationality = false
 }
