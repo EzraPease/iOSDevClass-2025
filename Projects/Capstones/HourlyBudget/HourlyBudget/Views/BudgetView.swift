@@ -61,7 +61,7 @@ struct BudgetView: View {
                             Text("Pinned")
                                 .font(.largeTitle)
                                 .bold()
-                                .foregroundStyle(Color("Text"))
+                                .foregroundStyle(Color.text)
                         }
                         LazyVGrid (
                             columns: [
@@ -72,7 +72,7 @@ struct BudgetView: View {
                                 DetailView(budget: budget, scale: scale * 4 - 50)
                             } label: {
                                 BudgetCell(scale: scale, budget: budget)
-                                    .foregroundStyle(Color("Text"))
+                                    .foregroundStyle(Color.text)
                             }
                             .padding()
                         }
@@ -86,7 +86,7 @@ struct BudgetView: View {
                             Text("Expenses")
                                 .font(.largeTitle)
                                 .bold()
-                                .foregroundStyle(Color("SecondaryAccent"))
+                                .foregroundStyle(Color.secondaryAccent)
                         }
                         LazyVGrid (
                             columns: [
@@ -97,7 +97,7 @@ struct BudgetView: View {
                                 DetailView(budget: budget, scale: scale * 4 - 50)
                             } label: {
                                 BudgetCell(scale: scale, budget: budget)
-                                    .foregroundStyle(Color("Text"))
+                                    .foregroundStyle(Color.text)
                             }
                             .padding()
                         }
@@ -113,7 +113,7 @@ struct BudgetView: View {
                             Text("Savings")
                                 .font(.largeTitle)
                                 .bold()
-                                .foregroundStyle(Color("PrimaryAccent"))
+                                .foregroundStyle(Color.primaryAccent)
                         }
                         LazyVGrid (
                             columns: [
@@ -124,7 +124,7 @@ struct BudgetView: View {
                                 DetailView(budget: budget, scale: scale * 4 - 50)
                             } label: {
                                 BudgetCell(scale: scale, budget: budget)
-                                    .foregroundStyle(Color("Text"))
+                                    .foregroundStyle(Color.text)
                             }
                             .padding()
                             .contextMenu {
@@ -158,12 +158,24 @@ struct BudgetView: View {
                     }
                 }
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button {
-                        addBudgetEnabled = true
+                    Menu {
+                        Button {
+                            addBudgetEnabled = true
+                        } label: {
+                            Image(systemName: "rectangle.stack.fill.badge.plus")
+                            Text("Add Budget")
+                        }
+                        
+                        Button {
+                            
+                        } label: {
+                            Image(systemName: "dollarsign")
+                            Text("Add Income")
+                        }
                     } label: {
                         Image(systemName: "plus")
                     }
-                    .tint(Color("PrimaryAccent"))
+                    .tint(Color.primaryAccent)
                 }
             }
             .navigationTitle("Budget List")
@@ -173,9 +185,9 @@ struct BudgetView: View {
                         .navigationTitle("New Budget")
                         .navigationBarTitleDisplayMode(.inline) // or .large
                 }
-                .presentationDetents([.height(475), .large])
+                .presentationDetents([.height(475)])
                 .presentationDragIndicator(.visible)
-                .presentationBackground(.ultraThinMaterial)
+                .presentationBackground(.clear)
             }
             .sheet(item: $selectedBudget) { budget in
                 NavigationStack {
@@ -195,17 +207,16 @@ private struct EmptyView: View {
     var body: some View {
         VStack(alignment: .center) {
                 Text("Nothing here Yet")
-                Text("Click + to start budgeting!")
+                Text("Tap + to start budgeting!")
         }
         .font(.title2)
         .bold()
         .italic()
-        .foregroundStyle(Color("Text"))
+        .foregroundStyle(Color.text)
         .padding()
     }
 }
 
 #Preview {
-    BudgetView(currentView: .constant(.budgetOverview))
-        .environment(BudgetViewModel())
+    ContentView()
 }

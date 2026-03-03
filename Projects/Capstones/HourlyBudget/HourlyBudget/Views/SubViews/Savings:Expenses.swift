@@ -55,26 +55,26 @@ struct Savings_Expenses: View {
                             Text("Total Savings:")
                                 .font(.title2)
                                 .bold()
-                                .foregroundStyle(Color("Text"))
+                                .foregroundStyle(Color.text)
                         case .expenses:
                             Text("Total Expenses:")
                                 .font(.title2)
                                 .bold()
-                                .foregroundStyle(Color("Text"))
+                                .foregroundStyle(Color.text)
                         case .uncategorized:
                             Text("Amount Is Not Categorized")
                                 .font(.title2)
                                 .bold()
-                                .foregroundStyle(Color("Text"))
+                                .foregroundStyle(Color.text)
                         }
                         Text(totalAmount, format: .currency(code: "USD"))
-                            .foregroundStyle(Color("Text"))
+                            .foregroundStyle(Color.text)
                     }
                     .padding()
                     .frame(maxWidth: 225, maxHeight: 100)
                     .background {
                         RoundedRectangle(cornerRadius: 35)
-                            .fill(setCategory == .savings ? Color("PrimaryAccent") : Color("SecondaryAccent"))
+                            .fill(setCategory == .savings ? Color.primaryAccent : Color.secondaryAccent)
                     }
                     // MARK: Categories
                     VStack {
@@ -83,17 +83,17 @@ struct Savings_Expenses: View {
                             Text("Savings Accounts")
                                 .font(.title2)
                                 .bold()
-                                .foregroundStyle(Color("Text"))
+                                .foregroundStyle(Color.text)
                         case .expenses:
                             Text("Expense Accounts")
                                 .font(.title2)
                                 .bold()
-                                .foregroundStyle(Color("Text"))
+                                .foregroundStyle(Color.text)
                         case .uncategorized:
                             Text("Amount Is Not Categorized")
                                 .font(.title2)
                                 .bold()
-                                .foregroundStyle(Color("Text"))
+                                .foregroundStyle(Color.text)
                         }
                         ScrollView {
                             VStack {
@@ -113,7 +113,7 @@ struct Savings_Expenses: View {
                         Text("Transactions")
                             .bold()
                             .font(.title3)
-                            .foregroundStyle(Color("Text"))
+                            .foregroundStyle(Color.text)
                         
                         ScrollView {
                             VStack {
@@ -139,7 +139,7 @@ struct Savings_Expenses: View {
                 } label: {
                     Image(systemName: "plus")
                 }
-                .tint(Color("PrimaryAccent"))
+                .tint(Color.primaryAccent)
             }
         }
         .navigationTitle("Budget List")
@@ -189,10 +189,10 @@ private struct CategoryListView: View {
                     HStack {
                         Text("\(budget.categoryName):")
                             .bold()
-                            .foregroundStyle(Color("Text"))
+                            .foregroundStyle(Color.text)
                         Spacer()
                         Text("\(budget.currentValue, format: .currency(code: "USD"))")
-                            .foregroundStyle(Color("Text"))
+                            .foregroundStyle(Color.text)
                     }
                     .padding(3)
                 }
@@ -200,7 +200,7 @@ private struct CategoryListView: View {
                 .padding(.horizontal)
                 .background {
                     RoundedRectangle(cornerRadius: 10)
-                        .fill(Color("PrimaryAccent").opacity(0.5))
+                        .fill(Color.primaryAccent.opacity(0.5))
                 }
             }
         case .expenses:
@@ -211,10 +211,10 @@ private struct CategoryListView: View {
                     HStack {
                         Text("\(budget.categoryName):")
                             .bold()
-                            .foregroundStyle(Color("Text"))
+                            .foregroundStyle(Color.text)
                         Spacer()
                         Text("\(budget.currentValue, format: .currency(code: "USD"))")
-                            .foregroundStyle(Color("Text"))
+                            .foregroundStyle(Color.text)
                     }
                     .padding(3)
                 }
@@ -222,7 +222,7 @@ private struct CategoryListView: View {
                 .padding(.horizontal)
                 .background {
                     RoundedRectangle(cornerRadius: 10)
-                        .fill(Color("SecondaryAccent").opacity(0.5))
+                        .fill(Color.secondaryAccent.opacity(0.5))
                 }
             }
         case .uncategorized:
@@ -267,10 +267,10 @@ private struct LogsListView: View {
                             HStack {
                                 Text(transaction.timeStamp.formatted(date: .abbreviated, time: .omitted))
                                     .bold()
-                                    .foregroundStyle(Color("NeutralState"))
+                                    .foregroundStyle(Color.neutralState)
                                 Spacer()
                                 Text(transaction.amount, format: .currency(code: "USD"))
-                                    .foregroundStyle(Color("Text"))
+                                    .foregroundStyle(Color.text)
                             }
                             .padding(3)
                         }
@@ -285,10 +285,10 @@ private struct LogsListView: View {
                             HStack {
                                 Text(transaction.timeStamp.formatted(date: .abbreviated, time: .omitted))
                                     .bold()
-                                    .foregroundStyle(Color("NeutralState"))
+                                    .foregroundStyle(Color.neutralState)
                                 Spacer()
                                 Text(transaction.amount, format: .currency(code: "USD"))
-                                    .foregroundStyle(Color("Text"))
+                                    .foregroundStyle(Color.text)
                             }
                             .padding(3)
                         }
@@ -309,7 +309,7 @@ private struct EmptyView: View {
                 .bold()
                 .italic()
                 .font(.subheadline)
-                            .foregroundStyle(Color("Text"))
+                            .foregroundStyle(Color.text)
         }
     }
 }

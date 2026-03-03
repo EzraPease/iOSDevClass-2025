@@ -40,7 +40,7 @@ struct AddBudgetView: View {
                             print("ERROR - \(error): Failed to save new budget")
                         }
                     }
-                    .tint(Color("PrimaryAccent"))
+                    .tint(Color.primaryAccent)
                 }
             }
         }

@@ -16,11 +16,11 @@ struct BudgetCell: View {
             Text(budget.categoryName)
                 .font(.title3)
                 .bold()
-                .foregroundStyle(Color("Text"))
+                .foregroundStyle(Color.text)
             Text(budget.currentValue, format: .currency(code: "USD"))
-                .foregroundStyle(Color("Text"))
+                .foregroundStyle(Color.text)
             Image(systemName: "photo")
-                .foregroundStyle(Color("NeutralState"))
+                .foregroundStyle(Color.neutralState)
         }
         .frame(width: scale, height: scale)
         .background {

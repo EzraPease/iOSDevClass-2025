@@ -50,7 +50,7 @@ struct MainMenuView: View {
                                 Text(totalSavings, format: .currency(code: "USD"))
                                     .italic()
                             }
-                            .foregroundStyle(Color("Text"))
+                            .foregroundStyle(Color.text)
                         }
                         Button {
                             currentView = .expenses
@@ -60,7 +60,7 @@ struct MainMenuView: View {
                                 Text(totalExpenses, format: .currency(code: "USD"))
                                     .italic()
                             }
-                            .foregroundStyle(Color("Text"))
+                            .foregroundStyle(Color.text)
                         }
                     }
                     .frame(width: 170)
@@ -68,7 +68,7 @@ struct MainMenuView: View {
                     Button("View Budget") {
                         currentView = .budgetOverview
                     }
-                    .tint(Color("PrimaryAccent"))
+                    .tint(Color.primaryAccent)
                 }
                 .padding()
                 .glassEffect()

@@ -32,10 +32,10 @@ struct Details: View {
                 Text(budget.categoryName)
                     .font(.title3)
                     .bold()
-                    .foregroundStyle(Color("Text"))
+                    .foregroundStyle(Color.text)
                 Text(budget.currentValue, format: .currency(code: "USD"))
                     .italic()
-                    .foregroundStyle(Color("Text"))
+                    .foregroundStyle(Color.text)
             }
             .frame(width: scale * 0.35, height: scale * 0.15)
             .background {
@@ -49,7 +49,7 @@ struct Details: View {
                 if showUnableToSaveText {
                     Text("Uh Oh! Something went wrong, please try again.")
                         .italic()
-                        .foregroundStyle(Color("SecondaryAccent"))
+                        .foregroundStyle(Color.secondaryAccent)
                         .padding()
                 }
                 Group {
@@ -81,7 +81,7 @@ struct Details: View {
                         Button("Delete", role: .destructive) {
                             showDeleteConfirm = true
                         }
-                        .foregroundStyle(Color("SecondaryAccent"))
+                        .foregroundStyle(Color.secondaryAccent)
                         .bold()
                         .alert("Delete this budget?", isPresented: $showDeleteConfirm) {
                             Button("Delete", role: .destructive) {
@@ -104,7 +104,7 @@ struct Details: View {
                         }
                     editModeEnabled.toggle()
                 }
-                .tint(Color("PrimaryAccent"))
+                .tint(Color.primaryAccent)
             }
         }
     }
